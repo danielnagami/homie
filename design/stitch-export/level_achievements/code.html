@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Quicksand:wght@300..700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-primary-fixed": "#3f0300", "on-primary-container": "#731709", "inverse-primary": "#ffb4a6", "outline-variant": "#dec0ba", "on-secondary-fixed": "#002110", "error-container": "#ffdad6", "tertiary-fixed": "#ffdf9b", "tertiary-fixed-dim": "#edc157", "on-tertiary-fixed-variant": "#5b4300", "inverse-surface": "#2c3041", "on-error": "#ffffff", "tertiary": "#785a00", "error": "#ba1a1a", "primary-fixed-dim": "#ffb4a6", "primary-container": "#ff7e67", "on-tertiary-container": "#4b3700", "surface": "#faf8ff", "primary-fixed": "#ffdad4", "on-error-container": "#93000a", "on-primary-fixed-variant": "#842415", "surface-container-high": "#e4e7fe", "on-secondary": "#ffffff", "secondary": "#006d41", "on-surface-variant": "#57423e", "on-background": "#171b2b", "surface-dim": "#d6d9ef", "secondary-fixed-dim": "#7adaa1", "on-tertiary-fixed": "#251a00", "background": "#faf8ff", "inverse-on-surface": "#eff0ff", "secondary-fixed": "#95f7bb", "surface-container-highest": "#dee1f8", "on-secondary-fixed-variant": "#005230", "surface-container-lowest": "#ffffff", "outline": "#8b716d", "tertiary-container": "#c89f39", "surface-tint": "#a53b29", "surface-container": "#ebedff", "on-primary": "#ffffff", "on-surface": "#171b2b", "secondary-container": "#95f7bb", "surface-bright": "#faf8ff", "primary": "#a53b29", "surface-container-low": "#f3f2ff", "surface-variant": "#dee1f8", "on-secondary-container": "#007346" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "spacing-sm": "0.75rem", "screen-gutter": "1.25rem", "spacing-2xl": "2rem", "spacing-lg": "1.25rem", "spacing-2xs": "0.25rem", "spacing-xs": "0.5rem", "spacing-md": "1rem", "spacing-3xl": "2.5rem", "spacing-xl": "1.5rem", "card-gap": "0.875rem" }, "fontFamily": { "body-lg": ["Nunito Sans"], "headline-md": ["Quicksand"], "label-sm": ["Quicksand"], "body-sm": ["Nunito Sans"], "headline-sm": ["Quicksand"], "body-md": ["Nunito Sans"], "headline-xl": ["Quicksand"], "label-lg": ["Quicksand"], "headline-lg": ["Quicksand"], "label-md": ["Quicksand"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "800" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-screen-gutter flex items-center justify-between"><div class="flex items-center gap-spacing-xs"><img alt="Homie App Mascot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE1braPwQCRg0-hl7O0H-lQ3Z-dW-guU4oLnrSAfCZJyozhhochqnupjaYDdsUFwruxPT-ZGyu0f1dC_fsQt4Uz_OFhVSWpSoJy8X3Gag7rOZWnoMY1wj8m7Q6z7rATsMYTlQOl1KRHVsLjcsoI0HqcNCPq8SRmeKjdILI4dKF9oCT_m6KL6HVpk8hGa3UPf-2LoObGsD0mKZKrvgvwkqIKEwCQeDiW_tcq3D-B5cP6D7gT5g_hAWN"/><span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">Homie</span></div><div class="flex items-center gap-spacing-sm"><div class="flex items-center gap-spacing-2xs bg-tertiary-fixed text-on-tertiary-fixed px-spacing-sm py-spacing-2xs rounded-full shadow-[0_2px_0_rgba(0,0,0,0.06)]"><span class="material-symbols-outlined text-base">award_star</span><span class="font-label-sm text-label-sm font-bold">120 XP</span></div><div class="w-9 h-9 rounded-full bg-surface-container-lowest p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprhwdp11qzPAqvKAQWMW5W2uVVEPpgtoEXXpIFQl65Wdu-Nk1Y9UxCkuBk_d8CKfIcGzZziBq7IE4urSXAzNuIaOs08Qq_f91sMrroS6QNTeurSuuFZ7SqR5FTOOditkWGh6QZBe92BBD9yC5eMK-QWwQhhsTX_naFtt6elT1UxYt-IJRrBBW6PyaU3l4S_4Uz0Fn-lHc44pn0WmjVnjxGQumNEQMqQeZY3HkH9yOewh13MibIBPV"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 px-screen-gutter bg-surface min-h-screen"><div class="flex flex-col w-full pb-6">
+<!-- Level & XP Hero Card (Tactile, Clay-inspired, Rich) -->
+<section class="relative w-full rounded-lg bg-surface-container-lowest shadow-[0_4px_16px_rgba(45,49,66,0.06),0_2px_0_#f0eae1] p-spacing-lg mb-spacing-lg overflow-hidden">
+<!-- Ambient Warm Gradients -->
+<div class="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-primary-fixed/40 blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-tertiary-fixed/30 blur-xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<!-- Top Multiplier Pill -->
+<div class="inline-flex items-center gap-spacing-2xs bg-tertiary-fixed text-on-tertiary-fixed px-spacing-md py-spacing-2xs rounded-full shadow-[0_2px_0_rgba(200,159,57,0.4)] mb-spacing-md active:scale-95 transition-transform duration-150 cursor-pointer">
+<span class="material-symbols-outlined text-sm leading-none animate-pulse">auto_awesome</span>
+<span class="font-label-md text-label-md font-bold">x1.5 XP Active today! ✨</span>
+</div>
+<!-- Centerpiece Badge with Wreath SVG & XP Meter -->
+<div class="relative w-44 h-44 flex items-center justify-center my-spacing-xs">
+<!-- Circular SVG Progress Ring (78%) -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 160 160">
+<circle class="text-surface-container" cx="80" cy="80" fill="transparent" r="68" stroke="currentColor" stroke-linecap="round" stroke-width="12"></circle>
+<circle class="text-primary-container" cx="80" cy="80" fill="transparent" r="68" stroke="currentColor" stroke-dasharray="427.26" stroke-dashoffset="94" stroke-linecap="round" stroke-width="12" style="filter: drop-shadow(0 2px 4px rgba(255, 126, 103, 0.45));"></circle>
+</svg>
+<!-- Centered Chunky Badge Mascot Platter -->
+<div class="absolute inset-0 m-auto w-28 h-28 rounded-full bg-surface-container-low flex flex-col items-center justify-center shadow-[0_4px_12px_rgba(45,49,66,0.08),inset_0_2px_4px_rgba(255,255,255,0.9)]">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center mb-0.5 shadow-[0_2px_0_rgba(0,109,65,0.2)]">
+<span class="material-symbols-outlined text-xl">potted_plant</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary font-bold leading-none">Lvl 4</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-0.5">Nest Builder</span>
+</div>
+<!-- Decorative Laurel Wreath Sprigs -->
+<div class="absolute -left-1 bottom-4 text-tertiary-container pointer-events-none transform -rotate-12">
+<span class="material-symbols-outlined text-2xl">spa</span>
+</div>
+<div class="absolute -right-1 bottom-4 text-tertiary-container pointer-events-none transform rotate-12 scale-x-[-1]">
+<span class="material-symbols-outlined text-2xl">spa</span>
+</div>
+</div>
+<!-- Level Title & XP Numbers -->
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">Nest Builder II</h2>
+<!-- XP Progress Counter Pill -->
+<div class="mt-spacing-2xs inline-flex items-center gap-1.5 px-spacing-sm py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md font-bold">
+<span class="text-primary font-bold">780</span>
+<span>/</span>
+<span>1,000 XP</span>
+<span class="text-secondary font-extrabold ml-1">(78%)</span>
+</div>
+<!-- Subtext Progress Motivator -->
+<p class="font-body-md text-body-md text-on-surface-variant mt-spacing-xs max-w-xs">
+        Only <strong class="text-on-surface">220 XP</strong> until Level 5: <span class="text-primary font-bold">‘Master of the Manor’</span> 🏰
+      </p>
+</div>
+</section>
+<!-- Filter & Tab Bubbles -->
+<div class="flex items-center justify-between gap-spacing-xs mb-spacing-md px-1">
+<div class="flex items-center gap-spacing-xs">
+<button class="px-spacing-md py-spacing-xs rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-[0_3px_0_#731709] active:translate-y-[2px] transition-all">
+        All (8)
+      </button>
+<button class="px-spacing-md py-spacing-xs rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md shadow-[0_2px_0_#dec0ba] active:translate-y-[2px] transition-all">
+        Unlocked (4)
+      </button>
+<button class="px-spacing-md py-spacing-xs rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md shadow-[0_2px_0_#dec0ba] active:translate-y-[2px] transition-all">
+        Locked (4)
+      </button>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Tap to view</span>
+</div>
+<!-- Achievements 2-Column Playful Grid -->
+<section class="grid grid-cols-2 gap-spacing-sm mb-spacing-lg" id="badge-grid">
+<!-- 1. Sparkling Sink (Unlocked & Selected by default) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-lowest p-spacing-sm shadow-[0_4px_12px_rgba(45,49,66,0.06),0_3px_0_#ffd166] ring-2 ring-primary-container active:scale-95 transition-all duration-200 flex flex-col justify-between" onclick="selectBadge(this, 'Sparkling Sink 🧼', '+150 XP bonus & \'Sponge Wizard\' avatar title unlocked!', 'Washed dishes 10 days in a row without leaving a single greasy fork behind.', 'dishes', 'unlocked')">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-tertiary-container text-base animate-bounce">arrow_back_ios_new</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<!-- Cute Badge Coin -->
+<div class="w-14 h-14 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shadow-[0_4px_0_#7adaa1,0_6px_14px_rgba(149,247,187,0.45)] mb-spacing-xs">
+<span class="material-symbols-outlined text-2xl">soap</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight line-clamp-1">Sparkling Sink 🧼</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Washed dishes 10 days in a row</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-secondary-container/40 rounded-full py-0.5">
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">Unlocked! 🎉</span>
+</div>
+</div>
+<!-- 2. Green Thumb (Unlocked) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-lowest p-spacing-sm shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] active:scale-95 transition-all duration-200 flex flex-col justify-between" onclick="selectBadge(this, 'Green Thumb 🌿', '+120 XP & \'Botanical Guardian\' title awarded!', 'Kept all shared household ferns, pothos, and monstera thriving through 25 thorough waterings.', 'potted_plant', 'unlocked')">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-tertiary-container text-base">star</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shadow-[0_4px_0_#edc157,0_6px_14px_rgba(255,223,155,0.45)] mb-spacing-xs">
+<span class="material-symbols-outlined text-2xl">eco</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight line-clamp-1">Green Thumb 🌿</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Watered 25 house plants</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-secondary-container/40 rounded-full py-0.5">
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">Unlocked! 🎉</span>
+</div>
+</div>
+<!-- 3. Early Bird (Unlocked) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-lowest p-spacing-sm shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] active:scale-95 transition-all duration-200 flex flex-col justify-between" onclick="selectBadge(this, 'Early Bird ☀️', '+100 XP & \'Dawn Dynamo\' morning flair unlocked!', 'Completed coffee-station reset or garbage chute run before 9:00 AM while the roomies were snoozing.', 'wb_sunny', 'unlocked')">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-primary-container text-base">sunny</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center shadow-[0_4px_0_#ffb4a6,0_6px_14px_rgba(255,126,103,0.3)] mb-spacing-xs">
+<span class="material-symbols-outlined text-2xl">alarm_on</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight line-clamp-1">Early Bird ☀️</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Chore done before 9 AM</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-secondary-container/40 rounded-full py-0.5">
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">Unlocked! 🎉</span>
+</div>
+</div>
+<!-- 4. Trash Ninja (Unlocked) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-lowest p-spacing-sm shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] active:scale-95 transition-all duration-200 flex flex-col justify-between" onclick="selectBadge(this, 'Trash Ninja 🥷', '+140 XP & Ninja Headband cosmetic unlocked!', 'Disposed of the overflowing kitchen trash and replaced the fresh liner silently without roommate prompts.', 'delete', 'unlocked')">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-secondary text-base">sentiment_very_satisfied</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-surface-container-high text-primary flex items-center justify-center shadow-[0_4px_0_#dee1f8,0_6px_14px_rgba(228,231,254,0.6)] mb-spacing-xs">
+<span class="material-symbols-outlined text-2xl">delete_sweep</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight line-clamp-1">Trash Ninja 🥷</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Took out trash unasked</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-secondary-container/40 rounded-full py-0.5">
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">Unlocked! 🎉</span>
+</div>
+</div>
+<!-- 5. Sunday Feast Chef (Locked - Progress 2/5) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-low p-spacing-sm shadow-[0_2px_8px_rgba(45,49,66,0.03)] active:scale-95 transition-all duration-200 flex flex-col justify-between opacity-85" onclick="selectBadge(this, 'Sunday Feast Chef 🍳', 'Reward: +200 XP bonus & Golden Apron item!', 'Host and prepare dinner or brunch for all roommates 5 times. You have completed 2.', 'skillet', 'in-progress', '2/5 (40%)')">
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest text-outline flex items-center justify-center shadow-[0_3px_0_#d6d9ef] mb-spacing-xs relative">
+<span class="material-symbols-outlined text-2xl">skillet</span>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-xs text-outline">lock</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-tight line-clamp-1">Sunday Feast 🍳</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Cook for everyone</p>
+</div>
+<div class="mt-spacing-xs">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 40%"></div>
+</div>
+<div class="flex justify-between items-center mt-1 px-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Progress</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">2 / 5</span>
+</div>
+</div>
+</div>
+<!-- 6. Streak Master (Locked - Progress 5/14) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-low p-spacing-sm shadow-[0_2px_8px_rgba(45,49,66,0.03)] active:scale-95 transition-all duration-200 flex flex-col justify-between opacity-85" onclick="selectBadge(this, 'Streak Master 🔥', 'Reward: +300 XP bonus & Eternal Campfire badge!', 'Keep a 14-day unbroken daily chore completion streak. Currently at 5 days straight.', 'local_fire_department', 'in-progress', '5/14 (35%)')">
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest text-outline flex items-center justify-center shadow-[0_3px_0_#d6d9ef] mb-spacing-xs relative">
+<span class="material-symbols-outlined text-2xl">local_fire_department</span>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-xs text-outline">lock</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-tight line-clamp-1">Streak Master 🔥</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Reach 14-day streak</p>
+</div>
+<div class="mt-spacing-xs">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 35%"></div>
+</div>
+<div class="flex justify-between items-center mt-1 px-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Progress</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">5 / 14</span>
+</div>
+</div>
+</div>
+<!-- 7. Cozy Legend (Locked) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-low p-spacing-sm shadow-[0_2px_8px_rgba(45,49,66,0.03)] active:scale-95 transition-all duration-200 flex flex-col justify-between opacity-70" onclick="selectBadge(this, 'Cozy Legend 👑', 'Reward: Legendary Golden Crown avatar gear & Hall of Fame status!', 'Climb to Level 10 by completing shared chores, hosting house meetings, and earning XP.', 'military_tech', 'locked')">
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest text-outline-variant flex items-center justify-center mb-spacing-xs relative">
+<span class="material-symbols-outlined text-2xl">crown</span>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-xs text-outline">lock</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-tight line-clamp-1">Cozy Legend 👑</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">Reach Level 10</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-surface-container rounded-full py-0.5">
+<span class="material-symbols-outlined text-outline text-xs">lock</span>
+<span class="font-label-sm text-label-sm text-outline font-bold">Locked</span>
+</div>
+</div>
+<!-- 8. Clean Sweep (Locked) -->
+<div class="badge-card cursor-pointer group relative rounded-lg bg-surface-container-low p-spacing-sm shadow-[0_2px_8px_rgba(45,49,66,0.03)] active:scale-95 transition-all duration-200 flex flex-col justify-between opacity-70" onclick="selectBadge(this, 'Clean Sweep 🧹', 'Reward: +250 XP bonus & Broom Helicopter toy animation!', 'Complete every single listed chore on the household chore board before midnight on a Saturday or Sunday.', 'cleaning_services', 'locked')">
+<div class="flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest text-outline-variant flex items-center justify-center mb-spacing-xs relative">
+<span class="material-symbols-outlined text-2xl">cleaning_services</span>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-xs text-outline">lock</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-tight line-clamp-1">Clean Sweep 🧹</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">All tasks in 1 day</p>
+</div>
+<div class="mt-spacing-xs pt-spacing-2xs flex items-center justify-center gap-1 bg-surface-container rounded-full py-0.5">
+<span class="material-symbols-outlined text-outline text-xs">lock</span>
+<span class="font-label-sm text-label-sm text-outline font-bold">Locked</span>
+</div>
+</div>
+</section>
+<!-- Interactive Detail Inspection Preview Sheet -->
+<section class="relative rounded-lg bg-surface-container-lowest p-spacing-md shadow-[0_8px_24px_rgba(45,49,66,0.08),0_2px_0_#dec0ba] transition-all duration-300" id="inspection-card">
+<div class="flex items-start gap-spacing-md">
+<!-- Modal Preview Icon -->
+<div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0 shadow-[0_3px_0_#7adaa1]" id="modal-icon-bg">
+<span class="material-symbols-outlined text-2xl" id="modal-icon">soap</span>
+</div>
+<!-- Content -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="inline-flex items-center gap-1 px-spacing-xs py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-label-sm font-bold" id="modal-status">
+<span class="material-symbols-outlined text-xs">verified</span> Unlocked
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Badge Details</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1" id="modal-title">
+          Sparkling Sink 🧼
+        </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="modal-desc">
+          Washed dishes 10 days in a row without leaving a single greasy fork behind.
+        </p>
+<!-- Perk Pill -->
+<div class="mt-spacing-xs p-spacing-xs rounded bg-surface-container-low flex items-center gap-spacing-xs" id="modal-perk">
+<span class="material-symbols-outlined text-tertiary text-base shrink-0">military_tech</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold" id="modal-perk-text">
+            +150 XP bonus & 'Sponge Wizard' avatar title unlocked!
+          </span>
+</div>
+</div>
+</div>
+<!-- Micro Share Action Button -->
+<div class="mt-spacing-sm flex gap-spacing-xs">
+<button class="flex-1 h-10 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-[0_3px_0_#a53b29] active:translate-y-[2px] transition-all" onclick="triggerConfetti()">
+<span class="material-symbols-outlined text-base">celebration</span>
+        Show off to Roommates
+      </button>
+<button class="w-10 h-10 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center shadow-[0_2px_0_#dec0ba] active:translate-y-[2px] transition-all" onclick="pingRoomies()">
+<span class="material-symbols-outlined text-base">share</span>
+</button>
+</div>
+</section>
+</div>
+<script>
+  function selectBadge(element, title, perk, desc, icon, status, progress) {
+    // Reset ring on all cards
+    document.querySelectorAll('.badge-card').forEach(card => {
+      card.classList.remove('ring-2', 'ring-primary-container');
+    });
+    // Add ring to active
+    element.classList.add('ring-2', 'ring-primary-container');
+
+    // Update Detail Panel
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-desc').textContent = desc;
+    document.getElementById('modal-perk-text').textContent = perk;
+    document.getElementById('modal-icon').textContent = icon;
+
+    const statusEl = document.getElementById('modal-status');
+    const iconBg = document.getElementById('modal-icon-bg');
+
+    if (status === 'unlocked') {
+      statusEl.className = 'inline-flex items-center gap-1 px-spacing-xs py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-label-sm font-bold';
+      statusEl.innerHTML = '<span class="material-symbols-outlined text-xs">verified</span> Unlocked';
+      iconBg.className = 'w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0 shadow-[0_3px_0_#7adaa1]';
+    } else if (status === 'in-progress') {
+      statusEl.className = 'inline-flex items-center gap-1 px-spacing-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold';
+      statusEl.innerHTML = '<span class="material-symbols-outlined text-xs">timelapse</span> In Progress: ' + (progress || '');
+      iconBg.className = 'w-12 h-12 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center shrink-0 shadow-[0_3px_0_#dec0ba]';
+    } else {
+      statusEl.className = 'inline-flex items-center gap-1 px-spacing-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-bold';
+      statusEl.innerHTML = '<span class="material-symbols-outlined text-xs">lock</span> Locked';
+      iconBg.className = 'w-12 h-12 rounded-full bg-surface-container-highest text-outline-variant flex items-center justify-center shrink-0 shadow-[0_3px_0_#dec0ba]';
+    }
+
+    // Gentle bump animation on detail card
+    const detailCard = document.getElementById('inspection-card');
+    detailCard.classList.remove('scale-100');
+    detailCard.classList.add('scale-[0.99]');
+    setTimeout(() => {
+      detailCard.classList.remove('scale-[0.99]');
+      detailCard.classList.add('scale-100');
+    }, 100);
+  }
+
+  function triggerConfetti() {
+    const btn = event.currentTarget;
+    btn.innerHTML = '<span class="material-symbols-outlined text-base">check</span> Shared to Living Room Chat!';
+    btn.classList.add('bg-secondary', 'text-on-secondary');
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-base">celebration</span> Show off to Roommates';
+      btn.classList.remove('bg-secondary', 'text-on-secondary');
+    }, 2400);
+  }
+
+  function pingRoomies() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Homie Achievements',
+        text: 'Just unlocked a badge in our house on Homie! 🏆',
+        url: window.location.href
+      }).catch(() => {});
+    }
+  }
+</script></main><div class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none px-screen-gutter mb-3"><nav class="pointer-events-auto mx-auto max-w-[360px] bg-surface-container-lowest/95 backdrop-blur-xl rounded-full px-spacing-xs py-spacing-xs flex items-center justify-between shadow-[0_10px_30px_rgba(45,49,66,0.08),0_2px_0_#f0eae1]" data-active-classes="bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="home" href="#"><span class="material-symbols-outlined text-xl leading-none">cottage</span><span class="font-label-sm text-label-sm">Home</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="leaderboard" href="#"><span class="material-symbols-outlined text-xl leading-none">leaderboard</span><span class="font-label-sm text-label-sm">Ranks</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full transition-all duration-200 bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105" data-path="achievements" href="#"><span class="material-symbols-outlined text-xl leading-none">military_tech</span><span class="font-label-sm text-label-sm">Badges</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="avatar-builder" href="#"><span class="material-symbols-outlined text-xl leading-none">face_6</span><span class="font-label-sm text-label-sm">Avatar</span></a></nav></div></body></html>

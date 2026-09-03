@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Quicksand:wght@300..700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-primary-fixed": "#3f0300", "on-primary-container": "#731709", "inverse-primary": "#ffb4a6", "outline-variant": "#dec0ba", "on-secondary-fixed": "#002110", "error-container": "#ffdad6", "tertiary-fixed": "#ffdf9b", "tertiary-fixed-dim": "#edc157", "on-tertiary-fixed-variant": "#5b4300", "inverse-surface": "#2c3041", "on-error": "#ffffff", "tertiary": "#785a00", "error": "#ba1a1a", "primary-fixed-dim": "#ffb4a6", "primary-container": "#ff7e67", "on-tertiary-container": "#4b3700", "surface": "#faf8ff", "primary-fixed": "#ffdad4", "on-error-container": "#93000a", "on-primary-fixed-variant": "#842415", "surface-container-high": "#e4e7fe", "on-secondary": "#ffffff", "secondary": "#006d41", "on-surface-variant": "#57423e", "on-background": "#171b2b", "surface-dim": "#d6d9ef", "secondary-fixed-dim": "#7adaa1", "on-tertiary-fixed": "#251a00", "background": "#faf8ff", "inverse-on-surface": "#eff0ff", "secondary-fixed": "#95f7bb", "surface-container-highest": "#dee1f8", "on-secondary-fixed-variant": "#005230", "surface-container-lowest": "#ffffff", "outline": "#8b716d", "tertiary-container": "#c89f39", "surface-tint": "#a53b29", "surface-container": "#ebedff", "on-primary": "#ffffff", "on-surface": "#171b2b", "secondary-container": "#95f7bb", "surface-bright": "#faf8ff", "primary": "#a53b29", "surface-container-low": "#f3f2ff", "surface-variant": "#dee1f8", "on-secondary-container": "#007346" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "spacing-sm": "0.75rem", "screen-gutter": "1.25rem", "spacing-2xl": "2rem", "spacing-lg": "1.25rem", "spacing-2xs": "0.25rem", "spacing-xs": "0.5rem", "spacing-md": "1rem", "spacing-3xl": "2.5rem", "spacing-xl": "1.5rem", "card-gap": "0.875rem" }, "fontFamily": { "body-lg": ["Nunito Sans"], "headline-md": ["Quicksand"], "label-sm": ["Quicksand"], "body-sm": ["Nunito Sans"], "headline-sm": ["Quicksand"], "body-md": ["Nunito Sans"], "headline-xl": ["Quicksand"], "label-lg": ["Quicksand"], "headline-lg": ["Quicksand"], "label-md": ["Quicksand"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "800" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-screen-gutter flex items-center justify-between"><div class="flex items-center gap-spacing-sm"><button class="w-11 h-11 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shadow-[0_2px_0_#f0eae1] active:translate-y-0.5 active:shadow-none transition-transform" onclick="history.back()"><span class="material-symbols-outlined text-lg">arrow_back_ios_new</span></button><div class="flex items-center gap-spacing-xs"><img alt="Homie App Mascot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE1braPwQCRg0-hl7O0H-lQ3Z-dW-guU4oLnrSAfCZJyozhhochqnupjaYDdsUFwruxPT-ZGyu0f1dC_fsQt4Uz_OFhVSWpSoJy8X3Gag7rOZWnoMY1wj8m7Q6z7rATsMYTlQOl1KRHVsLjcsoI0HqcNCPq8SRmeKjdILI4dKF9oCT_m6KL6HVpk8hGa3UPf-2LoObGsD0mKZKrvgvwkqIKEwCQeDiW_tcq3D-B5cP6D7gT5g_hAWN"/><h1 class="font-headline-md text-headline-md font-bold text-on-surface">Avatar Builder</h1></div></div><div class="w-9 h-9 rounded-full bg-surface-container-lowest p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprhwdp11qzPAqvKAQWMW5W2uVVEPpgtoEXXpIFQl65Wdu-Nk1Y9UxCkuBk_d8CKfIcGzZziBq7IE4urSXAzNuIaOs08Qq_f91sMrroS6QNTeurSuuFZ7SqR5FTOOditkWGh6QZBe92BBD9yC5eMK-QWwQhhsTX_naFtt6elT1UxYt-IJRrBBW6PyaU3l4S_4Uz0Fn-lHc44pn0WmjVnjxGQumNEQMqQeZY3HkH9yOewh13MibIBPV"/></div></div></header><main class="flex flex-col relative w-full pt-16 pb-spacing-3xl px-screen-gutter bg-surface min-h-screen"><div class="flex flex-col w-full pb-28 select-none">
+<!-- Progress & Subtitle Info -->
+<div class="flex items-center justify-between pt-2 pb-3">
+<div class="flex items-center gap-spacing-xs">
+<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm">2</span>
+<span class="font-label-md text-label-md text-on-surface font-bold tracking-wider uppercase">Step 2 of 2</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-sm">auto_awesome</span>
+<span class="font-label-sm text-label-sm font-bold text-tertiary tracking-wide uppercase">Homie Pass</span>
+</div>
+</div>
+<!-- Stage Area: Interactive Chibi Canvas -->
+<div class="relative w-full aspect-square max-w-[280px] mx-auto mt-1 mb-4 flex items-center justify-center">
+<!-- Ambient Radial Glow backdrop -->
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-primary-fixed-dim/40 via-secondary-fixed/30 to-tertiary-fixed/40 blur-2xl transform -scale-95 animate-pulse"></div>
+<!-- Outer Pedestal Ring -->
+<div class="relative w-64 h-64 rounded-full bg-surface-container-lowest p-3 shadow-[0_12px_32px_rgba(45,49,66,0.08),0_2px_0_#f0eae1] flex items-center justify-center">
+<!-- Stage Inner Pastel Dome with bounce -->
+<div class="w-full h-full rounded-full bg-gradient-to-b from-surface-container-low to-surface-container flex items-center justify-center relative overflow-hidden transition-transform duration-300" id="avatar-pedestal">
+<!-- Whimsical sparkles floating -->
+<span class="material-symbols-outlined absolute top-4 left-6 text-tertiary text-lg animate-bounce" style="animation-duration: 2.4s;">arrow_back_ios_new</span>
+<span class="material-symbols-outlined absolute bottom-6 right-5 text-primary-container text-sm animate-ping" style="animation-duration: 3.2s;">hotel_class</span>
+<span class="material-symbols-outlined absolute top-7 right-7 text-secondary text-base opacity-75">star_rate</span>
+<!-- SVG Live Modular Chibi Vector -->
+<svg class="w-48 h-48 drop-shadow-md transition-all duration-200 transform hover:scale-105" fill="none" id="chibi-character" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<!-- Shadow base -->
+<ellipse cx="100" cy="182" fill="#171b2b" fill-opacity="0.08" rx="42" ry="7"></ellipse>
+<!-- Body / Outfit Layer -->
+<g id="layer-outfit">
+<!-- Cozy Hoodie (Mint default) -->
+<path d="M68 142C68 128 78 120 100 120C122 120 132 128 132 142L138 180H62L68 142Z" fill="#95f7bb" id="outfit-body"></path>
+<!-- Neck collar / hood lining -->
+<path d="M84 121C88 132 112 132 116 121" id="outfit-detail-1" stroke="#007346" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="100" cy="160" fill="#006d41" fill-opacity="0.12" id="outfit-pocket" r="14"></circle>
+</g>
+<!-- Head & Skin Base -->
+<g id="layer-head">
+<!-- Ears -->
+<circle cx="58" cy="98" fill="#ffdad4" id="chibi-ear-l" r="9"></circle>
+<circle cx="142" cy="98" fill="#ffdad4" id="chibi-ear-r" r="9"></circle>
+<circle cx="58" cy="98" fill="#dec0ba" r="4.5"></circle>
+<circle cx="142" cy="98" fill="#dec0ba" r="4.5"></circle>
+<!-- Face Mass -->
+<rect fill="#ffdad4" height="74" id="chibi-face" rx="36" width="82" x="59" y="58"></rect>
+</g>
+<!-- Face Expressions Layer -->
+<g id="layer-face">
+<!-- Cheerful blush cheeks -->
+<ellipse cx="73" cy="104" fill="#ff7e67" fill-opacity="0.5" rx="6" ry="3.5"></ellipse>
+<ellipse cx="127" cy="104" fill="#ff7e67" fill-opacity="0.5" rx="6" ry="3.5"></ellipse>
+<!-- Dynamic Eyes & Mouth container -->
+<g id="face-expression">
+<!-- Wink Expression (Default) -->
+<!-- Left: Cute Wink Arc -->
+<path d="M71 91C74 88 80 88 83 91" stroke="#3f0300" stroke-linecap="round" stroke-width="3"></path>
+<!-- Right: Wide Sparkle Eye -->
+<circle cx="121" cy="91" fill="#3f0300" r="5.5"></circle>
+<circle cx="119.5" cy="89.5" fill="#ffffff" r="2"></circle>
+<!-- Grin mouth -->
+<path d="M93 103C95 110 105 110 107 103" fill="#ff7e67" stroke="#3f0300" stroke-linecap="round" stroke-width="2.5"></path>
+</g>
+</g>
+<!-- Hair Backing & Bangs Layer -->
+<g id="layer-hair">
+<!-- Hair bangs & crown -->
+<path d="M60 76C60 48 78 38 100 38C122 38 140 48 140 76C140 85 136 94 133 94C128 78 120 74 114 74C108 74 104 78 100 83C96 78 92 74 86 74C80 74 72 78 67 94C64 94 60 85 60 76Z" fill="#ff7e67" id="hair-main"></path>
+<!-- Twin side buns (modularly hidden/shown) -->
+<g id="hair-addons">
+<circle cx="61" cy="46" fill="#ff7e67" r="14"></circle>
+<circle cx="139" cy="46" fill="#ff7e67" r="14"></circle>
+</g>
+</g>
+<!-- Accessories Layer -->
+<g id="layer-accessory">
+<!-- Star hairclip default -->
+<polygon fill="#ffdf9b" id="acc-star" points="66,54 69,60 76,61 71,66 72,73 66,69 60,73 61,66 56,61 63,60"></polygon>
+</g>
+</svg>
+</div>
+<!-- Surprise Me Randomizer Pill -->
+<button class="absolute -bottom-2 bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center gap-1.5 px-4 py-2 rounded-full shadow-[0_4px_12px_rgba(45,49,66,0.09),0_2px_0_#f0eae1] active:translate-y-0.5 active:shadow-[0_1px_4px_rgba(45,49,66,0.06)] transition-all" id="randomize-btn" onclick="randomizeChibi()">
+<span class="text-base leading-none">🎲</span>
+<span class="font-bold tracking-tight">Surprise Me!</span>
+</button>
+</div>
+</div>
+<!-- Category Selection Tab Bar -->
+<div class="mt-3 mb-3">
+<div class="flex items-center gap-2 overflow-x-auto pb-1.5 -mx-screen-gutter px-screen-gutter no-scrollbar">
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold" id="tab-skin" onclick="setCategory('skin')">
+<span>🎨</span><span>Skin</span>
+</button>
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-primary-container text-on-primary font-bold shadow-[0_3px_0_#842415]" id="tab-hair" onclick="setCategory('hair')">
+<span>💇</span><span>Hair Style</span>
+</button>
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold" id="tab-color" onclick="setCategory('color')">
+<span>🌈</span><span>Dye</span>
+</button>
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold" id="tab-face" onclick="setCategory('face')">
+<span>😊</span><span>Expression</span>
+</button>
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold" id="tab-outfit" onclick="setCategory('outfit')">
+<span>👕</span><span>Outfit</span>
+</button>
+<button class="cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold" id="tab-accessory" onclick="setCategory('accessory')">
+<span>🎀</span><span>Topper</span>
+</button>
+</div>
+</div>
+<!-- Option Pickers Deck -->
+<div class="bg-surface-container-lowest rounded-lg p-4 shadow-[0_4px_16px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] relative min-h-[148px] flex flex-col justify-center">
+<!-- Skin Panel -->
+<div class="option-panel hidden" id="panel-skin">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">Select Skin Radiance</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold">5 Tones</span>
+</div>
+<div class="flex items-center justify-between gap-2 overflow-x-auto py-1">
+<button class="w-13 h-13 flex-1 aspect-square rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applySkin('#ffdad4', '#dec0ba')">
+<div class="w-9 h-9 rounded-full bg-[#ffdad4] shadow-sm"></div>
+</button>
+<button class="w-13 h-13 flex-1 aspect-square rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applySkin('#fed2b8', '#e2b399')">
+<div class="w-9 h-9 rounded-full bg-[#fed2b8] shadow-sm"></div>
+</button>
+<button class="w-13 h-13 flex-1 aspect-square rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applySkin('#e4aa83', '#be855f')">
+<div class="w-9 h-9 rounded-full bg-[#e4aa83] shadow-sm"></div>
+</button>
+<button class="w-13 h-13 flex-1 aspect-square rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applySkin('#ad6d47', '#884d2b')">
+<div class="w-9 h-9 rounded-full bg-[#ad6d47] shadow-sm"></div>
+</button>
+<button class="w-13 h-13 flex-1 aspect-square rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applySkin('#67402c', '#482a1b')">
+<div class="w-9 h-9 rounded-full bg-[#67402c] shadow-sm"></div>
+</button>
+</div>
+</div>
+<!-- Hair Style Panel (Active by default) -->
+<div class="option-panel flex flex-col gap-2" id="panel-hair">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">Pick Hairstyle</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Unlocked</span>
+</div>
+<div class="flex items-center gap-2.5 overflow-x-auto py-1 no-scrollbar">
+<!-- Buns -->
+<button class="flex-shrink-0 flex flex-col items-center gap-1.5 bg-surface-container-low px-4 py-2.5 rounded-2xl active:scale-95 transition-transform" onclick="applyHairStyle('buns')">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed text-lg">🍡</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Twin Buns</span>
+</button>
+<!-- Bob -->
+<button class="flex-shrink-0 flex flex-col items-center gap-1.5 bg-surface-container-low px-4 py-2.5 rounded-2xl active:scale-95 transition-transform" onclick="applyHairStyle('bob')">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed text-lg">✂️</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Sweet Bob</span>
+</button>
+<!-- Pixie -->
+<button class="flex-shrink-0 flex flex-col items-center gap-1.5 bg-surface-container-low px-4 py-2.5 rounded-2xl active:scale-95 transition-transform" onclick="applyHairStyle('pixie')">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed text-lg">✨</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Pixie Cut</span>
+</button>
+<!-- Messy Curls -->
+<button class="flex-shrink-0 flex flex-col items-center gap-1.5 bg-surface-container-low px-4 py-2.5 rounded-2xl active:scale-95 transition-transform" onclick="applyHairStyle('curls')">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface text-lg">🌀</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Cloud Curls</span>
+</button>
+<!-- Ponytail -->
+<button class="flex-shrink-0 flex flex-col items-center gap-1.5 bg-surface-container-low px-4 py-2.5 rounded-2xl active:scale-95 transition-transform" onclick="applyHairStyle('pony')">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-on-primary-fixed-variant text-lg">🎀</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Ponytail</span>
+</button>
+</div>
+</div>
+<!-- Hair Color Panel -->
+<div class="option-panel hidden" id="panel-color">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">Hair Dye Swatch</span>
+<span class="font-body-sm text-body-sm text-tertiary font-bold">Pastel Lab</span>
+</div>
+<div class="flex items-center justify-between gap-2 overflow-x-auto py-1">
+<!-- Coral -->
+<button class="w-11 h-11 rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applyHairColor('#ff7e67')">
+<div class="w-8 h-8 rounded-full bg-[#ff7e67] shadow-sm"></div>
+</button>
+<!-- Lavender -->
+<button class="w-11 h-11 rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applyHairColor('#9a8cff')">
+<div class="w-8 h-8 rounded-full bg-[#9a8cff] shadow-sm"></div>
+</button>
+<!-- Honey Blonde -->
+<button class="w-11 h-11 rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applyHairColor('#edc157')">
+<div class="w-8 h-8 rounded-full bg-[#edc157] shadow-sm"></div>
+</button>
+<!-- Espresso -->
+<button class="w-11 h-11 rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applyHairColor('#44312b')">
+<div class="w-8 h-8 rounded-full bg-[#44312b] shadow-sm"></div>
+</button>
+<!-- Minty Teal -->
+<button class="w-11 h-11 rounded-full p-1 bg-surface-container-high active:scale-95 transition-transform flex items-center justify-center" onclick="applyHairColor('#007346')">
+<div class="w-8 h-8 rounded-full bg-[#007346] shadow-sm"></div>
+</button>
+</div>
+</div>
+<!-- Expression Panel -->
+<div class="option-panel hidden" id="panel-face">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">House Mood</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Playful</span>
+</div>
+<div class="grid grid-cols-4 gap-2 py-1">
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyExpression('wink')">
+<span class="text-2xl mb-1">😉</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Wink</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyExpression('grin')">
+<span class="text-2xl mb-1">😄</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Big Grin</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyExpression('chill')">
+<span class="text-2xl mb-1">😊</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Chill</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyExpression('cat')">
+<span class="text-2xl mb-1">😺</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">:3 Cat</span>
+</button>
+</div>
+</div>
+<!-- Outfit Panel -->
+<div class="option-panel hidden" id="panel-outfit">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">Roommate Fit</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Comfy</span>
+</div>
+<div class="grid grid-cols-4 gap-2 py-1">
+<button class="flex flex-col items-center justify-center py-2 bg-secondary-container/40 rounded-2xl active:scale-95 transition-transform" onclick="applyOutfit('hoodie')">
+<span class="text-2xl mb-1">🧥</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Hoodie</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyOutfit('overalls')">
+<span class="text-2xl mb-1">👖</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Dungarees</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyOutfit('sweater')">
+<span class="text-2xl mb-1">🧶</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Sweater</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyOutfit('apron')">
+<span class="text-2xl mb-1">🍳</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Apron</span>
+</button>
+</div>
+</div>
+<!-- Accessory Panel -->
+<div class="option-panel hidden" id="panel-accessory">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-on-surface-variant">Whimsical Flair</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">+10 Vibe</span>
+</div>
+<div class="grid grid-cols-4 gap-2 py-1">
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyAccessory('star')">
+<span class="text-2xl mb-1">⭐</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Star Pin</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyAccessory('glasses')">
+<span class="text-2xl mb-1">👓</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Glasses</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyAccessory('ears')">
+<span class="text-2xl mb-1">🐱</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Cat Ears</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 bg-surface-container-low rounded-2xl active:scale-95 transition-transform" onclick="applyAccessory('chef')">
+<span class="text-2xl mb-1">👨‍🍳</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Chef Hat</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Micro Perk Pill -->
+<div class="flex items-center justify-center gap-2 mt-3 text-center">
+<span class="material-symbols-outlined text-secondary text-base">verified_user</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Your Homie avatar will cheer you on after chores!</span>
+</div>
+<!-- Pinned Chunky Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 p-screen-gutter pb-safe bg-gradient-to-t from-surface via-surface/95 to-transparent z-40">
+<div class="max-w-md mx-auto">
+<button class="w-full h-14 rounded-full bg-primary text-on-primary font-headline-sm text-headline-sm font-bold shadow-[0_4px_0_#842415,0_10px_24px_rgba(165,59,41,0.3)] active:translate-y-1 active:shadow-[0_1px_0_#842415,0_4px_10px_rgba(165,59,41,0.2)] transition-all flex items-center justify-center gap-2" onclick="saveAndProceed()">
+<span class="material-symbols-outlined text-xl">arrow_back_ios_new</span>
+<span>Save Avatar & Jump In ✨</span>
+</button>
+</div>
+</div>
+<!-- Confetti Burst Container (interactive trigger) -->
+<div class="fixed inset-0 pointer-events-none z-50 overflow-hidden" id="confetti-holder"></div>
+</div>
+<script>
+  function setCategory(cat) {
+    // Hide all panels
+    document.querySelectorAll('.option-panel').forEach(p => {
+      p.classList.add('hidden');
+      p.classList.remove('flex');
+    });
+    
+    // Deactivate all pills
+    document.querySelectorAll('.cat-pill').forEach(btn => {
+      btn.className = "cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-surface-container-high text-on-surface-variant font-bold";
+    });
+
+    // Activate current panel
+    const currentPanel = document.getElementById('panel-' + cat);
+    if(currentPanel) {
+      currentPanel.classList.remove('hidden');
+      currentPanel.classList.add('flex');
+    }
+
+    // Highlight current tab pill
+    const currentTab = document.getElementById('tab-' + cat);
+    if(currentTab) {
+      currentTab.className = "cat-pill flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full font-label-md text-label-md transition-all bg-primary-container text-on-primary font-bold shadow-[0_3px_0_#842415]";
+    }
+
+    // Trigger slight bounce on avatar
+    bounceAvatar();
+  }
+
+  function bounceAvatar() {
+    const stage = document.getElementById('avatar-pedestal');
+    if (stage) {
+      stage.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        stage.style.transform = 'scale(1.02)';
+        setTimeout(() => { stage.style.transform = 'scale(1)'; }, 150);
+      }, 100);
+    }
+  }
+
+  function applySkin(skinTone, shadowTone) {
+    document.getElementById('chibi-face').setAttribute('fill', skinTone);
+    document.getElementById('chibi-ear-l').setAttribute('fill', skinTone);
+    document.getElementById('chibi-ear-r').setAttribute('fill', skinTone);
+    bounceAvatar();
+  }
+
+  function applyHairColor(color) {
+    document.getElementById('hair-main').setAttribute('fill', color);
+    const addons = document.getElementById('hair-addons');
+    if (addons) {
+      addons.querySelectorAll('circle, path, ellipse').forEach(el => el.setAttribute('fill', color));
+    }
+    bounceAvatar();
+  }
+
+  function applyHairStyle(style) {
+    const hairAddons = document.getElementById('hair-addons');
+    const hairMain = document.getElementById('hair-main');
+    const color = hairMain.getAttribute('fill') || '#ff7e67';
+
+    if (style === 'buns') {
+      hairAddons.innerHTML = `
+        <circle cx="61" cy="46" r="14" fill="${color}" />
+        <circle cx="139" cy="46" r="14" fill="${color}" />
+      `;
+      hairMain.setAttribute('d', "M60 76C60 48 78 38 100 38C122 38 140 48 140 76C140 85 136 94 133 94C128 78 120 74 114 74C108 74 104 78 100 83C96 78 92 74 86 74C80 74 72 78 67 94C64 94 60 85 60 76Z");
+    } else if (style === 'bob') {
+      hairAddons.innerHTML = `
+        <path d="M54 78C52 105 58 116 63 120C68 115 67 90 67 85" fill="${color}"/>
+        <path d="M146 78C148 105 142 116 137 120C132 115 133 90 133 85" fill="${color}"/>
+      `;
+      hairMain.setAttribute('d', "M58 74C58 44 76 36 100 36C124 36 142 44 142 74C142 86 130 92 120 90C110 88 105 82 100 82C95 82 90 88 80 90C70 92 58 86 58 74Z");
+    } else if (style === 'pixie') {
+      hairAddons.innerHTML = `
+        <path d="M64 42L72 32L80 44" fill="${color}"/>
+        <path d="M120 44L128 32L136 42" fill="${color}"/>
+      `;
+      hairMain.setAttribute('d', "M62 70C62 44 78 39 100 39C122 39 138 44 138 70C138 78 126 76 118 72C110 68 106 72 100 70C94 72 90 68 82 72C74 76 62 78 62 70Z");
+    } else if (style === 'curls') {
+      hairAddons.innerHTML = `
+        <circle cx="56" cy="62" r="11" fill="${color}" />
+        <circle cx="144" cy="62" r="11" fill="${color}" />
+        <circle cx="68" cy="40" r="13" fill="${color}" />
+        <circle cx="132" cy="40" r="13" fill="${color}" />
+        <circle cx="100" cy="34" r="14" fill="${color}" />
+      `;
+      hairMain.setAttribute('d', "M62 76C62 48 78 38 100 38C122 38 138 48 138 76C138 85 132 88 126 84C118 80 112 84 100 82C88 84 82 80 74 84C68 88 62 85 62 76Z");
+    } else if (style === 'pony') {
+      hairAddons.innerHTML = `
+        <ellipse cx="148" cy="52" rx="14" ry="24" transform="rotate(30 148 52)" fill="${color}" />
+        <circle cx="136" cy="62" r="5" fill="#ffdf9b" />
+      `;
+      hairMain.setAttribute('d', "M60 76C60 48 78 38 100 38C122 38 140 48 140 76C140 85 136 94 133 94C128 78 120 74 114 74C108 74 104 78 100 83C96 78 92 74 86 74C80 74 72 78 67 94C64 94 60 85 60 76Z");
+    }
+    bounceAvatar();
+  }
+
+  function applyExpression(expr) {
+    const faceEl = document.getElementById('face-expression');
+    if (expr === 'wink') {
+      faceEl.innerHTML = `
+        <path d="M71 91C74 88 80 88 83 91" stroke="#3f0300" stroke-width="3" stroke-linecap="round" />
+        <circle cx="121" cy="91" r="5.5" fill="#3f0300" />
+        <circle cx="119.5" cy="89.5" r="2" fill="#ffffff" />
+        <path d="M93 103C95 110 105 110 107 103" stroke="#3f0300" stroke-width="2.5" stroke-linecap="round" fill="#ff7e67" />
+      `;
+    } else if (expr === 'grin') {
+      faceEl.innerHTML = `
+        <path d="M70 91C72 87 78 87 80 91" stroke="#3f0300" stroke-width="3" stroke-linecap="round" />
+        <path d="M120 91C122 87 128 87 130 91" stroke="#3f0300" stroke-width="3" stroke-linecap="round" />
+        <path d="M90 101C90 114 110 114 110 101Z" fill="#ff7e67" stroke="#3f0300" stroke-width="2" />
+      `;
+    } else if (expr === 'chill') {
+      faceEl.innerHTML = `
+        <circle cx="76" cy="91" r="5" fill="#3f0300" />
+        <circle cx="75" cy="89" r="1.8" fill="#ffffff" />
+        <circle cx="124" cy="91" r="5" fill="#3f0300" />
+        <circle cx="123" cy="89" r="1.8" fill="#ffffff" />
+        <path d="M94 105C97 108 103 108 106 105" stroke="#3f0300" stroke-width="2.5" stroke-linecap="round" />
+      `;
+    } else if (expr === 'cat') {
+      faceEl.innerHTML = `
+        <circle cx="75" cy="91" r="5.5" fill="#3f0300" />
+        <circle cx="74" cy="89" r="2" fill="#ffffff" />
+        <circle cx="125" cy="91" r="5.5" fill="#3f0300" />
+        <circle cx="124" cy="89" r="2" fill="#ffffff" />
+        <path d="M93 104C95 107 98 107 100 104C102 107 105 107 107 104" stroke="#3f0300" stroke-width="2.5" stroke-linecap="round" />
+      `;
+    }
+    bounceAvatar();
+  }
+
+  function applyOutfit(type) {
+    const outfitEl = document.getElementById('layer-outfit');
+    if (type === 'hoodie') {
+      outfitEl.innerHTML = `
+        <path d="M68 142C68 128 78 120 100 120C122 120 132 128 132 142L138 180H62L68 142Z" fill="#95f7bb" />
+        <path d="M84 121C88 132 112 132 116 121" stroke="#007346" stroke-width="3" stroke-linecap="round" />
+        <circle cx="100" cy="160" r="14" fill="#006d41" fill-opacity="0.12" />
+      `;
+    } else if (type === 'overalls') {
+      outfitEl.innerHTML = `
+        <path d="M68 142C68 128 78 120 100 120C122 120 132 128 132 142L138 180H62L68 142Z" fill="#faf8ff" />
+        <path d="M74 136H126V180H74Z" fill="#dee1f8" />
+        <line x1="82" y1="120" x2="82" y2="150" stroke="#57423e" stroke-width="4" stroke-linecap="round"/>
+        <line x1="118" y1="120" x2="118" y2="150" stroke="#57423e" stroke-width="4" stroke-linecap="round"/>
+      `;
+    } else if (type === 'sweater') {
+      outfitEl.innerHTML = `
+        <path d="M68 142C68 128 78 120 100 120C122 120 132 128 132 142L138 180H62L68 142Z" fill="#ffdad4" />
+        <line x1="66" y1="140" x2="134" y2="140" stroke="#a53b29" stroke-width="4"/>
+        <line x1="64" y1="156" x2="136" y2="156" stroke="#a53b29" stroke-width="4"/>
+        <line x1="62" y1="172" x2="138" y2="172" stroke="#a53b29" stroke-width="4"/>
+      `;
+    } else if (type === 'apron') {
+      outfitEl.innerHTML = `
+        <path d="M68 142C68 128 78 120 100 120C122 120 132 128 132 142L138 180H62L68 142Z" fill="#edc157" />
+        <path d="M78 130H122V180H78Z" fill="#ffffff" />
+        <circle cx="100" cy="154" r="5" fill="#ff7e67" />
+      `;
+    }
+    bounceAvatar();
+  }
+
+  function applyAccessory(acc) {
+    const accEl = document.getElementById('layer-accessory');
+    if (acc === 'star') {
+      accEl.innerHTML = `<polygon points="66,54 69,60 76,61 71,66 72,73 66,69 60,73 61,66 56,61 63,60" fill="#ffdf9b" />`;
+    } else if (acc === 'glasses') {
+      accEl.innerHTML = `
+        <circle cx="77" cy="91" r="11" stroke="#2c3041" stroke-width="2.5" fill="none"/>
+        <circle cx="123" cy="91" r="11" stroke="#2c3041" stroke-width="2.5" fill="none"/>
+        <line x1="88" y1="91" x2="112" y2="91" stroke="#2c3041" stroke-width="2.5"/>
+      `;
+    } else if (acc === 'ears') {
+      accEl.innerHTML = `
+        <polygon points="60,42 74,20 84,42" fill="#ff7e67"/>
+        <polygon points="66,40 74,26 80,40" fill="#ffdad4"/>
+        <polygon points="140,42 126,20 116,42" fill="#ff7e67"/>
+        <polygon points="134,40 126,26 120,40" fill="#ffdad4"/>
+      `;
+    } else if (acc === 'chef') {
+      accEl.innerHTML = `
+        <path d="M78 46C70 44 68 28 82 24C86 16 102 14 110 22C122 18 132 28 122 46Z" fill="#ffffff" stroke="#dee1f8" stroke-width="2" />
+        <rect x="76" y="44" width="48" height="8" rx="3" fill="#ffffff" stroke="#dee1f8" stroke-width="1.5"/>
+      `;
+    }
+    bounceAvatar();
+  }
+
+  function randomizeChibi() {
+    const skins = [['#ffdad4','#dec0ba'], ['#fed2b8','#e2b399'], ['#e4aa83','#be855f'], ['#ad6d47','#884d2b'], ['#67402c','#482a1b']];
+    const dyes = ['#ff7e67', '#9a8cff', '#edc157', '#44312b', '#007346'];
+    const hairs = ['buns', 'bob', 'pixie', 'curls', 'pony'];
+    const exprs = ['wink', 'grin', 'chill', 'cat'];
+    const fits = ['hoodie', 'overalls', 'sweater', 'apron'];
+    const accs = ['star', 'glasses', 'ears', 'chef'];
+
+    const pickSkin = skins[Math.floor(Math.random() * skins.length)];
+    applySkin(pickSkin[0], pickSkin[1]);
+    applyHairColor(dyes[Math.floor(Math.random() * dyes.length)]);
+    applyHairStyle(hairs[Math.floor(Math.random() * hairs.length)]);
+    applyExpression(exprs[Math.floor(Math.random() * exprs.length)]);
+    applyOutfit(fits[Math.floor(Math.random() * fits.length)]);
+    applyAccessory(accs[Math.floor(Math.random() * accs.length)]);
+  }
+
+  function saveAndProceed() {
+    // Generate playful confetti burst
+    const container = document.getElementById('confetti-holder');
+    const colors = ['#ff7e67', '#95f7bb', '#ffdf9b', '#9a8cff', '#a53b29'];
+    
+    for (let i = 0; i < 36; i++) {
+      const p = document.createElement('div');
+      p.className = 'absolute w-3 h-3 rounded-md transition-all duration-1000';
+      p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = '50%';
+      p.style.bottom = '80px';
+      
+      const angle = (Math.random() * Math.PI) - (Math.PI / 2);
+      const dist = 120 + Math.random() * 220;
+      const tx = Math.cos(angle) * dist;
+      const ty = -Math.abs(Math.sin(angle) * dist) - 60;
+      
+      container.appendChild(p);
+
+      requestAnimationFrame(() => {
+        p.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random() * 720}deg) scale(0)`;
+        p.style.opacity = '0';
+      });
+
+      setTimeout(() => p.remove(), 1200);
+    }
+
+    // Success haptic visual bump
+    const btn = event.currentTarget;
+    if (btn) {
+      btn.innerHTML = `<span class="material-symbols-outlined text-xl">check_circle</span> Avatar Saved!`;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-xl">sparkles</span> Save Avatar & Jump In ✨`;
+      }, 1800);
+    }
+  }
+</script></main></body></html>

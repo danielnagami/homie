@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Quicksand:wght@300..700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-primary-fixed": "#3f0300", "on-primary-container": "#731709", "inverse-primary": "#ffb4a6", "outline-variant": "#dec0ba", "on-secondary-fixed": "#002110", "error-container": "#ffdad6", "tertiary-fixed": "#ffdf9b", "tertiary-fixed-dim": "#edc157", "on-tertiary-fixed-variant": "#5b4300", "inverse-surface": "#2c3041", "on-error": "#ffffff", "tertiary": "#785a00", "error": "#ba1a1a", "primary-fixed-dim": "#ffb4a6", "primary-container": "#ff7e67", "on-tertiary-container": "#4b3700", "surface": "#faf8ff", "primary-fixed": "#ffdad4", "on-error-container": "#93000a", "on-primary-fixed-variant": "#842415", "surface-container-high": "#e4e7fe", "on-secondary": "#ffffff", "secondary": "#006d41", "on-surface-variant": "#57423e", "on-background": "#171b2b", "surface-dim": "#d6d9ef", "secondary-fixed-dim": "#7adaa1", "on-tertiary-fixed": "#251a00", "background": "#faf8ff", "inverse-on-surface": "#eff0ff", "secondary-fixed": "#95f7bb", "surface-container-highest": "#dee1f8", "on-secondary-fixed-variant": "#005230", "surface-container-lowest": "#ffffff", "outline": "#8b716d", "tertiary-container": "#c89f39", "surface-tint": "#a53b29", "surface-container": "#ebedff", "on-primary": "#ffffff", "on-surface": "#171b2b", "secondary-container": "#95f7bb", "surface-bright": "#faf8ff", "primary": "#a53b29", "surface-container-low": "#f3f2ff", "surface-variant": "#dee1f8", "on-secondary-container": "#007346" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "spacing-sm": "0.75rem", "screen-gutter": "1.25rem", "spacing-2xl": "2rem", "spacing-lg": "1.25rem", "spacing-2xs": "0.25rem", "spacing-xs": "0.5rem", "spacing-md": "1rem", "spacing-3xl": "2.5rem", "spacing-xl": "1.5rem", "card-gap": "0.875rem" }, "fontFamily": { "body-lg": ["Nunito Sans"], "headline-md": ["Quicksand"], "label-sm": ["Quicksand"], "body-sm": ["Nunito Sans"], "headline-sm": ["Quicksand"], "body-md": ["Nunito Sans"], "headline-xl": ["Quicksand"], "label-lg": ["Quicksand"], "headline-lg": ["Quicksand"], "label-md": ["Quicksand"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "800" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(45,49,66,0.04)]"><div class="h-16 px-screen-gutter flex items-center justify-between"><div class="flex items-center gap-spacing-xs"><img alt="Homie Mascot" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE1braPwQCRg0-hl7O0H-lQ3Z-dW-guU4oLnrSAfCZJyozhhochqnupjaYDdsUFwruxPT-ZGyu0f1dC_fsQt4Uz_OFhVSWpSoJy8X3Gag7rOZWnoMY1wj8m7Q6z7rATsMYTlQOl1KRHVsLjcsoI0HqcNCPq8SRmeKjdILI4dKF9oCT_m6KL6HVpk8hGa3UPf-2LoObGsD0mKZKrvgvwkqIKEwCQeDiW_tcq3D-B5cP6D7gT5g_hAWN"/><span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">Homie</span></div><div class="flex items-center gap-spacing-xs"><div class="flex items-center gap-spacing-2xs bg-tertiary-fixed text-on-tertiary-fixed px-spacing-sm py-spacing-2xs rounded-full shadow-[0_2px_0_rgba(0,0,0,0.06)]"><span class="material-symbols-outlined text-base">award_star</span><span class="font-label-sm text-label-sm font-bold">120 XP</span></div><a class="w-9 h-9 rounded-full bg-surface-container-lowest text-on-surface-variant flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:text-primary active:scale-95 transition-all duration-200" data-path="manage-tasks" href="#" title="Manage Tasks"><span class="material-symbols-outlined text-xl">tune</span></a><a class="w-9 h-9 rounded-full bg-surface-container-lowest p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center transition-transform active:scale-95" data-path="profile" href="#"><img alt="Chibi Profile Avatar" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprhwdp11qzPAqvKAQWMW5W2uVVEPpgtoEXXpIFQl65Wdu-Nk1Y9UxCkuBk_d8CKfIcGzZziBq7IE4urSXAzNuIaOs08Qq_f91sMrroS6QNTeurSuuFZ7SqR5FTOOditkWGh6QZBe92BBD9yC5eMK-QWwQhhsTX_naFtt6elT1UxYt-IJRrBBW6PyaU3l4S_4Uz0Fn-lHc44pn0WmjVnjxGQumNEQMqQeZY3HkH9yOewh13MibIBPV"/></a></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 px-screen-gutter bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Simulated Dimmed/Blurred Background (Peek of Home Screen Behind Modal) -->
+<div class="absolute inset-0 -z-10 opacity-35 filter blur-[2px] pointer-events-none select-none overflow-hidden h-[340px] px-spacing-sm pt-spacing-xs">
+<div class="flex items-center justify-between mb-spacing-md bg-surface-container-lowest p-spacing-sm rounded-lg shadow-sm">
+<div class="flex items-center gap-spacing-xs">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-xl">cottage</span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Cozy Cottage 🏡</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">4 Active Homies</p>
+</div>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed px-spacing-sm py-1 rounded-full font-label-md text-label-md">
+        Level 4 Roomies
+      </div>
+</div>
+<div class="grid grid-cols-2 gap-spacing-sm">
+<div class="bg-surface-container-lowest p-spacing-sm rounded-lg shadow-sm flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">TODAY'S QUEST</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Water Monsteras</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">+35 XP</span>
+</div>
+<div class="bg-surface-container-lowest p-spacing-sm rounded-lg shadow-sm flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary font-bold">IN PROGRESS</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Living Room Sweep</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">+40 XP</span>
+</div>
+</div>
+</div>
+<!-- Dimmer Backdrop Card Scrim -->
+<div class="w-full bg-inverse-surface/30 backdrop-blur-sm -mx-screen-gutter px-screen-gutter pt-8 pb-4 transition-all">
+<!-- Main Modal Bottom Sheet -->
+<div class="w-full bg-surface-container-lowest rounded-t-[36px] rounded-b-lg shadow-[0_-8px_32px_rgba(44,48,65,0.14)] p-screen-gutter flex flex-col gap-spacing-lg relative">
+<!-- Drag Handle -->
+<div class="w-full flex justify-center -mt-1 mb-1">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full"></div>
+</div>
+<!-- Header Section -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-spacing-xs">
+<span class="w-7 h-7 rounded-full bg-primary-fixed text-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-base">auto_fix_high</span>
+</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Edit Task</h2>
+</div>
+<div class="flex items-center gap-1.5 pl-0.5">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">Editing: Wash Dinner Dishes</p>
+</div>
+</div>
+<a class="w-9 h-9 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-sm hover:bg-surface-container hover:text-on-surface active:scale-90 transition-transform" data-path="tasks" href="#">
+<span class="material-symbols-outlined text-xl">close</span>
+</a>
+</div>
+<!-- Form Inputs Container -->
+<form class="flex flex-col gap-spacing-lg" onsubmit="event.preventDefault();">
+<!-- Field 1: Task Title -->
+<div class="flex flex-col gap-spacing-2xs">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+            Task Name
+            <span class="text-primary font-bold">*</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-13 px-spacing-md pr-12 rounded-2xl bg-surface-container-low text-on-surface font-body-lg text-body-lg focus:outline-none focus:bg-surface-container-lowest focus:shadow-[0_0_0_3px_#ffdad4] transition-all" id="task-title" placeholder="What needs to be done?" type="text" value="Wash dinner dishes & wipe counter 🍽️"/>
+<button class="absolute right-3 text-on-surface-variant/60 hover:text-primary active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+</div>
+</div>
+<!-- Field 2: Points / XP Stepper -->
+<div class="flex items-center justify-between bg-surface-container-low p-spacing-sm rounded-2xl">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+              Chore Reward
+              <span class="material-symbols-outlined text-tertiary-container text-base">stars</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Default household chore value</span>
+</div>
+<!-- Tactile Number Stepper -->
+<div class="flex items-center gap-spacing-xs bg-surface-container-lowest px-2 py-1.5 rounded-full shadow-sm">
+<button aria-label="Decrease XP" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center font-bold text-base hover:bg-surface-container-high active:scale-85 transition-all shadow-[0_2px_0_rgba(0,0,0,0.06)]" id="btn-minus" type="button">
+              -
+            </button>
+<div class="flex items-center gap-1 px-1 min-w-[62px] justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm">award_star</span>
+<span class="font-label-lg text-label-lg text-on-surface font-extrabold" id="xp-val">50 XP</span>
+</div>
+<button aria-label="Increase XP" class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-base hover:bg-tertiary-fixed-dim active:scale-85 transition-all shadow-[0_2px_0_#dec0ba]" id="btn-plus" type="button">
+              +
+            </button>
+</div>
+</div>
+<!-- Field 3: Recurrence Segmented Control -->
+<div class="flex flex-col gap-spacing-2xs">
+<label class="font-label-lg text-label-lg text-on-surface">Repeat Frequency</label>
+<div class="grid grid-cols-3 gap-spacing-xs p-1.5 bg-surface-container-low rounded-2xl">
+<!-- Active Option: Daily -->
+<button class="recurrence-pill flex items-center justify-center gap-1.5 py-2.5 rounded-xl font-label-md text-label-md bg-primary-container text-on-primary shadow-[0_3px_0_#e2634d] font-bold active:translate-y-0.5 transition-all" data-active="true" type="button">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+              Daily
+            </button>
+<button class="recurrence-pill flex items-center justify-center gap-1.5 py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-on-surface font-semibold hover:bg-surface-container-lowest/60 active:scale-95 transition-all" data-active="false" type="button">
+              Weekly
+            </button>
+<button class="recurrence-pill flex items-center justify-center gap-1.5 py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-on-surface font-semibold hover:bg-surface-container-lowest/60 active:scale-95 transition-all" data-active="false" type="button">
+              Once
+            </button>
+</div>
+</div>
+<!-- Field 4: Assignee Avatar Picker -->
+<div class="flex flex-col gap-spacing-2xs">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg text-on-surface">Assigned Homie</label>
+<span class="font-label-sm text-label-sm text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded-full">Assigned to You</span>
+</div>
+<div class="flex items-center gap-spacing-sm overflow-x-auto py-2 -mx-1 px-1">
+<!-- Anyone Option -->
+<button class="assignee-token flex flex-col items-center gap-1 group flex-shrink-0" data-selected="false" type="button">
+<div class="w-14 h-14 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center shadow-sm group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl text-secondary">groups</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Anyone</span>
+</button>
+<!-- Maya (You) - Selected -->
+<button class="assignee-token flex flex-col items-center gap-1 relative flex-shrink-0" data-selected="true" type="button">
+<div class="relative w-14 h-14 rounded-full p-0.5 bg-primary shadow-[0_4px_12px_rgba(255,126,103,0.35)] active:scale-95 transition-transform">
+<img alt="Maya chibi profile avatar" class="w-full h-full rounded-full object-cover bg-surface-container-lowest" src="https://lh3.googleusercontent.com/aida/AEtjO1Wk1zvTceuCgPP0Oef7yq9P5qbYOrVEEibj1whwXtFlnav7I1uB2_SDtoaTaMwZqohvMtiP5QOCOOpDIHXoeDmnpvn40b2PPoVsroVCSBgwCqlH2FWjzwmG377XULbiK3RD2SW0RMUIE41EhnTn_KTcnCF6bBWMIk04NYM82h59gtN47hkWcaHnmkMuu8wtPArSkCK4ZjUYdTebX_X8ilVV1aoVBWdatzViCgawJw2ieARTPqVjdhM9TEg"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-xs font-black">check</span>
+</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Maya (You)</span>
+</button>
+<!-- Leo -->
+<button class="assignee-token flex flex-col items-center gap-1 group flex-shrink-0" data-selected="false" type="button">
+<div class="w-14 h-14 rounded-full bg-surface-container-high p-0.5 shadow-sm group-active:scale-90 transition-transform flex items-center justify-center">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi boy anime avatar named Leo with messy brown hair wearing cozy yellow sweater and round eyeglasses, cheerful bright face, cozy pastel illustration style on plain warm background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBovURWx3PKks_O42RQHxRO-_fdrSsEbBu4pva1wpFqABBEvjzysSJ9YvvqXtEizA5xHqG82Gs5XcGybDkeU1mvqT5iHrboUMHH_be8Ce3orHcglFtWMv_nRTNbKPs2q590wr2CPhHLoYd9MVpsBHZ0NNjrTixk2Lxulcsg5lMrfnIs1EX2cm1LYhaB3auQWRMSVkON7eaywxwOxIboYBlc1bWb8u2NCZ3224ZD99K421QSBvRLACF6"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Leo</span>
+</button>
+<!-- Sam -->
+<button class="assignee-token flex flex-col items-center gap-1 group flex-shrink-0" data-selected="false" type="button">
+<div class="w-14 h-14 rounded-full bg-surface-container-high p-0.5 shadow-sm group-active:scale-90 transition-transform flex items-center justify-center">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi character avatar named Sam with short blue hair beanie, smiling gently, pastel flat graphic design style, soft pastel colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHw_quGsNsvgKjJS-bKQzaHWYCeRYQwsUUgAxmfu3ZagURpkRH8aSSc5fHc_AoqS2l4BR5zCNJstKltXkN2BPGQAPhA7y4udWh7KW8DDzbXjnHrNO4mO3PeBH2DvK5oTuy8uLhqpRur_pUcs0BV1uKiqj4AcZ5EB1AZYqXRBAvqHJWIzsiSUzT5-4kLszCU39cGlRswaV3IK6FbuJHmM9Esi-Msyg0pTqC10Z9Hg23tS6J1gqDktr8"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Sam</span>
+</button>
+<!-- Chloe -->
+<button class="assignee-token flex flex-col items-center gap-1 group flex-shrink-0" data-selected="false" type="button">
+<div class="w-14 h-14 rounded-full bg-surface-container-high p-0.5 shadow-sm group-active:scale-90 transition-transform flex items-center justify-center">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi girl avatar named Chloe with curly auburn hair in high ponytail wearing a cozy lilac knit scarf, sweet pastel cartoon game portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDunaQvV5iFMsPtkK-orFQ88qXEk3WlmCtzyA_ae2zaZzwQaLMmvACyd3QJEwV2TW2IXwgZ-s3ZSNlVuQohsewT3Rt_UEUDT4Srlvk6HOtAzl5z7heoMUfN77B7Jw8Tyskt_08dKNXWopP77Rq51bdMCm6112KNukjxSMSodJs2sK43NedhmODn8fyTB4GmPbehwhIfk1GkdCBVE38XkBt0A2_pLZckqeKMJM-Z8bsS3AAm6-9xVNUd"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Chloe</span>
+</button>
+</div>
+</div>
+<!-- Field 5: Icon / Emoji Picker -->
+<div class="flex flex-col gap-spacing-2xs">
+<label class="font-label-lg text-label-lg text-on-surface">Chore Category Icon</label>
+<div class="grid grid-cols-4 gap-spacing-xs">
+<!-- Selected Item: Dishes -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-secondary-container text-on-secondary-container shadow-[0_3px_0_#7adaa1] transition-all" data-selected="true" type="button">
+<span class="text-2xl leading-none mb-1">🍽️</span>
+<span class="font-label-sm text-label-sm font-bold">Dishes</span>
+</button>
+<!-- Plants -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🪴</span>
+<span class="font-label-sm text-label-sm font-semibold">Plants</span>
+</button>
+<!-- Trash -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🗑️</span>
+<span class="font-label-sm text-label-sm font-semibold">Trash</span>
+</button>
+<!-- Coffee / Pantry -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">☕</span>
+<span class="font-label-sm text-label-sm font-semibold">Pantry</span>
+</button>
+<!-- Broom -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🧹</span>
+<span class="font-label-sm text-label-sm font-semibold">Broom</span>
+</button>
+<!-- Laundry -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🧺</span>
+<span class="font-label-sm text-label-sm font-semibold">Laundry</span>
+</button>
+<!-- Pet Care -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🐾</span>
+<span class="font-label-sm text-label-sm font-semibold">Pet Care</span>
+</button>
+<!-- Groceries -->
+<button class="emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" data-selected="false" type="button">
+<span class="text-2xl leading-none mb-1">🛒</span>
+<span class="font-label-sm text-label-sm font-semibold">Groceries</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons Section -->
+<div class="flex flex-col gap-spacing-sm pt-spacing-xs">
+<!-- Primary Pill Save Button with 3D Bevel Cushion -->
+<button class="w-full h-14 rounded-full bg-primary-container text-surface-container-lowest font-headline-sm text-headline-sm font-bold flex items-center justify-center gap-2 shadow-[0_4px_0_#e2634d,0_8px_20px_rgba(255,126,103,0.3)] active:translate-y-1 active:shadow-[0_1px_0_#e2634d] transition-all" id="save-task-btn" type="submit">
+<span>Save Task</span>
+<span>✨</span>
+</button>
+<!-- Secondary Dismiss / Cancel Button -->
+<a class="w-full h-12 rounded-full bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg font-bold flex items-center justify-center hover:bg-surface-container hover:text-on-surface active:scale-98 transition-all" data-path="tasks" href="#">
+            Cancel
+          </a>
+<!-- Destructive Action Section -->
+<div class="flex flex-col items-center gap-1.5 pt-spacing-sm">
+<button class="px-spacing-md py-2 rounded-full bg-error-container text-on-error-container font-label-md text-label-md font-bold flex items-center gap-1.5 hover:opacity-90 active:scale-95 transition-all" id="delete-task-btn" type="button">
+<span class="material-symbols-outlined text-base">delete</span>
+<span>Delete Task</span>
+</button>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 text-center px-spacing-sm">
+              Removes this task from the household chore rotation
+            </p>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+  // Simple Micro-Interactions for XP Stepper and Recurrence Selection
+  (function() {
+    let xp = 50;
+    const xpDisplay = document.getElementById('xp-val');
+    const btnMinus = document.getElementById('btn-minus');
+    const btnPlus = document.getElementById('btn-plus');
+
+    if (btnMinus && btnPlus && xpDisplay) {
+      btnMinus.addEventListener('click', () => {
+        if (xp > 10) {
+          xp -= 5;
+          xpDisplay.textContent = xp + ' XP';
+        }
+      });
+      btnPlus.addEventListener('click', () => {
+        if (xp < 200) {
+          xp += 5;
+          xpDisplay.textContent = xp + ' XP';
+        }
+      });
+    }
+
+    // Recurrence pill toggle
+    const pills = document.querySelectorAll('.recurrence-pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => {
+          p.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-[0_3px_0_#e2634d]', 'font-bold');
+          p.classList.add('text-on-surface-variant', 'font-semibold');
+          const chk = p.querySelector('.material-symbols-outlined');
+          if (chk) chk.remove();
+        });
+        pill.classList.remove('text-on-surface-variant', 'font-semibold');
+        pill.classList.add('bg-primary-container', 'text-on-primary', 'shadow-[0_3px_0_#e2634d]', 'font-bold');
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined text-sm font-bold';
+        icon.textContent = 'check';
+        pill.prepend(icon);
+      });
+    });
+
+    // Chore icon selection toggle
+    const emojiChoices = document.querySelectorAll('.emoji-choice');
+    emojiChoices.forEach(choice => {
+      choice.addEventListener('click', () => {
+        emojiChoices.forEach(c => {
+          c.className = 'emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all';
+          const label = c.querySelector('span:last-child');
+          if (label) label.className = 'font-label-sm text-label-sm font-semibold';
+        });
+        choice.className = 'emoji-choice flex flex-col items-center justify-center p-2.5 rounded-2xl bg-secondary-container text-on-secondary-container shadow-[0_3px_0_#7adaa1] transition-all';
+        const activeLabel = choice.querySelector('span:last-child');
+        if (activeLabel) activeLabel.className = 'font-label-sm text-label-sm font-bold';
+      });
+    });
+  })();
+</script></main><div class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none px-screen-gutter mb-3"><nav class="pointer-events-auto mx-auto max-w-[390px] bg-surface-container-lowest/95 backdrop-blur-xl rounded-full px-spacing-2xs py-spacing-xs flex items-center justify-around shadow-[0_10px_30px_rgba(45,49,66,0.08),0_2px_0_#f0eae1]" data-active-classes="bg-primary-container text-surface-container-lowest shadow-[0_4px_12px_rgba(255,126,103,0.3),0_2px_0_#e2634d] scale-105 font-bold"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-spacing-xs py-1 rounded-full transition-all duration-200 bg-primary-container text-surface-container-lowest shadow-[0_4px_12px_rgba(255,126,103,0.3),0_2px_0_#e2634d] scale-105 font-bold" data-path="home" href="#"><span class="material-symbols-outlined text-xl leading-none">cottage</span><span class="font-label-sm text-label-sm">Home</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="tasks" href="#"><span class="material-symbols-outlined text-xl leading-none">checklist</span><span class="font-label-sm text-label-sm">Tasks</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="leaderboard" href="#"><span class="material-symbols-outlined text-xl leading-none">emoji_events</span><span class="font-label-sm text-label-sm">Ranks</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="achievements" href="#"><span class="material-symbols-outlined text-xl leading-none">military_tech</span><span class="font-label-sm text-label-sm">Badges</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="profile" href="#"><span class="material-symbols-outlined text-xl leading-none">account_circle</span><span class="font-label-sm text-label-sm">Profile</span></a></nav></div></body></html>

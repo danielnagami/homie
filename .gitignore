@@ -3,6 +3,8 @@ firebase/functions/node_modules
 firebase/functions/lib
 firebase-debug.log
 firebase-debug.*.log
+preview.log
+*.log
 .firebaserc.local
 .env
 .env.*

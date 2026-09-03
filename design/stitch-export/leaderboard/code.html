@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Quicksand:wght@300..700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-primary-fixed": "#3f0300", "on-primary-container": "#731709", "inverse-primary": "#ffb4a6", "outline-variant": "#dec0ba", "on-secondary-fixed": "#002110", "error-container": "#ffdad6", "tertiary-fixed": "#ffdf9b", "tertiary-fixed-dim": "#edc157", "on-tertiary-fixed-variant": "#5b4300", "inverse-surface": "#2c3041", "on-error": "#ffffff", "tertiary": "#785a00", "error": "#ba1a1a", "primary-fixed-dim": "#ffb4a6", "primary-container": "#ff7e67", "on-tertiary-container": "#4b3700", "surface": "#faf8ff", "primary-fixed": "#ffdad4", "on-error-container": "#93000a", "on-primary-fixed-variant": "#842415", "surface-container-high": "#e4e7fe", "on-secondary": "#ffffff", "secondary": "#006d41", "on-surface-variant": "#57423e", "on-background": "#171b2b", "surface-dim": "#d6d9ef", "secondary-fixed-dim": "#7adaa1", "on-tertiary-fixed": "#251a00", "background": "#faf8ff", "inverse-on-surface": "#eff0ff", "secondary-fixed": "#95f7bb", "surface-container-highest": "#dee1f8", "on-secondary-fixed-variant": "#005230", "surface-container-lowest": "#ffffff", "outline": "#8b716d", "tertiary-container": "#c89f39", "surface-tint": "#a53b29", "surface-container": "#ebedff", "on-primary": "#ffffff", "on-surface": "#171b2b", "secondary-container": "#95f7bb", "surface-bright": "#faf8ff", "primary": "#a53b29", "surface-container-low": "#f3f2ff", "surface-variant": "#dee1f8", "on-secondary-container": "#007346" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "spacing-sm": "0.75rem", "screen-gutter": "1.25rem", "spacing-2xl": "2rem", "spacing-lg": "1.25rem", "spacing-2xs": "0.25rem", "spacing-xs": "0.5rem", "spacing-md": "1rem", "spacing-3xl": "2.5rem", "spacing-xl": "1.5rem", "card-gap": "0.875rem" }, "fontFamily": { "body-lg": ["Nunito Sans"], "headline-md": ["Quicksand"], "label-sm": ["Quicksand"], "body-sm": ["Nunito Sans"], "headline-sm": ["Quicksand"], "body-md": ["Nunito Sans"], "headline-xl": ["Quicksand"], "label-lg": ["Quicksand"], "headline-lg": ["Quicksand"], "label-md": ["Quicksand"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "800" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-screen-gutter flex items-center justify-between"><div class="flex items-center gap-spacing-xs"><img alt="Homie App Mascot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE1braPwQCRg0-hl7O0H-lQ3Z-dW-guU4oLnrSAfCZJyozhhochqnupjaYDdsUFwruxPT-ZGyu0f1dC_fsQt4Uz_OFhVSWpSoJy8X3Gag7rOZWnoMY1wj8m7Q6z7rATsMYTlQOl1KRHVsLjcsoI0HqcNCPq8SRmeKjdILI4dKF9oCT_m6KL6HVpk8hGa3UPf-2LoObGsD0mKZKrvgvwkqIKEwCQeDiW_tcq3D-B5cP6D7gT5g_hAWN"/><span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">Homie</span></div><div class="flex items-center gap-spacing-sm"><div class="flex items-center gap-spacing-2xs bg-tertiary-fixed text-on-tertiary-fixed px-spacing-sm py-spacing-2xs rounded-full shadow-[0_2px_0_rgba(0,0,0,0.06)]"><span class="material-symbols-outlined text-base">award_star</span><span class="font-label-sm text-label-sm font-bold">120 XP</span></div><div class="w-9 h-9 rounded-full bg-surface-container-lowest p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprhwdp11qzPAqvKAQWMW5W2uVVEPpgtoEXXpIFQl65Wdu-Nk1Y9UxCkuBk_d8CKfIcGzZziBq7IE4urSXAzNuIaOs08Qq_f91sMrroS6QNTeurSuuFZ7SqR5FTOOditkWGh6QZBe92BBD9yC5eMK-QWwQhhsTX_naFtt6elT1UxYt-IJRrBBW6PyaU3l4S_4Uz0Fn-lHc44pn0WmjVnjxGQumNEQMqQeZY3HkH9yOewh13MibIBPV"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 px-screen-gutter bg-surface min-h-screen"><div class="flex flex-col w-full gap-spacing-md">
+<!-- Title & Subtitle Header -->
+<div class="flex flex-col gap-spacing-2xs">
+<div class="flex items-center justify-between">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight flex items-center gap-spacing-xs">
+        Household Hall of Fame
+        <span class="text-2xl animate-bounce inline-block">🏆</span>
+</h1>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-spacing-sm py-spacing-2xs rounded-full shadow-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">local_fire_department</span> Active
+      </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-primary">cottage</span>
+      Peach Blossom Cottage standings
+    </p>
+</div>
+<!-- Time Period Segmented Control -->
+<div class="p-1 bg-surface-container rounded-full flex items-center shadow-inner gap-1">
+<button class="flex-1 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center" type="button">
+      Day
+    </button>
+<button class="flex-1 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md font-bold shadow-[0_3px_0_rgba(115,23,9,0.18)] transition-all text-center" type="button">
+      Week
+    </button>
+<button class="flex-1 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center" type="button">
+      Month
+    </button>
+</div>
+<!-- Podium Spotlight #1 Roommate Hero Card -->
+<div class="relative overflow-hidden bg-gradient-to-br from-tertiary-fixed via-tertiary-fixed-dim/40 to-surface-container-lowest rounded-lg p-spacing-lg shadow-[0_8px_24px_rgba(120,90,0,0.12),0_2px_0_#edd18c] flex flex-col gap-spacing-sm">
+<!-- Confetti & sparkle decor SVG -->
+<div class="absolute -right-4 -top-4 w-28 h-28 opacity-25 pointer-events-none">
+<svg class="w-full h-full fill-current text-tertiary" viewbox="0 0 100 100">
+<polygon points="50,5 60,35 90,40 65,60 75,90 50,72 25,90 35,60 10,40 40,35"></polygon>
+</svg>
+</div>
+<div class="flex items-center justify-between z-10">
+<div class="flex items-center gap-spacing-xs bg-tertiary text-on-tertiary px-spacing-sm py-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-sm text-tertiary-fixed">crown</span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase">Weekly MVP</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-tertiary-fixed-variant font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">auto_awesome</span> Streak: 6 days
+      </span>
+</div>
+<div class="flex items-center gap-spacing-md z-10 mt-1">
+<div class="relative flex-shrink-0">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest p-1 shadow-[0_4px_12px_rgba(120,90,0,0.2)]">
+<img class="w-full h-full rounded-full object-cover" data-alt="Delightful warm chibi cartoon avatar of a cheerful young man named Leo with round spectacles and fluffy dark brown hair wearing a cozy yellow knitted sweater. Studio lighting, soft tactile 3D claymation aesthetic, pastel warm background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-eL4NG3ele-_UoxjPjhSWHvV1cAPynp3F0tJajhheiy3AVAh9C4fWoh91C3A2r9nQi6yjuPNqlmNykmHXjHJiksH9QBMprZTMlywpJhyTzPJ3EbtEJYjso9o5AUpzOqNqE5mrBaISC9bXXE0ENlvjEgqkuvvfNi_xt5JzvZHTvV2anRqrwJAZfVgOZwsJ6qAxjEtvkBzNjauANrKHXZK2zUBxI7zWQA3TR6PjSkg3p5A_qyEIvflz"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-tertiary-fixed-dim text-on-tertiary-fixed w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shadow-md">
+          👑
+        </div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-baseline justify-between">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface truncate">Leo 👑</h2>
+<span class="bg-surface-container-lowest/90 text-tertiary font-headline-sm text-headline-sm font-bold px-spacing-xs py-0.5 rounded-full shadow-sm flex-shrink-0">
+            480 pts
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Household Legend</p>
+<div class="mt-spacing-2xs inline-flex items-center gap-1 bg-surface-container-lowest/80 text-tertiary px-2 py-0.5 rounded-full w-fit">
+<span class="text-xs">✨</span>
+<span class="font-label-sm text-label-sm font-bold">Dishwashing Dynamo</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Leaderboard List Section -->
+<div class="flex flex-col gap-spacing-xs">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Rankings</span>
+<span class="font-label-sm text-label-sm text-outline font-bold">Resets in 2d 8h</span>
+</div>
+<!-- Rank 1: Leo Card -->
+<div class="bg-surface-container-lowest rounded-DEFAULT p-spacing-md shadow-[0_4px_14px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex flex-col gap-spacing-xs">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-sm flex-shrink-0">
+          🥇
+        </div>
+<div class="w-11 h-11 rounded-full p-[2px] bg-tertiary-fixed flex-shrink-0">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi close-up avatar of Leo with glasses and a friendly open grin, warm clay illustration style, warm cream background, delightful squishy vinyl character look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh5ZE4EFk5wDYYRwWbP6bAekAZgzmHu6BABmqxB-St-JI9fhxn5vWMWyCiBY9HBMTSlAMRcN3vPjjA-mj09xaCZXc39WXnxwIfG5plnHHEicoXcwNCmh7ai2G4P4G1ixjIXGHh78d71pGqw_dLgcjVHsr052Zi3BAcDhClhwY3AYSxudVI4iu-fTi7y-V12LUuG1pY578U6PZ5qQ3kcCacIGChltZKUgHXJIDXY8-fEsdK92Ues3Yh"/>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface truncate">Leo (Roommate)</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md px-2 py-0.5 rounded-full font-bold shadow-sm">
+              480 pts
+            </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dishwashing Dynamo ✨</span>
+</div>
+</div>
+<!-- Comparison Progress Bar -->
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden mt-1">
+<div class="bg-tertiary-fixed-dim h-full rounded-full w-full"></div>
+</div>
+</div>
+<!-- Rank 2: Maya (You) Spotlight Card with Playful Motivator -->
+<div class="relative bg-surface-container-low rounded-DEFAULT p-spacing-md shadow-[0_4px_16px_rgba(255,126,103,0.14),0_2px_0_#dec0ba] flex flex-col gap-spacing-xs overflow-hidden">
+<!-- Accent top-right banner for "YOU" -->
+<div class="absolute top-0 right-0 bg-primary-container text-on-primary-container font-label-sm text-label-sm px-3 py-0.5 rounded-bl-xl font-bold uppercase tracking-wider">
+        You
+      </div>
+<div class="flex items-center gap-spacing-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-sm flex-shrink-0">
+          🥈
+        </div>
+<div class="w-11 h-11 rounded-full p-[2px] bg-primary-fixed flex-shrink-0 shadow-sm">
+<img class="w-full h-full rounded-full object-cover" data-alt="Adorable chibi 3D avatar of Maya with cute purple-lavender space hair buns, rosy pink cheeks, expressive cheerful eyes, soft lighting, cozy cute clay render style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLGgDbUIIgCrx9Tx3dVFFRUIY3fkHL5FFbeEdkNfyQmSh620xjCelJZGgvtaTZ745t6p2mPNmtQmAPgcedbtkzxH8rwLUGLcEPbuF3DN15qwHgfZlPHu8Mq1aukw6-jqblqusPfnvaolIo7GBp81D0W827hGsRdB6zhgv_0DeoLhxwlzKYPoWbIlCoXNNN1UHi191oYkuZQJE1PhrJv0TI1qyEHldtbSG_KPIWWNgOc3WB2fP5KDmK"/>
+</div>
+<div class="flex flex-col flex-1 min-w-0 pr-10">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-primary truncate">Maya (You)</span>
+<span class="bg-primary-container text-on-primary-container font-label-md text-label-md px-2 py-0.5 rounded-full font-bold shadow-sm">
+              420 pts
+            </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-semibold">Living Room Legend 🛋️</span>
+</div>
+</div>
+<!-- Progress bar -->
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden mt-1">
+<div class="bg-primary-container h-full rounded-full w-[88%] transition-all duration-700"></div>
+</div>
+<!-- Playful Motivator Pill -->
+<div class="mt-1 bg-surface-container-lowest p-spacing-xs rounded-lg flex items-center gap-spacing-xs shadow-sm">
+<span class="text-base flex-shrink-0">🚀</span>
+<p class="font-body-sm text-body-sm text-on-surface flex-1 font-semibold">
+          Just <strong class="text-primary font-bold">60 pts</strong> away from #1 Leo! Take out recycling today?
+        </p>
+<button class="bg-primary text-on-primary font-label-sm text-label-sm px-2.5 py-1 rounded-full shadow-[0_2px_0_#731709] active:translate-y-0.5 transition-transform flex-shrink-0 font-bold" type="button">
+          Do chore
+        </button>
+</div>
+</div>
+<!-- Rank 3: Sam Card -->
+<div class="bg-surface-container-lowest rounded-DEFAULT p-spacing-md shadow-[0_4px_14px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex flex-col gap-spacing-xs">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-sm flex-shrink-0">
+          🥉
+        </div>
+<div class="w-11 h-11 rounded-full p-[2px] bg-secondary-fixed flex-shrink-0">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute stylized 3D chibi character avatar of Sam wearing an emerald green beanie hat and oversized comfy hoodie, friendly calm smile, clean toy figurine rendering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwky6Q6DM40qzJnmwH8aWNY1W37Kr2g1DmGDZHafHsN8a6qTFvmylQVUg3wjxcuRoMg3Ro-DnuaLjzVUH97t27gZP9zRgJEeKTZncQ4M5zYQGNZha_b7tdV4WFdhp85-J3OHlj3pMmSzttAaUx90kubhBXdyaUHyKngH9aARB8LfPtNu8zafVsl0J7hLRlN7MqqFA3g-MnPajOpXAqvLbf-lffYFxQq0L3f2SIOOBVsckMWmoIpw3m"/>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface truncate">Sam</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-md text-label-md px-2 py-0.5 rounded-full font-bold shadow-sm">
+              310 pts
+            </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Trash Tamer Extraordinaire 🗑️</span>
+</div>
+</div>
+<!-- Comparison Progress Bar -->
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full w-[65%]"></div>
+</div>
+</div>
+<!-- Rank 4: Chloe Card -->
+<div class="bg-surface-container-lowest rounded-DEFAULT p-spacing-md shadow-[0_4px_14px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex flex-col gap-spacing-xs">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-sm flex-shrink-0">
+          #4
+        </div>
+<div class="w-11 h-11 rounded-full p-[2px] bg-surface-variant flex-shrink-0">
+<img class="w-full h-full rounded-full object-cover" data-alt="Sweet pastel chibi illustration of Chloe wearing cat-ear shaped headphones and lilac pastel top, playful grin, 3D collectible toy aesthetic with glossy finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX6iJls_61drjqbzqMRnYITMOQRxSKZMWKKZ588P0U4gdEVQcwBt5XMtFVccXIyl0v2wOgLyTemfuz3wzmOAeeCvXUeefSso0iX-Rjz7iAJ5Nna9QpK2YTJP_w4lkj5_BEX4pm1Tw4k-xtr9IsiBGAQBzGUcNf9iG7eAuvfy0ehaJ4e_LoSMUWdDojIG9KCSGsoG6sFiHSMn-WKWqK_GJfNPXXMCBczGTGr5x-6YCQ78dW7eeNxUik"/>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface truncate">Chloe</span>
+<span class="bg-surface-container-highest text-on-surface font-label-md text-label-md px-2 py-0.5 rounded-full font-bold shadow-sm">
+              240 pts
+            </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Plant Whisperer 🪴</span>
+</div>
+</div>
+<!-- Comparison Progress Bar -->
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden mt-1">
+<div class="bg-outline-variant h-full rounded-full w-[50%]"></div>
+</div>
+</div>
+</div>
+<!-- Encouraging Household Bounty Banner -->
+<div class="mt-spacing-2xs bg-gradient-to-r from-primary-fixed to-tertiary-fixed rounded-lg p-spacing-md shadow-[0_4px_16px_rgba(165,59,41,0.1),0_2px_0_#dec0ba] flex items-center gap-spacing-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-2xl shadow-sm flex-shrink-0 animate-pulse">
+      🍕
+    </div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-label-sm text-label-sm font-bold text-on-primary-fixed-variant uppercase tracking-wider">Weekly Bounty</span>
+<p class="font-body-md text-body-md text-on-primary-fixed font-bold leading-tight">
+        Resets Sunday at midnight! Winner picks the pizza toppings! 🍕
+      </p>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic tab switching interaction
+  document.querySelectorAll('.rounded-full button').forEach((btn) => {
+    btn.addEventListener('click', function() {
+      const parent = this.parentElement;
+      parent.querySelectorAll('button').forEach(b => {
+        b.className = "flex-1 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center";
+      });
+      this.className = "flex-1 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md font-bold shadow-[0_3px_0_rgba(115,23,9,0.18)] transition-all text-center";
+    });
+  });
+</script></main><div class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none px-screen-gutter mb-3"><nav class="pointer-events-auto mx-auto max-w-[360px] bg-surface-container-lowest/95 backdrop-blur-xl rounded-full px-spacing-xs py-spacing-xs flex items-center justify-between shadow-[0_10px_30px_rgba(45,49,66,0.08),0_2px_0_#f0eae1]" data-active-classes="bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="home" href="#"><span class="material-symbols-outlined text-xl leading-none">cottage</span><span class="font-label-sm text-label-sm">Home</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full transition-all duration-200 bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105" data-path="leaderboard" href="#"><span class="material-symbols-outlined text-xl leading-none">leaderboard</span><span class="font-label-sm text-label-sm">Ranks</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="achievements" href="#"><span class="material-symbols-outlined text-xl leading-none">military_tech</span><span class="font-label-sm text-label-sm">Badges</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="avatar-builder" href="#"><span class="material-symbols-outlined text-xl leading-none">face_6</span><span class="font-label-sm text-label-sm">Avatar</span></a></nav></div></body></html>

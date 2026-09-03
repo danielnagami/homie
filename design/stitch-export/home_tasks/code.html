@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Quicksand:wght@300..700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-primary-fixed": "#3f0300", "on-primary-container": "#731709", "inverse-primary": "#ffb4a6", "outline-variant": "#dec0ba", "on-secondary-fixed": "#002110", "error-container": "#ffdad6", "tertiary-fixed": "#ffdf9b", "tertiary-fixed-dim": "#edc157", "on-tertiary-fixed-variant": "#5b4300", "inverse-surface": "#2c3041", "on-error": "#ffffff", "tertiary": "#785a00", "error": "#ba1a1a", "primary-fixed-dim": "#ffb4a6", "primary-container": "#ff7e67", "on-tertiary-container": "#4b3700", "surface": "#faf8ff", "primary-fixed": "#ffdad4", "on-error-container": "#93000a", "on-primary-fixed-variant": "#842415", "surface-container-high": "#e4e7fe", "on-secondary": "#ffffff", "secondary": "#006d41", "on-surface-variant": "#57423e", "on-background": "#171b2b", "surface-dim": "#d6d9ef", "secondary-fixed-dim": "#7adaa1", "on-tertiary-fixed": "#251a00", "background": "#faf8ff", "inverse-on-surface": "#eff0ff", "secondary-fixed": "#95f7bb", "surface-container-highest": "#dee1f8", "on-secondary-fixed-variant": "#005230", "surface-container-lowest": "#ffffff", "outline": "#8b716d", "tertiary-container": "#c89f39", "surface-tint": "#a53b29", "surface-container": "#ebedff", "on-primary": "#ffffff", "on-surface": "#171b2b", "secondary-container": "#95f7bb", "surface-bright": "#faf8ff", "primary": "#a53b29", "surface-container-low": "#f3f2ff", "surface-variant": "#dee1f8", "on-secondary-container": "#007346" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "spacing-sm": "0.75rem", "screen-gutter": "1.25rem", "spacing-2xl": "2rem", "spacing-lg": "1.25rem", "spacing-2xs": "0.25rem", "spacing-xs": "0.5rem", "spacing-md": "1rem", "spacing-3xl": "2.5rem", "spacing-xl": "1.5rem", "card-gap": "0.875rem" }, "fontFamily": { "body-lg": ["Nunito Sans"], "headline-md": ["Quicksand"], "label-sm": ["Quicksand"], "body-sm": ["Nunito Sans"], "headline-sm": ["Quicksand"], "body-md": ["Nunito Sans"], "headline-xl": ["Quicksand"], "label-lg": ["Quicksand"], "headline-lg": ["Quicksand"], "label-md": ["Quicksand"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "800" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-screen-gutter flex items-center justify-between"><div class="flex items-center gap-spacing-xs"><img alt="Homie App Mascot Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE1braPwQCRg0-hl7O0H-lQ3Z-dW-guU4oLnrSAfCZJyozhhochqnupjaYDdsUFwruxPT-ZGyu0f1dC_fsQt4Uz_OFhVSWpSoJy8X3Gag7rOZWnoMY1wj8m7Q6z7rATsMYTlQOl1KRHVsLjcsoI0HqcNCPq8SRmeKjdILI4dKF9oCT_m6KL6HVpk8hGa3UPf-2LoObGsD0mKZKrvgvwkqIKEwCQeDiW_tcq3D-B5cP6D7gT5g_hAWN"/><span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">Homie</span></div><div class="flex items-center gap-spacing-sm"><div class="flex items-center gap-spacing-2xs bg-tertiary-fixed text-on-tertiary-fixed px-spacing-sm py-spacing-2xs rounded-full shadow-[0_2px_0_rgba(0,0,0,0.06)]"><span class="material-symbols-outlined text-base">award_star</span><span class="font-label-sm text-label-sm font-bold">120 XP</span></div><div class="w-9 h-9 rounded-full bg-surface-container-lowest p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprhwdp11qzPAqvKAQWMW5W2uVVEPpgtoEXXpIFQl65Wdu-Nk1Y9UxCkuBk_d8CKfIcGzZziBq7IE4urSXAzNuIaOs08Qq_f91sMrroS6QNTeurSuuFZ7SqR5FTOOditkWGh6QZBe92BBD9yC5eMK-QWwQhhsTX_naFtt6elT1UxYt-IJRrBBW6PyaU3l4S_4Uz0Fn-lHc44pn0WmjVnjxGQumNEQMqQeZY3HkH9yOewh13MibIBPV"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 px-screen-gutter bg-surface min-h-screen"><div class="flex flex-col w-full pb-20 space-y-4">
+<!-- Household & Profile Row -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2.5">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-secondary-container p-0.5 shadow-[0_4px_12px_rgba(0,109,65,0.15)] flex items-center justify-center">
+<img class="w-11 h-11 rounded-full object-cover" data-alt="Chibi anime style portrait of a happy smiling girl Maya with short bob hairstyle, pastel mint headband, cute blush on cheeks, warm soft lighting, 3D clay vinyl finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-aCycpLyVDDt7vpF4kJvTVPs4VJXZsYIAxzvcHPHeEM16h_YY2Iie0iqj_nSiu_ZLNjappuu3b66_0RDYX0amNydVd71vGZ2k3HfIpkYbq--Qo0XJO7-az-P80fbcqglraCbkbtH7O8YOlYH2JkIuJykVsAd5p5nI0hYC03vLp-imO-HIdMyIKLH4oWNRcPjo6iu0Oxm1F5MoU4CpnjSF-f9zHn1N15-uIgvw53Uy-tHstidYlRIS"/>
+</div>
+<span class="absolute -bottom-1 -right-1 text-xs">🌿</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Maya</h2>
+<span class="font-label-sm text-label-sm bg-secondary-container/70 text-on-secondary-container px-2 py-0.5 rounded-full font-bold">Lvl 4</span>
+</div>
+<button class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm text-left" type="button">
+<span>Peach Blossom Cottage</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Streak Pill -->
+<div class="flex items-center gap-1.5 bg-primary-fixed text-on-primary-fixed-variant px-3 py-1.5 rounded-full shadow-[0_3px_0_rgba(132,36,21,0.15)]">
+<span class="text-base animate-pulse">🔥</span>
+<span class="font-label-md text-label-md font-extrabold whitespace-nowrap">5 Days!</span>
+</div>
+</div>
+<!-- Today's Chore Quest Banner Card -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container-lowest p-4 shadow-[0_4px_14px_rgba(45,49,66,0.05),0_2px_0_#f0eae1]">
+<div class="flex items-start justify-between mb-2">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-xl">arrow_back_ios_new</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Today's Chore Quest</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">3 of 5 done • Keep blooming!</p>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="text-xs">⭐</span>
+<span>+150 XP</span>
+</div>
+</div>
+<!-- Progress Track & Mascot Snippet -->
+<div class="mt-3 space-y-1.5">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Daily Goal</span>
+<span class="text-secondary font-bold">60% Complete</span>
+</div>
+<div class="w-full h-3.5 bg-surface-container rounded-full overflow-hidden p-0.5 shadow-inner">
+<div class="h-full bg-secondary-fixed-dim rounded-full transition-all duration-700 relative shadow-sm" style="width: 60%;">
+<div class="absolute inset-0 bg-white/20 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Daily Task List Section -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between px-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Quest Log (4)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Tap to Complete</span>
+</div>
+<!-- Task 1: Wash Dinner Dishes (Pending) -->
+<div class="relative bg-surface-container-lowest rounded-DEFAULT p-3.5 shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex items-center justify-between gap-3 active:scale-[0.99] transition-transform">
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-secondary-fixed rounded-r-full"></div>
+<div class="flex items-center gap-3 pl-1.5 flex-1 min-w-0">
+<div class="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0 text-xl shadow-sm">
+          🍽️
+        </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">+50 XP ⭐</span>
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-1.5 py-0.5 rounded-full">Assigned to You</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Wash dinner dishes & wipe counters</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kitchen • Due by 9:00 PM</p>
+</div>
+</div>
+<!-- Chunky Tactile Check Button -->
+<button class="w-8 h-8 rounded-full bg-surface-container-low shadow-[0_3px_0_#dec0ba] flex items-center justify-center active:translate-y-0.5 active:shadow-[0_1px_0_#dec0ba] transition-all flex-shrink-0" onclick="toggleChore(this, 50)">
+<span class="material-symbols-outlined text-transparent text-lg check-icon">check</span>
+</button>
+</div>
+<!-- Task 2: Water Monsteras (Completed Demo) -->
+<div class="relative bg-secondary-container/40 rounded-DEFAULT p-3.5 shadow-[0_2px_6px_rgba(0,109,65,0.05)] flex items-center justify-between gap-3">
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-secondary rounded-r-full"></div>
+<div class="flex items-center gap-3 pl-1.5 flex-1 min-w-0">
+<div class="w-11 h-11 rounded-full bg-tertiary-fixed-dim/60 flex items-center justify-center flex-shrink-0 text-xl shadow-sm">
+          🪴
+        </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">Claimed! 🎉</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant line-through">+30 XP</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface-variant line-through truncate">Water indoor monsteras & succulents</h4>
+<p class="font-body-sm text-body-sm text-secondary font-semibold">Done by you at 10:15 AM</p>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary shadow-[0_2px_0_#005230] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+</div>
+<!-- Task 3: Take out Kitchen Compost (Pending) -->
+<div class="relative bg-surface-container-lowest rounded-DEFAULT p-3.5 shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex items-center justify-between gap-3 active:scale-[0.99] transition-transform">
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-surface-container-highest rounded-r-full"></div>
+<div class="flex items-center gap-3 pl-1.5 flex-1 min-w-0">
+<div class="w-11 h-11 rounded-full bg-surface-variant flex items-center justify-center flex-shrink-0 text-xl shadow-sm">
+          ♻️
+        </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">+40 XP ⭐</span>
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-1.5 py-0.5 rounded-full">Rotational</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Take out kitchen compost & recycling</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Back Porch • Bin pickup tomorrow</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low shadow-[0_3px_0_#dec0ba] flex items-center justify-center active:translate-y-0.5 active:shadow-[0_1px_0_#dec0ba] transition-all flex-shrink-0" onclick="toggleChore(this, 40)">
+<span class="material-symbols-outlined text-transparent text-lg check-icon">check</span>
+</button>
+</div>
+<!-- Task 4: Restock Oat Milk (Pending) -->
+<div class="relative bg-surface-container-lowest rounded-DEFAULT p-3.5 shadow-[0_4px_12px_rgba(45,49,66,0.04),0_2px_0_#f0eae1] flex items-center justify-between gap-3 active:scale-[0.99] transition-transform">
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-primary-container rounded-r-full"></div>
+<div class="flex items-center gap-3 pl-1.5 flex-1 min-w-0">
+<div class="w-11 h-11 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0 text-xl shadow-sm">
+          ☕
+        </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5 mb-0.5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">+25 XP ⭐</span>
+<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-1.5 py-0.5 rounded-full">Shared Quest</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Restock oat milk & coffee beans</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pantry • Low stock alert</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low shadow-[0_3px_0_#dec0ba] flex items-center justify-center active:translate-y-0.5 active:shadow-[0_1px_0_#dec0ba] transition-all flex-shrink-0" onclick="toggleChore(this, 25)">
+<span class="material-symbols-outlined text-transparent text-lg check-icon">check</span>
+</button>
+</div>
+</div>
+<!-- Roommate Cheer Banner -->
+<div class="rounded-DEFAULT bg-surface-container p-3 flex items-center gap-3 shadow-sm">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest p-0.5 shadow-sm">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi roommate avatar of Leo wearing glasses with warm smile in plush toy style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2dJfAQN2_QcLgAauJiWfQWoT1nFyIbQa9vGIs1Z4PmIpEBMEyKUg_0ZaVCVSPDCYVCoNl4tYM22_CLHx_uHIh-FITQshOzLuvmTr7jPd_SjdnSoms6xpjWq-NNJxj2fvqA8ZSeZIRPg4BfJPcRfAhPJICd8D5_ZwC9aujNm2A7sg2-gGZg5r1lod4Mou0owyLGXVm8tcaxbRyQhckzfcaLrAhlQi0u_-dxP6kY59UELSm3jWasRre"/>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest p-0.5 shadow-sm">
+<img class="w-full h-full rounded-full object-cover" data-alt="Cute chibi roommate avatar of Sam with pink beanie hat and happy eyes cartoon aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlA0ur8_i4lVGyZY3OVUKr8yk2LcI7ifHxHQmSCBciqywfEZSg_xFQIYJpOV4R5InAqSsvZWaUwFFYNEQ0DzaWoZ7S9BUWW2d_Ted0BStl5Na7ug6z82QfqMCXq007CnLztabTmf6Wcg-bXyxIyzNndsxldaz5nexcjNULN_YWEYQwUzf740I6V5Q3K1KV4Ige2un2ob_nLBLJ3rkN1CTtz10grJKtQnVFcpbAOxVDVzNeZuH4s4pl"/>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface truncate"><strong class="font-bold">Leo & Sam</strong> completed 4 tasks!</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Peach Blossom Cottage is 78% sparkling today ✨</p>
+</div>
+<button class="bg-surface-container-lowest text-primary px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm active:scale-95 transition-transform">
+      High Five 👋
+    </button>
+</div>
+<!-- Floating Action Button & Quick Add Drawer Container -->
+<div class="fixed right-5 bottom-24 z-40 flex flex-col items-end">
+<!-- Quick Add Drawer / Modal Tray (Toggled) -->
+<div class="hidden mb-3 w-72 bg-surface-container-lowest/95 backdrop-blur-xl rounded-lg p-4 shadow-[0_12px_32px_rgba(45,49,66,0.16)] transition-all transform origin-bottom-right" id="quick-add-tray">
+<div class="flex items-center justify-between mb-2.5">
+<div class="flex items-center gap-1">
+<span class="text-sm">✨</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Quick Chore</span>
+</div>
+<button class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant" onclick="toggleQuickTray()">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="space-y-3">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Chore Name</label>
+<input class="w-full h-10 px-3 rounded-full bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest shadow-inner" placeholder="e.g., Vacuum living room rug" type="text"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Reward XP</label>
+<div class="grid grid-cols-3 gap-1.5">
+<button class="py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm" type="button">+25 ⭐</button>
+<button class="py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold active:scale-95" type="button">+50 ⭐</button>
+<button class="py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold active:scale-95" type="button">+100 🌟</button>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Frequency</label>
+<div class="flex gap-2">
+<span class="flex-1 text-center py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">Daily</span>
+<span class="flex-1 text-center py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold">Weekly</span>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-bold shadow-[0_3px_0_#a53b29] active:translate-y-0.5 active:shadow-[0_1px_0_#a53b29] transition-all mt-1" onclick="toggleQuickTray()">
+          Post Chore Quest
+        </button>
+</div>
+</div>
+<!-- Chunky Coral FAB Button -->
+<button aria-label="Add Task" class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_4px_0_#a53b29,0_8px_20px_rgba(255,126,103,0.35)] active:translate-y-1 active:shadow-[0_1px_0_#a53b29] transition-all duration-150" onclick="toggleQuickTray()">
+<span class="material-symbols-outlined text-2xl font-bold">add</span>
+</button>
+</div>
+</div>
+<script>
+  function toggleQuickTray() {
+    const tray = document.getElementById('quick-add-tray');
+    if (tray) {
+      tray.classList.toggle('hidden');
+    }
+  }
+
+  function toggleChore(btn, xp) {
+    const checkIcon = btn.querySelector('.check-icon');
+    const isDone = btn.classList.contains('bg-secondary');
+
+    if (!isDone) {
+      btn.classList.remove('bg-surface-container-low', 'shadow-[0_3px_0_#dec0ba]');
+      btn.classList.add('bg-secondary', 'text-on-secondary', 'shadow-[0_2px_0_#005230]', 'scale-110');
+      checkIcon.classList.remove('text-transparent');
+      checkIcon.classList.add('text-on-secondary');
+      
+      setTimeout(() => {
+        btn.classList.remove('scale-110');
+      }, 200);
+    } else {
+      btn.classList.add('bg-surface-container-low', 'shadow-[0_3px_0_#dec0ba]');
+      btn.classList.remove('bg-secondary', 'text-on-secondary', 'shadow-[0_2px_0_#005230]');
+      checkIcon.classList.add('text-transparent');
+      checkIcon.classList.remove('text-on-secondary');
+    }
+  }
+
+  // Set home nav item state
+  document.addEventListener('DOMContentLoaded', () => {
+    const homeLink = document.querySelector('nav a[data-path="home"]');
+    if (homeLink) {
+      homeLink.classList.add('bg-primary-fixed', 'text-on-primary-fixed', 'shadow-[0_3px_0_rgba(132,36,21,0.2)]', 'scale-105');
+      homeLink.classList.remove('text-on-surface-variant');
+    }
+  });
+</script></main><div class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none px-screen-gutter mb-3"><nav class="pointer-events-auto mx-auto max-w-[360px] bg-surface-container-lowest/95 backdrop-blur-xl rounded-full px-spacing-xs py-spacing-xs flex items-center justify-between shadow-[0_10px_30px_rgba(45,49,66,0.08),0_2px_0_#f0eae1]" data-active-classes="bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full transition-all duration-200 bg-primary-fixed text-on-primary-fixed shadow-[0_3px_0_rgba(132,36,21,0.2)] scale-105" data-path="home" href="#"><span class="material-symbols-outlined text-xl leading-none">cottage</span><span class="font-label-sm text-label-sm">Home</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="leaderboard" href="#"><span class="material-symbols-outlined text-xl leading-none">leaderboard</span><span class="font-label-sm text-label-sm">Ranks</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="achievements" href="#"><span class="material-symbols-outlined text-xl leading-none">military_tech</span><span class="font-label-sm text-label-sm">Badges</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-spacing-xs py-1 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95" data-path="avatar-builder" href="#"><span class="material-symbols-outlined text-xl leading-none">face_6</span><span class="font-label-sm text-label-sm">Avatar</span></a></nav></div></body></html>
