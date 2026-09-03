@@ -2,8 +2,6 @@ import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import type { Timestamp } from 'firebase-admin/firestore'
 
-const db = getFirestore()
-
 interface CompletionData {
   taskId: string
   userId: string
@@ -45,6 +43,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
     const dateKey = data.dateKey ?? new Date().toISOString().slice(0, 10)
     const processedKey = 'processed'
 
+    const db = getFirestore()
     const completionRef = db.doc(`households/${householdId}/taskCompletions/${completionId}`)
     const taskRef = db.doc(`households/${householdId}/tasks/${taskId}`)
     const memberRef = db.doc(`households/${householdId}/members/${userId}`)
