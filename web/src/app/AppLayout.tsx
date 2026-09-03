@@ -6,6 +6,7 @@ import { useAvatar } from '../features/avatar/useAvatar'
 import { useHousehold } from '../features/household/useHousehold'
 import { useAchievements } from '../features/gamification/useAchievements'
 import { UnlockToast } from '../features/gamification/UnlockToast'
+import { useInstallPrompt } from '../features/pwa/useInstallPrompt'
 import type { Achievement } from '../types/models'
 import {
   initialMembers,
@@ -24,6 +25,7 @@ export function AppLayout() {
   const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
   const [latestUnlock, setLatestUnlock] = useState<Achievement | null>(null)
   const seenIds = useRef<Set<string>>(new Set())
+  const { canInstall, promptInstall } = useInstallPrompt()
 
   useEffect(() => {
     if (unlockedIds.size === 0) return
@@ -124,6 +126,15 @@ export function AppLayout() {
       </main>
       <BottomNav />
       <UnlockToast achievement={latestUnlock} />
+      {canInstall && (
+        <button
+          type="button"
+          onClick={promptInstall}
+          className="fixed bottom-24 left-5 z-40 rounded-full bg-white px-4 py-2 font-display text-xs font-extrabold text-coral-400 shadow-soft ring-2 ring-coral-300"
+        >
+          Install Homie
+        </button>
+      )}
     </div>
   )
 }
