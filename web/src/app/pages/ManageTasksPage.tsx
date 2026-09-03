@@ -3,13 +3,25 @@ import { Button } from '../../components/Button'
 import { Modal } from '../../components/Modal'
 import { CreateTaskForm } from '../../features/tasks/CreateTaskForm'
 import { TaskCard } from '../../features/tasks/TaskCard'
+import { useTasks } from '../../features/tasks/useTasks'
+import { useAuth } from '../../features/auth/useAuth'
+import { useHousehold } from '../../features/household/useHousehold'
 import type { MockTask } from '../mockState'
 import { useAppMock } from '../mockState'
 
 type Filter = 'all' | 'daily' | 'weekly' | 'once'
 
 export function ManageTasksPage() {
-  const { householdName, tasks, toggleTask, addTask, updateTask, deleteTask } = useAppMock()
+  const { householdName, tasks: mockTasks, toggleTask, addTask, updateTask, deleteTask } = useAppMock()
+  const { user } = useAuth()
+  const { activeHousehold } = useHousehold()
+  const householdId = user ? activeHousehold?.id ?? null : null
+  const tasksApi = useTasks(householdId)
+
+  const tasks = householdId ? tasksApi.tasks : mockTasks
+  const isLoading = householdId ? tasksApi.isLoading : false
+  const error = householdId ? tasksApi.error : null
+
   const [filter, setFilter] = useState<Filter>('all')
   const [editing, setEditing] = useState<MockTask | null>(null)
   const [creating, setCreating] = useState(false)
@@ -26,7 +38,9 @@ export function ManageTasksPage() {
         <div className="flex items-center justify-between gap-3">
           <div>
             <h1 className="font-display text-3xl font-extrabold text-ink">Manage Tasks</h1>
-            <p className="mt-1 text-sm font-bold text-pebble">{householdName} · changes update local mock state</p>
+            <p className="mt-1 text-sm font-bold text-pebble">
+              {householdName} · {householdId ? 'synced to Firestore' : 'local mock state'}
+            </p>
           </div>
           <Button onClick={() => setCreating(true)} className="min-h-11 px-4">Add</Button>
         </div>
@@ -35,9 +49,15 @@ export function ManageTasksPage() {
       <section className="rounded-3xl bg-lavender-100 p-3 shadow-card">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-mint-600" />
-          <p className="text-sm font-bold text-pebble">Changes update instantly for all roommates once Firestore wiring lands.</p>
+          <p className="text-sm font-bold text-pebble">
+            {householdId ? 'Changes update instantly for all roommates.' : 'Sign in and join a household to sync tasks.'}
+          </p>
         </div>
       </section>
+
+      {error && (
+        <p className="rounded-2xl bg-red-100 px-4 py-3 text-center text-xs font-bold text-red-700">{error}</p>
+      )}
 
       <section className="flex gap-2 overflow-x-auto pb-1">
         {filters.map((value) => (
@@ -54,55 +74,60 @@ export function ManageTasksPage() {
         ))}
       </section>
 
-      <section className="space-y-4">
-        {(['daily', 'weekly', 'once'] as const).map((recurrence) => {
-          const group = visible.filter((task) => task.recurrence === recurrence)
-          if (group.length === 0) return null
-          return (
-            <div key={recurrence} className="space-y-2.5">
-              <div className="flex items-center justify-between px-1">
-                <h2 className="font-display text-lg font-extrabold capitalize text-ink">
-                  {recurrence === 'daily' ? '☀️ Daily Chores' : recurrence === 'weekly' ? '📅 Weekly Chores' : '✨ One-Off Quests'}
-                </h2>
-                <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-[10px] font-extrabold text-honey-700">
-                  {group.length} active
-                </span>
+      {isLoading ? (
+        <p className="text-center text-sm font-bold text-pebble">Loading tasks...</p>
+      ) : (
+        <section className="space-y-4">
+          {(['daily', 'weekly', 'once'] as const).map((recurrence) => {
+            const group = visible.filter((task) => task.recurrence === recurrence)
+            if (group.length === 0) return null
+            return (
+              <div key={recurrence} className="space-y-2.5">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="font-display text-lg font-extrabold capitalize text-ink">
+                    {recurrence === 'daily' ? '☀️ Daily Chores' : recurrence === 'weekly' ? '📅 Weekly Chores' : '✨ One-Off Quests'}
+                  </h2>
+                  <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-[10px] font-extrabold text-honey-700">
+                    {group.length} active
+                  </span>
+                </div>
+                {group.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onComplete={() => toggleTask(task.id)}
+                    actions={
+                      <div className="flex gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setEditing(task)}
+                          className="grid h-8 w-8 place-items-center rounded-full bg-lavender-100 text-sm text-pebble shadow-sm transition-transform active:scale-90"
+                        >
+                          ✎
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => (householdId ? void tasksApi.deleteTask(task.id) : deleteTask(task.id))}
+                          className="grid h-8 w-8 place-items-center rounded-full bg-red-100 text-sm text-red-700 shadow-sm transition-transform active:scale-90"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    }
+                  />
+                ))}
               </div>
-              {group.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  onComplete={() => toggleTask(task.id)}
-                  actions={
-                    <div className="flex gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setEditing(task)}
-                        className="grid h-8 w-8 place-items-center rounded-full bg-lavender-100 text-sm text-pebble shadow-sm transition-transform active:scale-90"
-                      >
-                        ✎
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => deleteTask(task.id)}
-                        className="grid h-8 w-8 place-items-center rounded-full bg-red-100 text-sm text-red-700 shadow-sm transition-transform active:scale-90"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  }
-                />
-              ))}
-            </div>
-          )
-        })}
-      </section>
+            )
+          })}
+        </section>
+      )}
 
-      <Modal open={creating} title="Create Task" subtitle="Local prototype dialog" onClose={() => setCreating(false)}>
+      <Modal open={creating} title="Create Task" subtitle={householdId ? 'Saved to Firestore' : 'Local prototype dialog'} onClose={() => setCreating(false)}>
         <CreateTaskForm
           onCancel={() => setCreating(false)}
           onSave={(draft) => {
-            addTask(draft)
+            if (householdId) void tasksApi.createTask(draft)
+            else addTask(draft)
             setCreating(false)
           }}
         />
@@ -114,7 +139,8 @@ export function ManageTasksPage() {
             initialTask={editing}
             onCancel={() => setEditing(null)}
             onSave={(draft) => {
-              updateTask(editing.id, draft)
+              if (householdId) void tasksApi.updateTask(editing.id, draft)
+              else updateTask(editing.id, draft)
               setEditing(null)
             }}
           />
