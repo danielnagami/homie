@@ -6,6 +6,7 @@ import {
   getDoc,
   onSnapshot,
   setDoc,
+  writeBatch,
 } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
 import type { Household, HouseholdMember } from '../../types/models'
@@ -133,27 +134,22 @@ export function useHousehold(): HouseholdState {
         const householdRef = doc(householdsCollection)
         const now = new Date().toISOString()
 
-        await setDoc(householdRef, {
+        // Batch these so a partial failure never leaves a household without its joinCodes mapping.
+        const batch = writeBatch(fs)
+        batch.set(householdRef, {
           name: name.trim() || 'Cozy Cottage',
           joinCode,
           createdBy: user.uid,
           createdAt: now,
           defaultPointsPerTask: 10,
         })
-
-        await setDoc(doc(fs, 'joinCodes', joinCode), { householdId: householdRef.id })
-
-        await setDoc(doc(householdsCollection, householdRef.id, 'members', user.uid), {
+        batch.set(doc(fs, 'joinCodes', joinCode), { householdId: householdRef.id })
+        batch.set(doc(householdsCollection, householdRef.id, 'members', user.uid), {
           displayName: user.displayName ?? 'Homie friend',
           avatarConfig: null,
           joinedAt: now,
         })
-
-        await setDoc(
-          doc(fs, 'users', user.uid),
-          { householdIds: arrayUnion(householdRef.id), activeHouseholdId: householdRef.id },
-          { merge: true },
-        )
+        await batch.commit()
 
         const household: Household = {
           id: householdRef.id,
@@ -166,6 +162,17 @@ export function useHousehold(): HouseholdState {
 
         setActiveHousehold(household)
         setHouseholds((current) => [...current, household])
+
+        try {
+          await setDoc(
+            doc(fs, 'users', user.uid),
+            { householdIds: arrayUnion(householdRef.id), activeHouseholdId: householdRef.id },
+            { merge: true },
+          )
+        } catch {
+          setError("Household created, but we couldn't add it to your profile. Try again.")
+        }
+
         return household
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : 'Failed to create household.')

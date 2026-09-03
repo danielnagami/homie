@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "deploy": "npm run build && firebase deploy --only functions",
-    "serve": "npm run build && firebase emulators:start --only functions"
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "backfill:join-codes": "npm run build && node lib/backfillJoinCodes.js"
   },
   "dependencies": {
     "firebase-admin": "^14.3.0",
