@@ -50,9 +50,10 @@ export function HouseholdPage() {
     }
   }
 
-  const displayName = activeHousehold?.name ?? householdName
-  const displayCode = activeHousehold?.joinCode ?? joinCode
-  const displayMembers = activeHousehold ? households.length : members.length
+  // Signed-in users without a real household yet should never see the mock name/code as if it were theirs.
+  const displayName = activeHousehold?.name ?? (user ? null : householdName)
+  const displayCode = activeHousehold?.joinCode ?? (user ? null : joinCode)
+  const displayMembers = activeHousehold ? households.length : user ? 0 : members.length
 
   return (
     <div className="space-y-5">
@@ -139,13 +140,15 @@ export function HouseholdPage() {
         <div className="mb-3 flex items-center justify-between">
           <h2 className="font-display text-lg font-extrabold text-ink">Current home</h2>
           <span className="rounded-full bg-white px-3 py-1 font-display text-xs font-extrabold text-coral-400">
-            {displayCode}
+            {displayCode ?? 'No code yet'}
           </span>
         </div>
         <div className="rounded-2xl bg-white p-3 shadow-sm">
-          <p className="font-display text-sm font-extrabold text-ink">{displayName}</p>
+          <p className="font-display text-sm font-extrabold text-ink">{displayName ?? 'No household yet'}</p>
           <p className="text-[11px] font-bold text-pebble">
-            {displayMembers} member{displayMembers === 1 ? '' : 's'} · {user ? 'synced to Firestore' : 'mock preview'}
+            {displayName
+              ? `${displayMembers} member${displayMembers === 1 ? '' : 's'} · ${user ? 'synced to Firestore' : 'mock preview'}`
+              : 'Create or join a home above to get started.'}
           </p>
         </div>
         <p className="mt-3 text-xs font-bold text-pebble">{message}</p>

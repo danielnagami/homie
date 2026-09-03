@@ -21,18 +21,20 @@ export function Modal({ open, title, subtitle, onClose, children }: ModalProps) 
         className="absolute inset-0 cursor-default"
         onClick={onClose}
       />
-      <section className="relative w-full max-w-md rounded-t-[2.25rem] rounded-b-4xl bg-white p-5 shadow-soft sm:rounded-4xl">
-        <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-lavender-300" />
-        <div className="mb-5 flex items-start justify-between gap-4">
-          <div>
-            <h2 className="font-display text-2xl font-extrabold text-ink">{title}</h2>
-            {subtitle && <p className="mt-1 text-sm font-semibold text-pebble">{subtitle}</p>}
+      <section className="relative flex max-h-[85dvh] w-full max-w-md flex-col rounded-t-[2.25rem] rounded-b-4xl bg-white shadow-soft sm:rounded-4xl">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">
+          <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-lavender-300" />
+          <div className="mb-5 flex items-start justify-between gap-4">
+            <div>
+              <h2 className="font-display text-2xl font-extrabold text-ink">{title}</h2>
+              {subtitle && <p className="mt-1 text-sm font-semibold text-pebble">{subtitle}</p>}
+            </div>
+            <Button variant="ghost" onClick={onClose} aria-label="Close dialog" className="min-h-9 px-3">
+              ×
+            </Button>
           </div>
-          <Button variant="ghost" onClick={onClose} aria-label="Close dialog" className="min-h-9 px-3">
-            ×
-          </Button>
+          {children}
         </div>
-        {children}
       </section>
     </div>,
     document.body,
