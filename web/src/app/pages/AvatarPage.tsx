@@ -1,10 +1,14 @@
-import { PlaceholderPage } from '../../components/PlaceholderPage'
+import { Button } from '../../components/Button'
+import { AvatarBuilder } from '../../features/avatar/AvatarBuilder'
+import { useAppMock } from '../mockState'
 
 export function AvatarPage() {
+  const { avatarConfig, setAvatarConfig } = useAppMock()
+
   return (
-    <PlaceholderPage
-      title="Avatar Builder"
-      description="Layered SVG avatar builder (skin tone, hair, face, outfit and accessories) will land in task 6."
-    />
+    <div className="space-y-5">
+      <AvatarBuilder value={avatarConfig} onChange={setAvatarConfig} />
+      <Button className="w-full">Save mock avatar</Button>
+    </div>
   )
 }

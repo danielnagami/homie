@@ -3,13 +3,15 @@ interface StreakBadgeProps {
   longest: number
 }
 
-export function StreakBadge({ current }: StreakBadgeProps) {
+export function StreakBadge({ current, longest }: StreakBadgeProps) {
   return (
-    <div className="bg-warm-100 text-warm-500 flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-        <path d="M13 2 4.5 13.5h6L9 22l10-12h-6L13 2z" />
-      </svg>
-      <span>{current} day streak</span>
+    <div className="rounded-3xl bg-coral-100 p-4 shadow-card">
+      <div className="flex items-center justify-between">
+        <span className="font-display text-sm font-extrabold uppercase tracking-wider text-coral-700">Daily streak</span>
+        <span className="text-2xl">🔥</span>
+      </div>
+      <p className="mt-2 font-display text-3xl font-extrabold text-ink">{current} days</p>
+      <p className="text-xs font-bold text-pebble">Longest cozy run: {longest} days</p>
     </div>
   )
 }

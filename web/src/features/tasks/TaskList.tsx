@@ -1,10 +1,27 @@
-import { PlaceholderPage } from '../../components/PlaceholderPage'
+import type { MockTask } from '../../app/mockState'
+import { TaskCard } from './TaskCard'
 
-export function TaskList() {
+interface TaskListProps {
+  tasks: MockTask[]
+  onToggle: (id: string) => void
+}
+
+export function TaskList({ tasks, onToggle }: TaskListProps) {
+  if (tasks.length === 0) {
+    return (
+      <section className="rounded-4xl bg-white p-6 text-center shadow-card">
+        <div className="mx-auto mb-3 grid h-16 w-16 place-items-center rounded-full bg-lavender-100 text-3xl">✨</div>
+        <h2 className="font-display text-xl font-extrabold text-ink">No chores yet</h2>
+        <p className="mt-1 text-sm font-semibold text-pebble">Add a cozy quest to get the household moving.</p>
+      </section>
+    )
+  }
+
   return (
-    <PlaceholderPage
-      title="No tasks yet"
-      description="Tasks for your household will appear here with live sync (tasks 7-8)."
-    />
+    <section className="space-y-2.5">
+      {tasks.map((task) => (
+        <TaskCard key={task.id} task={task} onComplete={() => onToggle(task.id)} />
+      ))}
+    </section>
   )
 }
