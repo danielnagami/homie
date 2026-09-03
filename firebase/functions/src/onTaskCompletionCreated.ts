@@ -1,0 +1,131 @@
+import { onDocumentCreated } from 'firebase-functions/v2/firestore'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import type { Timestamp } from 'firebase-admin/firestore'
+
+const db = getFirestore()
+
+interface CompletionData {
+  taskId: string
+  userId: string
+  completedAt?: string | Timestamp
+  dateKey?: string
+  pointsAwarded?: number
+  weekKey?: string
+  monthKey?: string
+}
+
+interface TaskData {
+  title?: string
+  points?: number
+  recurrence?: 'daily' | 'weekly' | 'once'
+  assignedTo?: string | null
+  active?: boolean
+  createdBy?: string
+}
+
+function previousDateKey(dateKey: string): string {
+  const [year, month, day] = dateKey.split('-').map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  date.setUTCDate(date.getUTCDate() - 1)
+  return date.toISOString().slice(0, 10)
+}
+
+export const onTaskCompletionCreated = onDocumentCreated(
+  'households/{householdId}/taskCompletions/{completionId}',
+  async (event) => {
+    const householdId = event.params.householdId
+    const completionId = event.params.completionId
+    const completion = event.data
+    if (!completion) return
+
+    const data = completion.data() as CompletionData
+    const taskId = data.taskId
+    const userId = data.userId
+    const points = Number(data.pointsAwarded ?? 0)
+    const dateKey = data.dateKey ?? new Date().toISOString().slice(0, 10)
+    const processedKey = 'processed'
+
+    const completionRef = db.doc(`households/${householdId}/taskCompletions/${completionId}`)
+    const taskRef = db.doc(`households/${householdId}/tasks/${taskId}`)
+    const memberRef = db.doc(`households/${householdId}/members/${userId}`)
+
+    if (!userId || !taskId) return
+
+    await db.runTransaction(async (transaction) => {
+      const processedDoc = await transaction.get(completionRef)
+      if (processedDoc.exists && processedDoc.data()?.processed === true) return
+
+      const taskSnapshot = await transaction.get(taskRef)
+      if (!taskSnapshot.exists) {
+        await transaction.update(completionRef, { [processedKey]: true, processedReason: 'task-missing' })
+        return
+      }
+
+      const task = taskSnapshot.data() as TaskData
+      if (task.active === false) {
+        await transaction.update(completionRef, { [processedKey]: true, processedReason: 'task-inactive' })
+        return
+      }
+
+      if (task.recurrence === 'once') {
+        const duplicates = await db
+          .collection(`households/${householdId}/taskCompletions`)
+          .where('taskId', '==', taskId)
+          .limit(2)
+          .get()
+        if (duplicates.size > 1) {
+          await transaction.update(completionRef, { [processedKey]: true, processedReason: 'once-duplicate' })
+          return
+        }
+      }
+
+      const memberSnapshot = await transaction.get(memberRef)
+      const memberNow = memberSnapshot.exists ? memberSnapshot.data() : null
+      const streak = (memberNow?.streak ?? {}) as Record<string, number | string>
+
+      const increment = FieldValue.increment(points)
+
+      const newTotals = {
+        lifetimePoints: increment,
+        dailyPoints: increment,
+        weeklyPoints: increment,
+        monthlyPoints: increment,
+      }
+
+      if (!memberSnapshot.exists) {
+        transaction.set(memberRef, {
+          displayName: 'Homie friend',
+          avatarConfig: null,
+          joinedAt: new Date().toISOString(),
+          totals: {
+            lifetimePoints: points,
+            dailyPoints: points,
+            weeklyPoints: points,
+            monthlyPoints: points,
+          },
+          streak: { current: 1, longest: 1, lastCompletedDate: dateKey },
+        })
+      } else {
+        const lastCompletedDate = String(streak.lastCompletedDate ?? '')
+        let currentStreak = Number(streak.current ?? 0)
+        let longestStreak = Number(streak.longest ?? 0)
+
+        if (lastCompletedDate === dateKey) {
+          // Same day, keep current streak.
+        } else if (previousDateKey(lastCompletedDate || '') === dateKey) {
+          currentStreak += 1
+        } else {
+          currentStreak = 1
+        }
+        longestStreak = Math.max(longestStreak, currentStreak)
+
+        transaction.update(memberRef, {
+          totals: newTotals,
+          streak: { current: currentStreak, longest: longestStreak, lastCompletedDate: dateKey },
+        })
+      }
+
+      await transaction.update(completionRef, { [processedKey]: true })
+    })
+  },
+)
