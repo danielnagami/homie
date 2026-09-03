@@ -1,6 +1,7 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import type { Timestamp } from 'firebase-admin/firestore'
+import { levelForXp } from './leveling.js'
 
 interface CompletionData {
   taskId: string
@@ -92,6 +93,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
       }
 
       if (!memberSnapshot.exists) {
+        const initialLevel = levelForXp(points)
         transaction.set(memberRef, {
           displayName: 'Homie friend',
           avatarConfig: null,
@@ -103,6 +105,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
             monthlyPoints: points,
           },
           streak: { current: 1, longest: 1, lastCompletedDate: dateKey },
+          level: { level: initialLevel.level, xp: points, xpToNextLevel: initialLevel.xpToNextLevel },
         })
       } else {
         const lastCompletedDate = String(streak.lastCompletedDate ?? '')
@@ -118,9 +121,15 @@ export const onTaskCompletionCreated = onDocumentCreated(
         }
         longestStreak = Math.max(longestStreak, currentStreak)
 
+        const memberTotals = (memberNow?.totals ?? {}) as Record<string, number>
+        const lifetimeBefore = Number(memberTotals.lifetimePoints ?? 0)
+        const lifetimeAfter = lifetimeBefore + points
+        const levelState = levelForXp(lifetimeAfter)
+
         transaction.update(memberRef, {
           totals: newTotals,
           streak: { current: currentStreak, longest: longestStreak, lastCompletedDate: dateKey },
+          level: { level: levelState.level, xp: lifetimeAfter, xpToNextLevel: levelState.xpToNextLevel },
         })
       }
 

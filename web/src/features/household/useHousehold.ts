@@ -26,6 +26,7 @@ export interface HouseholdState {
   households: Household[]
   activeHousehold: Household | null
   members: HouseholdMember[]
+  currentMember: HouseholdMember | null
   isLoading: boolean
   error: string | null
   createHousehold: (name: string) => Promise<Household | null>
@@ -47,6 +48,7 @@ export function useHousehold(): HouseholdState {
   const [households, setHouseholds] = useState<Household[]>([])
   const [activeHousehold, setActiveHousehold] = useState<Household | null>(null)
   const [members, setMembers] = useState<HouseholdMember[]>([])
+  const [currentMember, setCurrentMember] = useState<HouseholdMember | null>(null)
   const [isLoading, setIsLoading] = useState(() => !auth?.currentUser)
   const [error, setError] = useState<string | null>(null)
 
@@ -86,27 +88,28 @@ export function useHousehold(): HouseholdState {
     if (!firestore || !activeHousehold) return
 
     const fs = firestore
+    const myUid = uid
     const unsubscribeMembers = onSnapshot(
       collection(fs, 'households', activeHousehold.id, 'members'),
       (snapshot) => {
-        setMembers(
-          snapshot.docs.map((memberDoc) => {
-            const data = memberDoc.data()
-            return {
-              displayName: String(data.displayName ?? ''),
-              avatarConfig: data.avatarConfig as HouseholdMember['avatarConfig'],
-              joinedAt: String(data.joinedAt ?? ''),
-              totals: data.totals as HouseholdMember['totals'],
-              streak: data.streak as HouseholdMember['streak'],
-              level: data.level as HouseholdMember['level'] | undefined,
-            }
-          }),
-        )
+        const loaded = snapshot.docs.map((memberDoc) => {
+          const data = memberDoc.data()
+          return {
+            displayName: String(data.displayName ?? ''),
+            avatarConfig: data.avatarConfig as HouseholdMember['avatarConfig'],
+            joinedAt: String(data.joinedAt ?? ''),
+            totals: data.totals as HouseholdMember['totals'],
+            streak: data.streak as HouseholdMember['streak'],
+            level: data.level as HouseholdMember['level'] | undefined,
+          }
+        })
+        setMembers(loaded)
+        setCurrentMember(loaded.find((_, index) => snapshot.docs[index]?.id === myUid) ?? null)
       },
     )
 
     return unsubscribeMembers
-  }, [activeHousehold])
+  }, [activeHousehold, uid])
 
   const createHousehold = useCallback(
     async (name: string): Promise<Household | null> => {
@@ -224,6 +227,7 @@ export function useHousehold(): HouseholdState {
     households,
     activeHousehold,
     members,
+    currentMember,
     isLoading,
     error,
     createHousehold,

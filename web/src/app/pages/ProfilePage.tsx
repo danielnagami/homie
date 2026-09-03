@@ -3,23 +3,38 @@ import { AvatarPreview } from '../../features/avatar/AvatarPreview'
 import { AchievementsGallery } from '../../features/gamification/AchievementsGallery'
 import { LevelBadge } from '../../features/gamification/LevelBadge'
 import { StreakBadge } from '../../features/gamification/StreakBadge'
+import { useAuth } from '../../features/auth/useAuth'
+import { useHousehold } from '../../features/household/useHousehold'
 import { useAppMock } from '../mockState'
 
 export function ProfilePage() {
-  const { avatarConfig, members, tasks } = useAppMock()
+  const { avatarConfig, members } = useAppMock()
+  const { user } = useAuth()
+  const { currentMember } = useHousehold()
   const maya = members[0]
-  const completed = tasks.filter((task) => task.completedBy === 'Maya').length
+
+  const isLive = Boolean(user && currentMember)
+  const avatar = currentMember?.avatarConfig ?? avatarConfig
+  const displayName = currentMember?.displayName || user?.displayName || maya.name
+  const lifetimePoints = currentMember?.totals?.lifetimePoints ?? maya.points
+  const streakCurrent = currentMember?.streak?.current ?? maya.streak
+  const streakLongest = currentMember?.streak?.longest ?? 12
+  const level = currentMember?.level?.level ?? maya.level
+  const xp = currentMember?.level?.xp ?? lifetimePoints
+  const xpToNextLevel = currentMember?.level?.xpToNextLevel ?? 1000
 
   return (
     <div className="space-y-5">
       <section className="flex items-center gap-4 rounded-4xl bg-white p-4 shadow-card">
         <div className="rounded-full bg-coral-100 p-1 shadow-card">
-          <AvatarPreview config={avatarConfig} size={86} />
+          <AvatarPreview config={avatar} size={86} />
         </div>
         <div className="min-w-0 flex-1">
-          <span className="rounded-full bg-mint-100 px-3 py-1 font-display text-[10px] font-extrabold uppercase text-mint-700">Mock Profile</span>
-          <h1 className="mt-2 font-display text-3xl font-extrabold text-ink">Maya</h1>
-          <p className="text-sm font-bold text-pebble">{maya.title} · {maya.points} pts</p>
+          <span className="rounded-full bg-mint-100 px-3 py-1 font-display text-[10px] font-extrabold uppercase text-mint-700">
+            {isLive ? 'Profile' : 'Mock Profile'}
+          </span>
+          <h1 className="mt-2 font-display text-3xl font-extrabold text-ink">{displayName}</h1>
+          <p className="text-sm font-bold text-pebble">{maya.title} · {lifetimePoints} pts</p>
           <Link to="/avatar" className="mt-2 inline-flex font-display text-xs font-extrabold text-coral-400">
             Customize avatar
           </Link>
@@ -27,15 +42,15 @@ export function ProfilePage() {
       </section>
 
       <div className="grid grid-cols-2 gap-3">
-        <StreakBadge current={maya.streak} longest={12} />
+        <StreakBadge current={streakCurrent} longest={streakLongest} />
         <section className="rounded-3xl bg-mint-100 p-4 shadow-card">
-          <span className="font-display text-sm font-extrabold uppercase tracking-wider text-mint-700">Task wins</span>
-          <p className="mt-2 font-display text-3xl font-extrabold text-ink">{completed}</p>
-          <p className="text-xs font-bold text-pebble">Claimed in this prototype</p>
+          <span className="font-display text-sm font-extrabold uppercase tracking-wider text-mint-700">Lifetime XP</span>
+          <p className="mt-2 font-display text-3xl font-extrabold text-ink">{lifetimePoints}</p>
+          <p className="text-xs font-bold text-pebble">{isLive ? 'synced from scoring engine' : 'prototype value'}</p>
         </section>
       </div>
 
-      <LevelBadge level={maya.level} xp={780} xpToNextLevel={1000} />
+      <LevelBadge level={level} xp={xp} xpToNextLevel={xpToNextLevel} />
 
       <section>
         <div className="mb-3 flex items-center justify-between px-1">

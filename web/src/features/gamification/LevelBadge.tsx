@@ -45,7 +45,7 @@ export function LevelBadge({ level, xp = 780, xpToNextLevel = 1000 }: LevelBadge
           {xp} / {xpToNextLevel} XP ({progress}%)
         </span>
         <p className="mx-auto mt-3 max-w-xs text-sm font-semibold text-pebble">
-          Only {xpToNextLevel - xp} XP until Level 5: Master of the Manor.
+          Only {Math.max(0, xpToNextLevel - xp)} XP until Level {level + 1}.
         </p>
       </div>
     </section>
