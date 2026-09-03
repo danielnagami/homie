@@ -4,15 +4,53 @@ import { Modal } from '../../components/Modal'
 import { AvatarPreview } from '../../features/avatar/AvatarPreview'
 import { CreateTaskForm } from '../../features/tasks/CreateTaskForm'
 import { TaskList } from '../../features/tasks/TaskList'
-import { useAppMock } from '../mockState'
+import { useTaskCompletions } from '../../features/tasks/useTaskCompletions'
+import { useTasks } from '../../features/tasks/useTasks'
+import { useAuth } from '../../features/auth/useAuth'
+import { useHousehold } from '../../features/household/useHousehold'
+import { useAppMock, type MockTask } from '../mockState'
 
 export function TodayPage() {
-  const { avatarConfig, householdName, tasks, toggleTask, addTask, members } = useAppMock()
+  const { avatarConfig, householdName, tasks: mockTasks, toggleTask, addTask, members } = useAppMock()
+  const { user } = useAuth()
+  const { activeHousehold } = useHousehold()
+  const householdId = user ? activeHousehold?.id ?? null : null
+
+  const tasksApi = useTasks(householdId)
+  const completionsApi = useTaskCompletions(householdId)
   const [quickAddOpen, setQuickAddOpen] = useState(false)
+
+  const allTasks = householdId ? tasksApi.tasks : mockTasks
+  const tasks: MockTask[] = useMemo(
+    () =>
+      householdId
+        ? allTasks.map((task) => ({
+            ...task,
+            completed: completionsApi.isCompletedByMe(task.id),
+            completedBy: completionsApi.isCompletedByMe(task.id) ? user?.displayName : undefined,
+          }))
+        : allTasks,
+    [allTasks, householdId, completionsApi, user],
+  )
+
   const completed = tasks.filter((task) => task.completed).length
   const total = tasks.length
   const percent = total ? Math.round((completed / total) * 100) : 0
   const todaysTasks = useMemo(() => tasks.filter((task) => task.recurrence !== 'once' || !task.completed), [tasks])
+
+  function handleToggle(taskId: string) {
+    if (householdId) {
+      const task = tasks.find((item) => item.id === taskId)
+      const activeTask = task ?? tasks.find((item) => item.id === taskId)
+      if (activeTask && completionsApi.isCompletedByMe(activeTask.id)) {
+        void completionsApi.unCompleteTask(activeTask.id)
+      } else if (activeTask) {
+        void completionsApi.completeTask(activeTask.id, activeTask.points)
+      }
+    } else {
+      toggleTask(taskId)
+    }
+  }
 
   return (
     <div className="space-y-5">
@@ -23,7 +61,7 @@ export function TodayPage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display text-xl font-extrabold text-ink">Maya</h1>
+              <h1 className="font-display text-xl font-extrabold text-ink">{user?.displayName ?? 'Maya'}</h1>
               <span className="rounded-full bg-mint-200/70 px-2 py-0.5 font-display text-[10px] font-extrabold text-mint-700">Lvl 4</span>
             </div>
             <Link to="/household" className="text-xs font-bold text-pebble">
@@ -64,7 +102,7 @@ export function TodayPage() {
         </Link>
       </section>
 
-      <TaskList tasks={todaysTasks} onToggle={toggleTask} />
+      <TaskList tasks={todaysTasks} onToggle={handleToggle} />
 
       <section className="flex items-center gap-3 rounded-3xl bg-lavender-100 p-3 shadow-card">
         <div className="flex -space-x-2">
@@ -92,11 +130,12 @@ export function TodayPage() {
         +
       </button>
 
-      <Modal open={quickAddOpen} title="Quick Chore" subtitle="Post a mock chore quest" onClose={() => setQuickAddOpen(false)}>
+      <Modal open={quickAddOpen} title="Quick Chore" subtitle="Post a chore quest" onClose={() => setQuickAddOpen(false)}>
         <CreateTaskForm
           onCancel={() => setQuickAddOpen(false)}
           onSave={(draft) => {
-            addTask(draft)
+            if (householdId) void tasksApi.createTask(draft)
+            else addTask(draft)
             setQuickAddOpen(false)
           }}
         />
