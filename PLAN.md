@@ -146,7 +146,7 @@ homie/
 13. ✅ **Achievements system** — seed achievement catalog; Cloud Function checks criteria after each completion (first task, streak, level, points) and writes unlocks; connect the achievements gallery + unlock toast to real data.
 14. ✅ **Security hardening pass** — Firestore Security Rules restrict reads/writes to own household(s); only Cloud Functions (Admin SDK) can write `totals`, `streak`, `level`, `unlockedAchievements`; task/completion writes validated (schema, ownership, no client `processed` flags); App Check wired (ReCAPTCHA Enterprise) with optional `VITE_RECAPTCHA_SITE_KEY`.
 15. ✅ **PWA & mobile polish** — manifest + icons via `vite-plugin-pwa`, offline app-shell caching (data still needs network for live sync), responsive pass, install prompt.
-16. **Final deploy & smoke test** — push to `main`, confirm Azure Static Web Apps CI/CD deploy succeeds, verify Firebase security rules in production, test multi-user live sync end-to-end on mobile viewport.
+16. ✅ **Final deploy & smoke test** — pushed to `master`; Azure Static Web Apps CI/CD deploy succeeded. Remaining: verify Firebase security rules in production and test multi-user live sync end-to-end on a mobile viewport.
 
 ## Risks / Open Questions
 
