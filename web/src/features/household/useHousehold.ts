@@ -4,11 +4,8 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   onSnapshot,
-  query,
   setDoc,
-  where,
 } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
 import type { Household, HouseholdMember } from '../../types/models'
@@ -126,10 +123,10 @@ export function useHousehold(): HouseholdState {
       setError(null)
       try {
         let joinCode = generateJoinCode()
-        let querySnapshot = await getDocs(query(collection(fs, 'households'), where('joinCode', '==', joinCode)))
-        while (querySnapshot.size > 0) {
+        let joinCodeSnapshot = await getDoc(doc(fs, 'joinCodes', joinCode))
+        while (joinCodeSnapshot.exists()) {
           joinCode = generateJoinCode()
-          querySnapshot = await getDocs(query(collection(fs, 'households'), where('joinCode', '==', joinCode)))
+          joinCodeSnapshot = await getDoc(doc(fs, 'joinCodes', joinCode))
         }
 
         const householdsCollection = collection(fs, 'households')
@@ -143,6 +140,8 @@ export function useHousehold(): HouseholdState {
           createdAt: now,
           defaultPointsPerTask: 10,
         })
+
+        await setDoc(doc(fs, 'joinCodes', joinCode), { householdId: householdRef.id })
 
         await setDoc(doc(householdsCollection, householdRef.id, 'members', user.uid), {
           displayName: user.displayName ?? 'Homie friend',
@@ -187,16 +186,20 @@ export function useHousehold(): HouseholdState {
       const user = auth.currentUser
       setError(null)
       try {
-        const querySnapshot = await getDocs(
-          query(collection(fs, 'households'), where('joinCode', '==', code.trim().toUpperCase())),
-        )
-        if (querySnapshot.empty) {
+        const joinCodeSnapshot = await getDoc(doc(fs, 'joinCodes', code.trim().toUpperCase()))
+        if (!joinCodeSnapshot.exists()) {
           setError('No household found with that code.')
           return null
         }
 
-        const householdDoc = querySnapshot.docs[0]
-        const household = toHousehold(householdDoc.id, householdDoc.data())
+        const householdId = String(joinCodeSnapshot.data().householdId ?? '')
+        const householdSnapshot = await getDoc(doc(fs, 'households', householdId))
+        if (!householdSnapshot.exists()) {
+          setError('No household found with that code.')
+          return null
+        }
+
+        const household = toHousehold(householdSnapshot.id, householdSnapshot.data())
         const now = new Date().toISOString()
 
         await setDoc(doc(collection(fs, 'households', household.id, 'members'), user.uid), {
