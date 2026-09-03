@@ -14,6 +14,7 @@ export interface UserProfile {
   avatarConfig: AvatarConfig
   householdIds: string[]
   activeHouseholdId?: string
+  onboardingComplete?: boolean
 }
 
 export interface Household {

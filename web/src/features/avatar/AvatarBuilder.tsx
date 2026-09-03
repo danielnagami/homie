@@ -6,6 +6,7 @@ import { AvatarPreview } from './AvatarPreview'
 interface AvatarBuilderProps {
   value: AvatarConfig
   onChange: (config: AvatarConfig) => void
+  stepLabel?: string
 }
 
 const skinTones = ['#ffdad4', '#fed2b8', '#e4aa83', '#ad6d47', '#67402c']
@@ -27,7 +28,7 @@ const outfits = [
   { id: '#bdb2ff', label: 'Lavender Vest' },
 ]
 
-export function AvatarBuilder({ value, onChange }: AvatarBuilderProps) {
+export function AvatarBuilder({ value, onChange, stepLabel = 'Step 2 of 2' }: AvatarBuilderProps) {
   function update(patch: Partial<AvatarConfig>) {
     onChange({ ...value, ...patch })
   }
@@ -47,7 +48,7 @@ export function AvatarBuilder({ value, onChange }: AvatarBuilderProps) {
     <section className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-display text-xs font-extrabold uppercase tracking-wider text-coral-400">Step 2 of 2</p>
+          <p className="font-display text-xs font-extrabold uppercase tracking-wider text-coral-400">{stepLabel}</p>
           <h1 className="font-display text-3xl font-extrabold text-ink">Build your Homie</h1>
         </div>
         <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-xs font-extrabold text-honey-700">Homie Pass</span>

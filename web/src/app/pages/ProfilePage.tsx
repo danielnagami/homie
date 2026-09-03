@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Button } from '../../components/Button'
 import { AvatarPreview } from '../../features/avatar/AvatarPreview'
 import { AchievementsGallery } from '../../features/gamification/AchievementsGallery'
 import { LevelBadge } from '../../features/gamification/LevelBadge'
@@ -10,7 +11,7 @@ import { useAppMock } from '../mockState'
 
 export function ProfilePage() {
   const { avatarConfig, members } = useAppMock()
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
   const { currentMember, activeHousehold } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
   const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
@@ -62,6 +63,10 @@ export function ProfilePage() {
         </div>
         <AchievementsGallery achievements={achievements} unlockedIds={unlockedIds} />
       </section>
+
+      <Button variant="ghost" onClick={() => void signOut()} className="w-full">
+        Sign out
+      </Button>
     </div>
   )
 }

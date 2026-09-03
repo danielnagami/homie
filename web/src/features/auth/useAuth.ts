@@ -57,12 +57,13 @@ async function ensureUserProfile(user: AuthUser): Promise<void> {
     photoURL: user.photoURL ?? null,
     avatarConfig: defaultAvatarConfig,
     householdIds: [],
+    onboardingComplete: false,
   })
 }
 
 export function useAuth(): AuthState {
   const [user, setUser] = useState<AuthUser | null>(null)
-  const [isLoading, setIsLoading] = useState(() => !auth)
+  const [isLoading, setIsLoading] = useState(() => Boolean(auth))
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {

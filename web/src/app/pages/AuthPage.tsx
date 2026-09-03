@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { useAuth } from '../../features/auth/useAuth'
 
@@ -26,11 +27,25 @@ function MicrosoftIcon() {
 
 export function AuthPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, isLoading, error, signInWithPopup, signOut } = useAuth()
+  const [signingIn, setSigningIn] = useState(false)
+  const from = (location.state as { from?: string } | null)?.from
+
+  useEffect(() => {
+    if (isLoading) return
+    if (!user) return
+    const destination = from && from !== '/auth' ? from : '/'
+    navigate(destination, { replace: true })
+  }, [isLoading, user, from, navigate])
 
   async function handleSignIn(provider: 'google' | 'microsoft') {
-    await signInWithPopup(provider)
-    navigate('/household')
+    setSigningIn(true)
+    try {
+      await signInWithPopup(provider)
+    } finally {
+      setSigningIn(false)
+    }
   }
 
   return (
@@ -64,8 +79,8 @@ export function AuthPage() {
             <p className="font-display text-lg font-extrabold text-ink">Signed in as {user.displayName}</p>
             <p className="text-sm font-bold text-pebble">{user.email}</p>
           </div>
-          <Button variant="mint" onClick={() => navigate('/household')} className="w-full">
-            Continue to household
+          <Button variant="mint" onClick={() => navigate(from && from !== '/auth' ? from : '/')} className="w-full">
+            Continue
           </Button>
           <Button variant="ghost" onClick={signOut} className="w-full">
             Sign out
@@ -75,25 +90,22 @@ export function AuthPage() {
         <section className="z-10 mt-8 flex w-full flex-col gap-3.5">
           <button
             type="button"
-            disabled={isLoading}
-            onClick={() => handleSignIn('google')}
+            disabled={signingIn}
+            onClick={() => void handleSignIn('google')}
             className="flex h-[54px] w-full items-center justify-between rounded-full bg-white px-5 font-display text-sm font-extrabold text-ink shadow-[0_4px_0_#dee1f8,0_8px_18px_rgba(45,49,66,0.07)] transition-all active:translate-y-[3px] active:shadow-[0_1px_0_#dee1f8] disabled:opacity-60"
           >
-            <span className="flex items-center gap-3"><GoogleIcon /> {isLoading ? 'Opening sign-in...' : 'Sign in with Google'}</span>
+            <span className="flex items-center gap-3"><GoogleIcon /> {signingIn ? 'Opening sign-in...' : 'Sign in with Google'}</span>
             <span>›</span>
           </button>
           <button
             type="button"
-            disabled={isLoading}
-            onClick={() => handleSignIn('microsoft')}
+            disabled={signingIn}
+            onClick={() => void handleSignIn('microsoft')}
             className="flex h-[54px] w-full items-center justify-between rounded-full bg-white px-5 font-display text-sm font-extrabold text-ink shadow-[0_4px_0_#dee1f8,0_8px_18px_rgba(45,49,66,0.07)] transition-all active:translate-y-[3px] active:shadow-[0_1px_0_#dee1f8] disabled:opacity-60"
           >
-            <span className="flex items-center gap-3"><MicrosoftIcon /> {isLoading ? 'Opening sign-in...' : 'Sign in with Microsoft'}</span>
+            <span className="flex items-center gap-3"><MicrosoftIcon /> {signingIn ? 'Opening sign-in...' : 'Sign in with Microsoft'}</span>
             <span>›</span>
           </button>
-          <Button variant="ghost" onClick={() => navigate('/')} className="w-full">
-            Continue with mock household
-          </Button>
         </section>
       )}
 

@@ -22,10 +22,12 @@ function generateJoinCode(): string {
   return code
 }
 
+export type HouseholdMemberWithId = HouseholdMember & { id: string }
+
 export interface HouseholdState {
   households: Household[]
   activeHousehold: Household | null
-  members: HouseholdMember[]
+  members: HouseholdMemberWithId[]
   currentMember: HouseholdMember | null
   isLoading: boolean
   error: string | null
@@ -47,9 +49,9 @@ function toHousehold(id: string, data: Record<string, unknown>): Household {
 export function useHousehold(): HouseholdState {
   const [households, setHouseholds] = useState<Household[]>([])
   const [activeHousehold, setActiveHousehold] = useState<Household | null>(null)
-  const [members, setMembers] = useState<HouseholdMember[]>([])
+  const [members, setMembers] = useState<HouseholdMemberWithId[]>([])
   const [currentMember, setCurrentMember] = useState<HouseholdMember | null>(null)
-  const [isLoading, setIsLoading] = useState(() => !auth?.currentUser)
+  const [isLoading, setIsLoading] = useState(() => Boolean(auth?.currentUser))
   const [error, setError] = useState<string | null>(null)
 
   const uid = auth?.currentUser?.uid
@@ -95,6 +97,7 @@ export function useHousehold(): HouseholdState {
         const loaded = snapshot.docs.map((memberDoc) => {
           const data = memberDoc.data()
           return {
+            id: memberDoc.id,
             displayName: String(data.displayName ?? ''),
             avatarConfig: data.avatarConfig as HouseholdMember['avatarConfig'],
             joinedAt: String(data.joinedAt ?? ''),

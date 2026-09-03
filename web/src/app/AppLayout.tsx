@@ -12,15 +12,18 @@ import {
   initialMembers,
   initialTasks,
   type AppMockContext,
+  type MockMember,
   type MockTask,
 } from './mockState'
 
+const memberColors = ['bg-coral-100', 'bg-honey-100', 'bg-mint-100', 'bg-lavender-200', 'bg-mint-200']
+
 export function AppLayout() {
   const [tasks, setTasks] = useState(initialTasks)
-  const [householdName, setHouseholdName] = useState('Peach Blossom Cottage')
+  const [appHouseholdName, setAppHouseholdName] = useState('Peach Blossom Cottage')
   const { avatarConfig, saving: avatarSaving, setAvatarConfig, saveAvatar } = useAvatar()
   const { user } = useAuth()
-  const { activeHousehold } = useHousehold()
+  const { activeHousehold, members } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
   const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
   const [latestUnlock, setLatestUnlock] = useState<Achievement | null>(null)
@@ -41,6 +44,23 @@ export function AppLayout() {
     }
   }, [unlockedIds, achievements])
 
+  const householdName = activeHousehold?.name ?? appHouseholdName
+  const joinCode = activeHousehold?.joinCode ?? 'HM-402'
+
+  const membersForContext = useMemo<MockMember[]>(() => {
+    if (!activeHousehold || members.length === 0) return initialMembers
+    return members.map((member, index) => ({
+      id: member.id,
+      name: member.displayName || 'Homie friend',
+      initials: (member.displayName || 'H').charAt(0).toUpperCase(),
+      title: 'Roommate',
+      points: member.totals?.lifetimePoints ?? 0,
+      level: member.level?.level ?? 1,
+      streak: member.streak?.current ?? 0,
+      color: memberColors[index % memberColors.length],
+    }))
+  }, [activeHousehold, members])
+
   const context = useMemo<AppMockContext>(
     () => ({
       avatarConfig,
@@ -48,9 +68,9 @@ export function AppLayout() {
       saveAvatar,
       avatarSaving,
       householdName,
-      setHouseholdName,
-      joinCode: 'HM-402',
-      members: initialMembers,
+      setHouseholdName: setAppHouseholdName,
+      joinCode,
+      members: membersForContext,
       tasks,
       toggleTask: (id) => {
         setTasks((current) =>
@@ -103,7 +123,7 @@ export function AppLayout() {
         setTasks((current) => current.filter((task) => task.id !== id))
       },
     }),
-    [avatarConfig, avatarSaving, householdName, saveAvatar, setAvatarConfig, tasks],
+    [avatarConfig, avatarSaving, householdName, saveAvatar, setAvatarConfig, tasks, membersForContext, joinCode, setAppHouseholdName],
   )
 
   return (
