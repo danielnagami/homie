@@ -13,14 +13,16 @@ import { useAppMock, type MockTask } from '../mockState'
 export function TodayPage() {
   const { avatarConfig, householdName, tasks: mockTasks, toggleTask, addTask, members } = useAppMock()
   const { user } = useAuth()
-  const { activeHousehold, currentMember } = useHousehold()
+  const { activeHousehold, currentMember, isLoading: householdLoading } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
+  // While a signed-in user's household is still loading, don't fall back to mock tasks.
+  const waitingForHousehold = Boolean(user) && householdLoading && !householdId
 
   const tasksApi = useTasks(householdId)
   const completionsApi = useTaskCompletions(householdId)
   const [quickAddOpen, setQuickAddOpen] = useState(false)
 
-  const allTasks = householdId ? tasksApi.tasks : mockTasks
+  const allTasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
   const tasks: MockTask[] = useMemo(
     () =>
       householdId
@@ -36,6 +38,7 @@ export function TodayPage() {
   const completed = tasks.filter((task) => task.completed).length
   const total = tasks.length
   const percent = total ? Math.round((completed / total) * 100) : 0
+  const earnedXp = tasks.filter((task) => task.completed).reduce((sum, task) => sum + task.points, 0)
   const todaysTasks = useMemo(() => tasks.filter((task) => task.recurrence !== 'once' || !task.completed), [tasks])
   const level = currentMember?.level?.level ?? 1
   const streakCurrent = currentMember?.streak?.current ?? 0
@@ -85,7 +88,7 @@ export function TodayPage() {
             </p>
           </div>
           <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-xs font-extrabold text-honey-700">
-            +{completed * 50} XP
+            +{earnedXp} XP
           </span>
         </div>
         <div className="mb-1 flex justify-between text-[10px] font-extrabold uppercase tracking-wider text-pebble">
@@ -104,7 +107,10 @@ export function TodayPage() {
         </Link>
       </section>
 
-      <TaskList tasks={todaysTasks} onToggle={handleToggle} />
+      <TaskList tasks={waitingForHousehold ? [] : todaysTasks} onToggle={handleToggle} />
+      {waitingForHousehold && (
+        <p className="text-center text-sm font-bold text-pebble">Loading your household's chores...</p>
+      )}
 
       <button
         type="button"

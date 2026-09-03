@@ -5,4 +5,4 @@ initializeApp()
 
 setGlobalOptions({ region: 'us-central1' })
 
-export { onTaskCompletionCreated } from './onTaskCompletionCreated.js'
+export { onTaskCompletionCreated, onTaskCompletionDeleted } from './onTaskCompletionCreated.js'

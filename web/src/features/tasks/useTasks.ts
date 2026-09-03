@@ -104,14 +104,20 @@ export function useTasks(householdId?: string | null): TasksState {
     if (!firestore || !activeHouseholdId) return
     setError(null)
     try {
-      await setDoc(doc(firestore, 'households', activeHouseholdId, 'tasks', id), {
-        title: draft.title,
-        points: draft.points,
-        recurrence: draft.recurrence,
-        assignedTo: draft.assignedTo ?? null,
-        icon: draft.icon,
-        room: draft.room,
-      })
+      // merge: true so unrelated fields (createdBy, active) aren't dropped, which the
+      // security rules would otherwise treat as an unauthorized field change.
+      await setDoc(
+        doc(firestore, 'households', activeHouseholdId, 'tasks', id),
+        {
+          title: draft.title,
+          points: draft.points,
+          recurrence: draft.recurrence,
+          assignedTo: draft.assignedTo ?? null,
+          icon: draft.icon,
+          room: draft.room,
+        },
+        { merge: true },
+      )
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Failed to update task.')
     }

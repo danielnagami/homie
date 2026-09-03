@@ -14,12 +14,14 @@ type Filter = 'all' | 'daily' | 'weekly' | 'once'
 export function ManageTasksPage() {
   const { householdName, tasks: mockTasks, toggleTask, addTask, updateTask, deleteTask, members } = useAppMock()
   const { user } = useAuth()
-  const { activeHousehold } = useHousehold()
+  const { activeHousehold, isLoading: householdLoading } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
+  // While a signed-in user's household is still loading, don't fall back to mock tasks.
+  const waitingForHousehold = Boolean(user) && householdLoading && !householdId
   const tasksApi = useTasks(householdId)
 
-  const tasks = householdId ? tasksApi.tasks : mockTasks
-  const isLoading = householdId ? tasksApi.isLoading : false
+  const tasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
+  const isLoading = householdId ? tasksApi.isLoading : waitingForHousehold
   const error = householdId ? tasksApi.error : null
 
   const [filter, setFilter] = useState<Filter>('all')

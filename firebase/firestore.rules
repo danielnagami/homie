@@ -83,7 +83,8 @@ service cloud.firestore {
           && request.resource.data.keys().hasAll(['taskId', 'userId', 'completedAt', 'dateKey'])
           && !('processed' in request.resource.data);
         allow update: if isServerWritable();
-        allow delete: if false;
+        // Members can un-complete their own task by deleting their own completion record.
+        allow delete: if isMemberOf(householdId) && resource.data.userId == request.auth.uid;
       }
 
       // achievements/{achievementId} — static catalog, read-only for members.

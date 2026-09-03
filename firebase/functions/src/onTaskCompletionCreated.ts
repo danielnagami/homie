@@ -1,4 +1,4 @@
-import { onDocumentCreated } from 'firebase-functions/v2/firestore'
+import { onDocumentCreated, onDocumentDeleted } from 'firebase-functions/v2/firestore'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import type { DocumentData, DocumentReference, Timestamp } from 'firebase-admin/firestore'
 import { levelForXp } from './leveling.js'
@@ -12,6 +12,7 @@ interface CompletionData {
   pointsAwarded?: number
   weekKey?: string
   monthKey?: string
+  processed?: boolean
 }
 
 interface TaskData {
@@ -176,3 +177,45 @@ async function checkAchievements(
     ),
   )
 }
+
+// Un-completing a task deletes its completion doc; reverse the points/level that
+// onTaskCompletionCreated awarded so totals stay accurate. Streak is left as-is since
+// recomputing it from history would require re-scanning all completions.
+export const onTaskCompletionDeleted = onDocumentDeleted(
+  'households/{householdId}/taskCompletions/{completionId}',
+  async (event) => {
+    const householdId = event.params.householdId
+    const completion = event.data
+    if (!completion) return
+
+    const data = completion.data() as CompletionData
+    if (data.processed !== true) return
+
+    const userId = data.userId
+    const points = Number(data.pointsAwarded ?? 0)
+    if (!userId || !points) return
+
+    const db = getFirestore()
+    const memberRef = db.doc(`households/${householdId}/members/${userId}`)
+
+    await db.runTransaction(async (transaction) => {
+      const memberSnapshot = await transaction.get(memberRef)
+      if (!memberSnapshot.exists) return
+
+      const memberNow = memberSnapshot.data()
+      const totals = (memberNow?.totals ?? {}) as Record<string, number>
+      const lifetimeAfter = Math.max(0, Number(totals.lifetimePoints ?? 0) - points)
+      const levelState = levelForXp(lifetimeAfter)
+
+      transaction.update(memberRef, {
+        totals: {
+          lifetimePoints: FieldValue.increment(-points),
+          dailyPoints: FieldValue.increment(-points),
+          weeklyPoints: FieldValue.increment(-points),
+          monthlyPoints: FieldValue.increment(-points),
+        },
+        level: { level: levelState.level, xp: lifetimeAfter, xpToNextLevel: levelState.xpToNextLevel },
+      })
+    })
+  },
+)

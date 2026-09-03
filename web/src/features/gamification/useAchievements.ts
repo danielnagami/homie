@@ -22,7 +22,9 @@ export interface AchievementsState {
 }
 
 export function useAchievements(householdId?: string | null, uid?: string | null): AchievementsState {
-  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(MOCK_UNLOCKED)
+  // Mock data is only shown in the local prototype (no household to sync from); a real
+  // household/user must load its actual unlocked set before anything is considered "unlocked".
+  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(householdId && uid ? new Set() : MOCK_UNLOCKED)
   const [isLoading, setIsLoading] = useState(() => !householdId || !uid)
 
   useEffect(() => {
