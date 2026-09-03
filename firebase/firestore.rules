@@ -26,10 +26,22 @@ service cloud.firestore {
       allow read, write: if isSignedIn() && request.auth.uid == uid;
     }
 
-    // households/{householdId} — members can read; only the creator can create.
-    // Details are frozen after creation (no update/delete).
+    // joinCodes/{code} — single-doc lookup so create/join never need a
+    // membership-restricted query against households by joinCode.
+    match /joinCodes/{code} {
+      allow get: if isSignedIn();
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly(['householdId'])
+        && request.resource.data.householdId is string;
+      allow update, delete: if false;
+    }
+
+    // households/{householdId} — anyone signed in can fetch a single household
+    // by id (needed to resolve a join code); listing/browsing still requires
+    // membership. Only the creator can create; details are frozen after.
     match /households/{householdId} {
-      allow read: if isMemberOf(householdId);
+      allow get: if isSignedIn();
+      allow list: if isMemberOf(householdId);
       allow create: if isSignedIn()
         && request.resource.data.createdBy == request.auth.uid
         && request.resource.data.keys().hasAll(['name', 'joinCode', 'createdBy', 'createdAt', 'defaultPointsPerTask'])
