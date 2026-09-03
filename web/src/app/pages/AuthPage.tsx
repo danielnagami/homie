@@ -28,7 +28,7 @@ function MicrosoftIcon() {
 export function AuthPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { user, isLoading, error, signInWithPopup, signOut } = useAuth()
+  const { user, isLoading, isResolvingRedirect, error, signInWithPopup, signOut } = useAuth()
   const [signingIn, setSigningIn] = useState(false)
   const from = (location.state as { from?: string } | null)?.from
 
@@ -46,6 +46,15 @@ export function AuthPage() {
     } finally {
       setSigningIn(false)
     }
+  }
+
+  if (isResolvingRedirect) {
+    return (
+      <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center gap-4 bg-cream px-6">
+        <div className="grid h-20 w-20 place-items-center rounded-full bg-white text-4xl shadow-soft">🏡</div>
+        <p className="font-display text-sm font-extrabold text-pebble">Completing sign-in...</p>
+      </main>
+    )
   }
 
   return (

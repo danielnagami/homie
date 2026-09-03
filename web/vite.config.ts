@@ -31,6 +31,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
         navigateFallback: '/index.html',
+        // Let Firebase Auth's redirect/popup handler requests hit the network directly.
+        navigateFallbackDenylist: [/^\/__\/auth\//, /^\/__\/firebase\//],
       },
     }),
   ],
