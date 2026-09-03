@@ -144,7 +144,7 @@ homie/
 11. ✅ **Wire up leaderboards** — connect the Leaderboard screen to day/week/month queries/aggregations of member totals per household, live via `onSnapshot`.
 12. ✅ **Leveling system** — XP thresholds (increasing curve) in `leveling.ts`; Cloud Function updates `level` on each completion; connect the Level & Achievements screen's level badge/progress bar to real data.
 13. ✅ **Achievements system** — seed achievement catalog; Cloud Function checks criteria after each completion (first task, streak, level, points) and writes unlocks; connect the achievements gallery + unlock toast to real data.
-14. **Security hardening pass** — write and test Firestore Security Rules: users can only read/write within their own household(s); only Cloud Functions (Admin SDK) can write `totals`, `streak`, `level`, `unlockedAchievements`; validate task/completion writes (schema, ownership, no duplicate completions); enable Firebase App Check to block unauthorized clients.
+14. ✅ **Security hardening pass** — Firestore Security Rules restrict reads/writes to own household(s); only Cloud Functions (Admin SDK) can write `totals`, `streak`, `level`, `unlockedAchievements`; task/completion writes validated (schema, ownership, no client `processed` flags); App Check wired (ReCAPTCHA Enterprise) with optional `VITE_RECAPTCHA_SITE_KEY`.
 15. **PWA & mobile polish** — manifest + icons, offline app shell caching (data still requires network for live sync), final responsive pass on all screens, install prompt.
 16. **Final deploy & smoke test** — push to `main`, confirm Azure Static Web Apps CI/CD deploy succeeds, verify Firebase security rules in production, test multi-user live sync end-to-end on mobile viewport.
 

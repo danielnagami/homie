@@ -145,8 +145,6 @@ export function useHousehold(): HouseholdState {
           displayName: user.displayName ?? 'Homie friend',
           avatarConfig: null,
           joinedAt: now,
-          totals: { lifetimePoints: 0, dailyPoints: 0, weeklyPoints: 0, monthlyPoints: 0 },
-          streak: { current: 0, longest: 0, lastCompletedDate: '' },
         })
 
         await setDoc(
@@ -202,8 +200,6 @@ export function useHousehold(): HouseholdState {
           displayName: user.displayName ?? 'Homie friend',
           avatarConfig: null,
           joinedAt: now,
-          totals: { lifetimePoints: 0, dailyPoints: 0, weeklyPoints: 0, monthlyPoints: 0 },
-          streak: { current: 0, longest: 0, lastCompletedDate: '' },
         })
 
         await setDoc(

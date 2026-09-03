@@ -45,3 +45,16 @@ Firebase is wired up in task 2 of `../PLAN.md`. The client SDK is initialized in
 Deploy Firestore rules/indexes and functions with the Firebase CLI from the repo
 root: `firebase deploy --only firestore,functions` (config lives in `firebase.json`
 and `.firebaserc` — set your project id there).
+
+### App Check (task 14)
+
+Firestore security rules restrict reads/writes to household members and reserve
+`totals`/`streak`/`level`/`unlockedAchievements` for the Cloud Function. App Check
+is wired in `src/firebase/firebaseClient.ts` and activates automatically when
+`VITE_RECAPTCHA_SITE_KEY` is set. To enable it in production:
+
+1. In Firebase Console, enable **App Check** → **ReCAPTCHA Enterprise** for your
+   web app (requires the Blaze plan and a reCAPTCHA Enterprise site key).
+2. Add the site key as `VITE_RECAPTCHA_SITE_KEY` in `web/.env.local`.
+3. Set `enforceAppCheck: true` in the Firestore and Cloud Functions App Check
+   settings once all your clients pass.
