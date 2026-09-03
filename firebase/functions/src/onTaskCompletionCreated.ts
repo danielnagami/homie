@@ -1,7 +1,8 @@
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
-import type { Timestamp } from 'firebase-admin/firestore'
+import type { DocumentData, DocumentReference, Timestamp } from 'firebase-admin/firestore'
 import { levelForXp } from './leveling.js'
+import { unlockableAchievements } from './achievements.js'
 
 interface CompletionData {
   taskId: string
@@ -135,5 +136,43 @@ export const onTaskCompletionCreated = onDocumentCreated(
 
       await transaction.update(completionRef, { [processedKey]: true })
     })
+
+    void checkAchievements(db, householdId, userId, memberRef)
   },
 )
+
+async function checkAchievements(
+  db: ReturnType<typeof getFirestore>,
+  householdId: string,
+  userId: string,
+  memberRef: DocumentReference<DocumentData>,
+): Promise<void> {
+  if (!userId) return
+
+  const [memberSnapshot, completionsSnapshot, unlockedSnapshot] = await Promise.all([
+    memberRef.get(),
+    db.collection(`households/${householdId}/taskCompletions`).where('userId', '==', userId).get(),
+    db.collection(`households/${householdId}/members/${userId}/unlockedAchievements`).get(),
+  ])
+
+  const memberData = memberSnapshot.exists ? memberSnapshot.data() : null
+  const levelState = (memberData?.level ?? {}) as Record<string, number>
+  const totals = (memberData?.totals ?? {}) as Record<string, number>
+  const unlockable = unlockableAchievements(
+    new Set(unlockedSnapshot.docs.map((doc) => doc.id)),
+    {
+      taskCount: completionsSnapshot.size,
+      streak: Number((memberData?.streak as Record<string, number> | undefined)?.current ?? 0),
+      level: levelState.level ?? 1,
+      lifetimePoints: totals.lifetimePoints ?? 0,
+    },
+  )
+
+  await Promise.all(
+    unlockable.map((achievement) =>
+      db.doc(`households/${householdId}/members/${userId}/unlockedAchievements/${achievement.id}`).set({
+        unlockedAt: new Date().toISOString(),
+      }),
+    ),
+  )
+}

@@ -1,7 +1,12 @@
 import { Link, Outlet } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { BottomNav } from '../components/BottomNav'
+import { useAuth } from '../features/auth/useAuth'
 import { useAvatar } from '../features/avatar/useAvatar'
+import { useHousehold } from '../features/household/useHousehold'
+import { useAchievements } from '../features/gamification/useAchievements'
+import { UnlockToast } from '../features/gamification/UnlockToast'
+import type { Achievement } from '../types/models'
 import {
   initialMembers,
   initialTasks,
@@ -13,6 +18,26 @@ export function AppLayout() {
   const [tasks, setTasks] = useState(initialTasks)
   const [householdName, setHouseholdName] = useState('Peach Blossom Cottage')
   const { avatarConfig, saving: avatarSaving, setAvatarConfig, saveAvatar } = useAvatar()
+  const { user } = useAuth()
+  const { activeHousehold } = useHousehold()
+  const householdId = user ? activeHousehold?.id ?? null : null
+  const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
+  const [latestUnlock, setLatestUnlock] = useState<Achievement | null>(null)
+  const seenIds = useRef<Set<string>>(new Set())
+
+  useEffect(() => {
+    if (unlockedIds.size === 0) return
+    for (const id of unlockedIds) {
+      if (!seenIds.current.has(id)) {
+        seenIds.current.add(id)
+        const achievement = achievements.find((item) => item.id === id)
+        if (achievement) {
+          const timer = window.setTimeout(() => setLatestUnlock(achievement), 0)
+          return () => window.clearTimeout(timer)
+        }
+      }
+    }
+  }, [unlockedIds, achievements])
 
   const context = useMemo<AppMockContext>(
     () => ({
@@ -98,6 +123,7 @@ export function AppLayout() {
         <Outlet context={context} />
       </main>
       <BottomNav />
+      <UnlockToast achievement={latestUnlock} />
     </div>
   )
 }

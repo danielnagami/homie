@@ -3,6 +3,7 @@ import { AvatarPreview } from '../../features/avatar/AvatarPreview'
 import { AchievementsGallery } from '../../features/gamification/AchievementsGallery'
 import { LevelBadge } from '../../features/gamification/LevelBadge'
 import { StreakBadge } from '../../features/gamification/StreakBadge'
+import { useAchievements } from '../../features/gamification/useAchievements'
 import { useAuth } from '../../features/auth/useAuth'
 import { useHousehold } from '../../features/household/useHousehold'
 import { useAppMock } from '../mockState'
@@ -10,7 +11,9 @@ import { useAppMock } from '../mockState'
 export function ProfilePage() {
   const { avatarConfig, members } = useAppMock()
   const { user } = useAuth()
-  const { currentMember } = useHousehold()
+  const { currentMember, activeHousehold } = useHousehold()
+  const householdId = user ? activeHousehold?.id ?? null : null
+  const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
   const maya = members[0]
 
   const isLive = Boolean(user && currentMember)
@@ -55,9 +58,9 @@ export function ProfilePage() {
       <section>
         <div className="mb-3 flex items-center justify-between px-1">
           <h2 className="font-display text-xl font-extrabold text-ink">Level & Achievements</h2>
-          <span className="font-display text-xs font-extrabold text-pebble">4 unlocked</span>
+          <span className="font-display text-xs font-extrabold text-pebble">{unlockedIds.size} unlocked</span>
         </div>
-        <AchievementsGallery />
+        <AchievementsGallery achievements={achievements} unlockedIds={unlockedIds} />
       </section>
     </div>
   )
