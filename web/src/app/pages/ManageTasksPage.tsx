@@ -12,7 +12,7 @@ import { useAppMock } from '../mockState'
 type Filter = 'all' | 'daily' | 'weekly' | 'once'
 
 export function ManageTasksPage() {
-  const { householdName, tasks: mockTasks, toggleTask, addTask, updateTask, deleteTask } = useAppMock()
+  const { householdName, tasks: mockTasks, toggleTask, addTask, updateTask, deleteTask, members } = useAppMock()
   const { user } = useAuth()
   const { activeHousehold } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
@@ -124,6 +124,7 @@ export function ManageTasksPage() {
 
       <Modal open={creating} title="Create Task" subtitle={householdId ? 'Saved to Firestore' : 'Local prototype dialog'} onClose={() => setCreating(false)}>
         <CreateTaskForm
+          members={members}
           onCancel={() => setCreating(false)}
           onSave={(draft) => {
             if (householdId) void tasksApi.createTask(draft)
@@ -137,6 +138,7 @@ export function ManageTasksPage() {
         {editing && (
           <CreateTaskForm
             initialTask={editing}
+            members={members}
             onCancel={() => setEditing(null)}
             onSave={(draft) => {
               if (householdId) void tasksApi.updateTask(editing.id, draft)

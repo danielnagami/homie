@@ -48,7 +48,24 @@ export function AppLayout() {
   const joinCode = activeHousehold?.joinCode ?? 'HM-402'
 
   const membersForContext = useMemo<MockMember[]>(() => {
-    if (!activeHousehold || members.length === 0) return initialMembers
+    if (!activeHousehold || members.length === 0) {
+      // Signed-in users without a household yet get neutral defaults, not the mocked seed data.
+      if (user) {
+        return [
+          {
+            id: user.uid,
+            name: user.displayName || 'Homie friend',
+            initials: (user.displayName || 'H').charAt(0).toUpperCase(),
+            title: 'Roommate',
+            points: 0,
+            level: 1,
+            streak: 0,
+            color: memberColors[0],
+          },
+        ]
+      }
+      return initialMembers
+    }
     return members.map((member, index) => ({
       id: member.id,
       name: member.displayName || 'Homie friend',
@@ -59,7 +76,7 @@ export function AppLayout() {
       streak: member.streak?.current ?? 0,
       color: memberColors[index % memberColors.length],
     }))
-  }, [activeHousehold, members])
+  }, [activeHousehold, members, user])
 
   const context = useMemo<AppMockContext>(
     () => ({

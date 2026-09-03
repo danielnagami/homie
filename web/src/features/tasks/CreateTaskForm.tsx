@@ -1,25 +1,26 @@
 import { useState, type FormEvent } from 'react'
-import type { MockTask, TaskDraft } from '../../app/mockState'
+import type { MockMember, MockTask, TaskDraft } from '../../app/mockState'
 import { Button } from '../../components/Button'
 import type { TaskRecurrence } from '../../types/models'
 
 interface CreateTaskFormProps {
   initialTask?: MockTask
+  members: MockMember[]
   onSave: (draft: TaskDraft) => void
   onCancel: () => void
 }
 
 const recurrences: TaskRecurrence[] = ['daily', 'weekly', 'once']
 const emojis = ['🍽️', '🪴', '🗑️', '☕', '🧹', '🧺', '🐾', '🛒']
-const assignees = ['Anyone', 'Maya', 'Leo', 'Sam', 'Chloe']
 
-export function CreateTaskForm({ initialTask, onSave, onCancel }: CreateTaskFormProps) {
+export function CreateTaskForm({ initialTask, members, onSave, onCancel }: CreateTaskFormProps) {
   const [title, setTitle] = useState(initialTask?.title ?? 'Wash dinner dishes & wipe counter')
   const [points, setPoints] = useState(initialTask?.points ?? 50)
   const [recurrence, setRecurrence] = useState<TaskRecurrence>(initialTask?.recurrence ?? 'daily')
-  const [assignedTo, setAssignedTo] = useState(initialTask?.assignee ?? 'Maya')
+  const [assignedTo, setAssignedTo] = useState(initialTask?.assignee ?? 'Anyone')
   const [icon, setIcon] = useState(initialTask?.icon ?? '🍽️')
   const [room, setRoom] = useState(initialTask?.room ?? 'Kitchen')
+  const assignees = ['Anyone', ...members.map((member) => member.name)]
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

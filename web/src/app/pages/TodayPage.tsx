@@ -13,7 +13,7 @@ import { useAppMock, type MockTask } from '../mockState'
 export function TodayPage() {
   const { avatarConfig, householdName, tasks: mockTasks, toggleTask, addTask, members } = useAppMock()
   const { user } = useAuth()
-  const { activeHousehold } = useHousehold()
+  const { activeHousehold, currentMember } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
 
   const tasksApi = useTasks(householdId)
@@ -37,6 +37,8 @@ export function TodayPage() {
   const total = tasks.length
   const percent = total ? Math.round((completed / total) * 100) : 0
   const todaysTasks = useMemo(() => tasks.filter((task) => task.recurrence !== 'once' || !task.completed), [tasks])
+  const level = currentMember?.level?.level ?? 1
+  const streakCurrent = currentMember?.streak?.current ?? 0
 
   function handleToggle(taskId: string) {
     if (householdId) {
@@ -62,7 +64,7 @@ export function TodayPage() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="font-display text-xl font-extrabold text-ink">{user?.displayName ?? 'Maya'}</h1>
-              <span className="rounded-full bg-mint-200/70 px-2 py-0.5 font-display text-[10px] font-extrabold text-mint-700">Lvl 4</span>
+              <span className="rounded-full bg-mint-200/70 px-2 py-0.5 font-display text-[10px] font-extrabold text-mint-700">Lvl {level}</span>
             </div>
             <Link to="/household" className="text-xs font-bold text-pebble">
               {householdName}
@@ -70,7 +72,7 @@ export function TodayPage() {
           </div>
         </div>
         <span className="rounded-full bg-coral-100 px-3 py-1.5 font-display text-xs font-extrabold text-coral-700 shadow-[0_3px_0_rgba(132,36,21,0.15)]">
-          🔥 5 Days
+          🔥 {streakCurrent} Days
         </span>
       </section>
 
@@ -104,23 +106,6 @@ export function TodayPage() {
 
       <TaskList tasks={todaysTasks} onToggle={handleToggle} />
 
-      <section className="flex items-center gap-3 rounded-3xl bg-lavender-100 p-3 shadow-card">
-        <div className="flex -space-x-2">
-          {members.slice(1, 4).map((member) => (
-            <span key={member.id} className={`grid h-8 w-8 place-items-center rounded-full border-2 border-white ${member.color} font-display text-xs font-extrabold text-ink`}>
-              {member.initials}
-            </span>
-          ))}
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-ink">Leo & Sam completed 4 tasks</p>
-          <p className="text-[11px] font-bold text-pebble">Cottage is {Math.max(78, percent)}% sparkling today</p>
-        </div>
-        <button className="rounded-full bg-white px-3 py-1 font-display text-[10px] font-extrabold text-coral-400 shadow-card">
-          High Five
-        </button>
-      </section>
-
       <button
         type="button"
         aria-label="Add task"
@@ -132,6 +117,7 @@ export function TodayPage() {
 
       <Modal open={quickAddOpen} title="Quick Chore" subtitle="Post a chore quest" onClose={() => setQuickAddOpen(false)}>
         <CreateTaskForm
+          members={members}
           onCancel={() => setQuickAddOpen(false)}
           onSave={(draft) => {
             if (householdId) void tasksApi.createTask(draft)
