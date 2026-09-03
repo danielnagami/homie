@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
+import { useAuth } from '../../features/auth/useAuth'
+import { useHousehold } from '../../features/household/useHousehold'
 import { useAppMock } from '../mockState'
 
 const names = [
@@ -13,22 +15,44 @@ const names = [
 
 export function HouseholdPage() {
   const navigate = useNavigate()
-  const { householdName, setHouseholdName, joinCode, members } = useAppMock()
+  const { householdName, joinCode, members } = useAppMock()
+  const { user } = useAuth()
+  const { activeHousehold, households, error, createHousehold, joinHousehold, isLoading } = useHousehold()
   const [name, setName] = useState(householdName)
   const [code, setCode] = useState('HM402')
-  const [message, setMessage] = useState('Changes stay local in this task 4 prototype.')
+  const [message, setMessage] = useState(
+    user ? 'Create or join a household to sync it to Firestore.' : 'Sign in to create or join a real household.',
+  )
 
-  function createHome() {
-    setHouseholdName(name.trim() || 'Peach Blossom Cottage')
-    setMessage(`Created ${name || 'Peach Blossom Cottage'} locally. Next: avatar setup.`)
-    window.setTimeout(() => navigate('/avatar'), 300)
+  async function createHome() {
+    if (!user) {
+      setMessage('Please sign in first to create a household.')
+      navigate('/auth')
+      return
+    }
+    const household = await createHousehold(name)
+    if (household) {
+      setMessage(`Created ${household.name} (${household.joinCode}). Welcome to the crew!`)
+      window.setTimeout(() => navigate('/'), 400)
+    }
   }
 
-  function joinHome() {
-    setHouseholdName('Peach Blossom Cottage')
-    setMessage(`Joined with code ${code || joinCode}. Welcome to the crew.`)
-    window.setTimeout(() => navigate('/'), 300)
+  async function joinHome() {
+    if (!user) {
+      setMessage('Please sign in first to join a household.')
+      navigate('/auth')
+      return
+    }
+    const household = await joinHousehold(code)
+    if (household) {
+      setMessage(`Joined ${household.name}. Welcome to the crew!`)
+      window.setTimeout(() => navigate('/'), 400)
+    }
   }
+
+  const displayName = activeHousehold?.name ?? householdName
+  const displayCode = activeHousehold?.joinCode ?? joinCode
+  const displayMembers = activeHousehold ? households.length : members.length
 
   return (
     <div className="space-y-5">
@@ -39,7 +63,7 @@ export function HouseholdPage() {
         </div>
         <h1 className="font-display text-3xl font-extrabold text-ink">Welcome to the Crew</h1>
         <p className="mx-auto mt-1 max-w-xs text-sm font-semibold text-pebble">
-          Set up your cozy household space in seconds.
+          {user ? `Signed in as ${user.displayName}` : 'Set up your cozy household space in seconds.'}
         </p>
       </header>
 
@@ -72,8 +96,8 @@ export function HouseholdPage() {
             </button>
           </div>
         </label>
-        <Button onClick={createHome} className="mt-4 w-full">
-          Create Home
+        <Button onClick={createHome} disabled={isLoading} className="mt-4 w-full">
+          {isLoading ? 'Working...' : 'Create Home'}
         </Button>
       </section>
 
@@ -102,26 +126,27 @@ export function HouseholdPage() {
             className="h-12 w-full rounded-2xl border border-outline bg-cream px-4 text-center font-display text-xl font-extrabold uppercase tracking-[0.4em] text-ink outline-none transition focus:border-mint-600 focus:ring-4 focus:ring-mint-100"
           />
         </label>
-        <Button variant="mint" onClick={joinHome} className="mt-4 w-full">
-          Join the Family
+        <Button variant="mint" onClick={joinHome} disabled={isLoading} className="mt-4 w-full">
+          {isLoading ? 'Working...' : 'Join the Family'}
         </Button>
       </section>
 
+      {error && (
+        <p className="rounded-2xl bg-red-100 px-4 py-3 text-center text-xs font-bold text-red-700">{error}</p>
+      )}
+
       <section className="rounded-3xl bg-lavender-100 p-4 shadow-card">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-display text-lg font-extrabold text-ink">Current mock home</h2>
-          <span className="rounded-full bg-white px-3 py-1 font-display text-xs font-extrabold text-coral-400">{joinCode}</span>
+          <h2 className="font-display text-lg font-extrabold text-ink">Current home</h2>
+          <span className="rounded-full bg-white px-3 py-1 font-display text-xs font-extrabold text-coral-400">
+            {displayCode}
+          </span>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          {members.map((member) => (
-            <div key={member.id} className="rounded-2xl bg-white p-3 shadow-sm">
-              <span className={`mb-2 grid h-9 w-9 place-items-center rounded-full ${member.color} font-display text-xs font-extrabold text-ink`}>
-                {member.initials}
-              </span>
-              <p className="font-display text-sm font-extrabold text-ink">{member.name}</p>
-              <p className="text-[11px] font-bold text-pebble">Lvl {member.level} · {member.streak}d streak</p>
-            </div>
-          ))}
+        <div className="rounded-2xl bg-white p-3 shadow-sm">
+          <p className="font-display text-sm font-extrabold text-ink">{displayName}</p>
+          <p className="text-[11px] font-bold text-pebble">
+            {displayMembers} member{displayMembers === 1 ? '' : 's'} · {user ? 'synced to Firestore' : 'mock preview'}
+          </p>
         </div>
         <p className="mt-3 text-xs font-bold text-pebble">{message}</p>
       </section>

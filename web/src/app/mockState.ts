@@ -34,6 +34,8 @@ export interface TaskDraft {
 export interface AppMockContext {
   avatarConfig: AvatarConfig
   setAvatarConfig: (config: AvatarConfig) => void
+  saveAvatar: (config: AvatarConfig) => Promise<boolean>
+  avatarSaving: boolean
   householdName: string
   setHouseholdName: (name: string) => void
   joinCode: string

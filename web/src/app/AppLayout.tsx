@@ -1,8 +1,8 @@
 import { Link, Outlet } from 'react-router-dom'
 import { useMemo, useState } from 'react'
 import { BottomNav } from '../components/BottomNav'
+import { useAvatar } from '../features/avatar/useAvatar'
 import {
-  initialAvatar,
   initialMembers,
   initialTasks,
   type AppMockContext,
@@ -12,12 +12,14 @@ import {
 export function AppLayout() {
   const [tasks, setTasks] = useState(initialTasks)
   const [householdName, setHouseholdName] = useState('Peach Blossom Cottage')
-  const [avatarConfig, setAvatarConfig] = useState(initialAvatar)
+  const { avatarConfig, saving: avatarSaving, setAvatarConfig, saveAvatar } = useAvatar()
 
   const context = useMemo<AppMockContext>(
     () => ({
       avatarConfig,
       setAvatarConfig,
+      saveAvatar,
+      avatarSaving,
       householdName,
       setHouseholdName,
       joinCode: 'HM-402',
@@ -74,7 +76,7 @@ export function AppLayout() {
         setTasks((current) => current.filter((task) => task.id !== id))
       },
     }),
-    [avatarConfig, householdName, tasks],
+    [avatarConfig, avatarSaving, householdName, saveAvatar, setAvatarConfig, tasks],
   )
 
   return (
