@@ -26,7 +26,9 @@ interface TaskData {
 
 function previousDateKey(dateKey: string): string {
   const [year, month, day] = dateKey.split('-').map(Number)
+  if (![year, month, day].every((part) => Number.isInteger(part))) return ''
   const date = new Date(Date.UTC(year, month - 1, day))
+  if (Number.isNaN(date.getTime())) return ''
   date.setUTCDate(date.getUTCDate() - 1)
   return date.toISOString().slice(0, 10)
 }
