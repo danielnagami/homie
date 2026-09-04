@@ -6,3 +6,4 @@ initializeApp()
 setGlobalOptions({ region: 'us-central1' })
 
 export { onTaskCompletionCreated, onTaskCompletionDeleted } from './onTaskCompletionCreated.js'
+export { resetPeriodTotals } from './resetPeriodTotals.js'

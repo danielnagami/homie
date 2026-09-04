@@ -84,6 +84,9 @@ export const onTaskCompletionCreated = onDocumentCreated(
       const memberSnapshot = await transaction.get(memberRef)
       const memberNow = memberSnapshot.exists ? memberSnapshot.data() : null
       const streak = (memberNow?.streak ?? {}) as Record<string, number | string>
+      // households/join create the member doc up front (displayName/avatarConfig/joinedAt only),
+      // so `memberSnapshot.exists` is true well before gamification fields are ever set.
+      const hasGamificationFields = Boolean(memberNow?.totals)
 
       const increment = FieldValue.increment(points)
 
@@ -94,21 +97,22 @@ export const onTaskCompletionCreated = onDocumentCreated(
         monthlyPoints: increment,
       }
 
-      if (!memberSnapshot.exists) {
+      if (!hasGamificationFields) {
         const initialLevel = levelForXp(points)
-        transaction.set(memberRef, {
-          displayName: 'Homie friend',
-          avatarConfig: null,
-          joinedAt: new Date().toISOString(),
-          totals: {
-            lifetimePoints: points,
-            dailyPoints: points,
-            weeklyPoints: points,
-            monthlyPoints: points,
+        transaction.set(
+          memberRef,
+          {
+            totals: {
+              lifetimePoints: points,
+              dailyPoints: points,
+              weeklyPoints: points,
+              monthlyPoints: points,
+            },
+            streak: { current: 1, longest: 1, lastCompletedDate: dateKey },
+            level: { level: initialLevel.level, xp: points, xpToNextLevel: initialLevel.xpToNextLevel },
           },
-          streak: { current: 1, longest: 1, lastCompletedDate: dateKey },
-          level: { level: initialLevel.level, xp: points, xpToNextLevel: initialLevel.xpToNextLevel },
-        })
+          { merge: true },
+        )
       } else {
         const lastCompletedDate = String(streak.lastCompletedDate ?? '')
         let currentStreak = Number(streak.current ?? 0)
@@ -116,7 +120,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
 
         if (lastCompletedDate === dateKey) {
           // Same day, keep current streak.
-        } else if (previousDateKey(lastCompletedDate || '') === dateKey) {
+        } else if (lastCompletedDate && previousDateKey(lastCompletedDate) === dateKey) {
           currentStreak += 1
         } else {
           currentStreak = 1
