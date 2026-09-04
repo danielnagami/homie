@@ -23,33 +23,55 @@ export function TodayPage() {
   const [quickAddOpen, setQuickAddOpen] = useState(false)
 
   const allTasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
+
+  function countFor(task: MockTask): number {
+    if (householdId) return completionsApi.completionCountForPeriod(task.id, task.recurrence)
+    if (task.repeatable) return task.completionCount ?? 0
+    return task.completed ? 1 : 0
+  }
+
   const tasks: MockTask[] = useMemo(
     () =>
       householdId
-        ? allTasks.map((task) => ({
-            ...task,
-            completed: completionsApi.isCompletedByMe(task.id),
-            completedBy: completionsApi.isCompletedByMe(task.id) ? user?.displayName : undefined,
-          }))
+        ? allTasks.map((task) => {
+            const count = completionsApi.completionCountForPeriod(task.id, task.recurrence)
+            return {
+              ...task,
+              completed: count > 0,
+              completedBy: count > 0 ? user?.displayName : undefined,
+            }
+          })
         : allTasks,
     [allTasks, householdId, completionsApi, user],
   )
 
-  const completed = tasks.filter((task) => task.completed).length
+  const completionCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const task of tasks) counts[task.id] = countFor(task)
+    return counts
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tasks, householdId, completionsApi])
+
+  const completed = tasks.filter((task) => completionCounts[task.id] > 0).length
   const total = tasks.length
   const percent = total ? Math.round((completed / total) * 100) : 0
-  const earnedXp = tasks.filter((task) => task.completed).reduce((sum, task) => sum + task.points, 0)
-  const todaysTasks = useMemo(() => tasks.filter((task) => task.recurrence !== 'once' || !task.completed), [tasks])
+  const earnedXp = tasks.reduce((sum, task) => sum + task.points * completionCounts[task.id], 0)
+  const todaysTasks = useMemo(
+    () => tasks.filter((task) => task.recurrence !== 'once' || completionCounts[task.id] === 0),
+    [tasks, completionCounts],
+  )
   const level = currentMember?.level?.level ?? 1
   const streakCurrent = currentMember?.streak?.current ?? 0
 
   function handleToggle(taskId: string) {
+    const activeTask = tasks.find((item) => item.id === taskId)
+    if (!activeTask) return
     if (householdId) {
-      const task = tasks.find((item) => item.id === taskId)
-      const activeTask = task ?? tasks.find((item) => item.id === taskId)
-      if (activeTask && completionsApi.isCompletedByMe(activeTask.id)) {
+      if (activeTask.repeatable) {
+        void completionsApi.completeTask(activeTask.id, activeTask.points)
+      } else if (completionsApi.isCompletedByMe(activeTask.id)) {
         void completionsApi.unCompleteTask(activeTask.id)
-      } else if (activeTask) {
+      } else {
         void completionsApi.completeTask(activeTask.id, activeTask.points)
       }
     } else {
@@ -107,7 +129,7 @@ export function TodayPage() {
         </Link>
       </section>
 
-      <TaskList tasks={waitingForHousehold ? [] : todaysTasks} onToggle={handleToggle} />
+      <TaskList tasks={waitingForHousehold ? [] : todaysTasks} onToggle={handleToggle} completionCounts={completionCounts} />
       {waitingForHousehold && (
         <p className="text-center text-sm font-bold text-pebble">Loading your household's chores...</p>
       )}

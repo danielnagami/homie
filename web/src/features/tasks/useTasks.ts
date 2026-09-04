@@ -21,6 +21,7 @@ export interface TaskRecord {
   room?: string
   active: boolean
   createdBy: string
+  repeatable?: boolean
 }
 
 export interface TasksState {
@@ -42,6 +43,7 @@ function toMockTask(record: TaskRecord): MockTask {
     assignee: record.assignedTo || 'Anyone',
     active: record.active,
     createdBy: record.createdBy,
+    repeatable: record.repeatable ?? false,
     icon: record.icon || '🧹',
     room: record.room || 'Household',
     due: 'Freshly posted',
@@ -94,6 +96,7 @@ export function useTasks(householdId?: string | null): TasksState {
         room: draft.room,
         active: true,
         createdBy: auth.currentUser.uid,
+        repeatable: draft.repeatable,
       })
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Failed to add task.')
@@ -115,6 +118,7 @@ export function useTasks(householdId?: string | null): TasksState {
           assignedTo: draft.assignedTo ?? null,
           icon: draft.icon,
           room: draft.room,
+          repeatable: draft.repeatable,
         },
         { merge: true },
       )

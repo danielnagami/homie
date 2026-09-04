@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { addDoc, collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
-import type { TaskCompletion } from '../../types/models'
+import type { TaskCompletion, TaskRecurrence } from '../../types/models'
 
 function toDateKey(date: Date): string {
   const year = date.getFullYear()
@@ -39,8 +39,10 @@ export interface TaskCompletionsState {
   isLoading: boolean
   error: string | null
   isCompletedByMe: (taskId: string, dateKey?: string) => boolean
+  completionCountForPeriod: (taskId: string, recurrence: TaskRecurrence) => number
   completeTask: (taskId: string, points: number) => Promise<void>
   unCompleteTask: (taskId: string) => Promise<void>
+  undoLastCompletion: (taskId: string, recurrence: TaskRecurrence) => Promise<void>
 }
 
 export function useTaskCompletions(householdId?: string | null): TaskCompletionsState {
@@ -72,6 +74,20 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     return completions.some(
       (completion) => completion.taskId === taskId && completion.userId === myUid && completion.dateKey === key,
     )
+  }
+
+  function myCompletionsInPeriod(taskId: string, recurrence: TaskRecurrence): TaskCompletion[] {
+    const now = new Date()
+    return completions.filter((completion) => {
+      if (completion.taskId !== taskId || completion.userId !== myUid) return false
+      if (recurrence === 'weekly') return completion.weekKey === toWeekKey(now)
+      if (recurrence === 'once') return true
+      return completion.dateKey === toDateKey(now)
+    })
+  }
+
+  function completionCountForPeriod(taskId: string, recurrence: TaskRecurrence): number {
+    return myCompletionsInPeriod(taskId, recurrence).length
   }
 
   async function completeTask(taskId: string, points: number): Promise<void> {
@@ -113,12 +129,26 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     }
   }
 
+  async function undoLastCompletion(taskId: string, recurrence: TaskRecurrence): Promise<void> {
+    if (!firestore || !activeHouseholdId || !myUid) return
+    const mine = myCompletionsInPeriod(taskId, recurrence).sort((a, b) => b.completedAt.localeCompare(a.completedAt))[0]
+    if (!mine) return
+    setError(null)
+    try {
+      await deleteDoc(doc(firestore, 'households', activeHouseholdId, 'taskCompletions', mine.id))
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Failed to undo completion.')
+    }
+  }
+
   return {
     completions,
     isLoading,
     error,
     isCompletedByMe,
+    completionCountForPeriod,
     completeTask,
     unCompleteTask,
+    undoLastCompletion,
   }
 }

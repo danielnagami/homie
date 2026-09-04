@@ -20,6 +20,7 @@ export interface MockTask extends HouseholdTask {
   category: 'cleaning' | 'plants' | 'supplies' | 'pets' | 'laundry'
   completed: boolean
   completedBy?: string
+  completionCount?: number
 }
 
 export interface TaskDraft {
@@ -29,6 +30,7 @@ export interface TaskDraft {
   assignedTo?: string
   icon: string
   room: string
+  repeatable: boolean
 }
 
 export interface AppMockContext {
@@ -55,11 +57,11 @@ export const initialMembers: MockMember[] = [
 ]
 
 export const initialTasks: MockTask[] = [
-  { id: 'dishes', title: 'Wash dinner dishes & wipe counters', points: 50, recurrence: 'daily', assignedTo: 'Maya', assignee: 'Maya', active: true, createdBy: 'maya', icon: '🍽️', room: 'Kitchen', due: 'Due by 9:00 PM', category: 'cleaning', completed: false },
-  { id: 'plants', title: 'Water indoor monsteras & succulents', points: 30, recurrence: 'daily', assignedTo: 'Chloe', assignee: 'Chloe', active: true, createdBy: 'chloe', icon: '🪴', room: 'Living Room', due: 'Morning light window', category: 'plants', completed: true, completedBy: 'Maya' },
-  { id: 'compost', title: 'Take out compost & recycling', points: 40, recurrence: 'weekly', assignedTo: undefined, assignee: 'Anyone', active: true, createdBy: 'sam', icon: '♻️', room: 'Back Porch', due: 'Pickup tomorrow', category: 'supplies', completed: false },
-  { id: 'pantry', title: 'Restock oat milk & coffee beans', points: 25, recurrence: 'once', assignedTo: undefined, assignee: 'Anyone', active: true, createdBy: 'leo', icon: '☕', room: 'Pantry', due: 'Low stock alert', category: 'supplies', completed: false },
-  { id: 'dog', title: 'Morning dog walk & feed Mochi', points: 40, recurrence: 'daily', assignedTo: 'Leo', assignee: 'Leo', active: true, createdBy: 'leo', icon: '🐾', room: 'Front Door', due: 'Before 8:30 AM', category: 'pets', completed: true, completedBy: 'Leo' },
+  { id: 'dishes', title: 'Wash dinner dishes & wipe counters', points: 50, recurrence: 'daily', assignedTo: 'Maya', assignee: 'Maya', active: true, createdBy: 'maya', repeatable: false, icon: '🍽️', room: 'Kitchen', due: 'Due by 9:00 PM', category: 'cleaning', completed: false },
+  { id: 'plants', title: 'Water indoor monsteras & succulents', points: 30, recurrence: 'daily', assignedTo: 'Chloe', assignee: 'Chloe', active: true, createdBy: 'chloe', repeatable: true, icon: '🪴', room: 'Living Room', due: 'Morning light window', category: 'plants', completed: true, completedBy: 'Maya', completionCount: 1 },
+  { id: 'compost', title: 'Take out compost & recycling', points: 40, recurrence: 'weekly', assignedTo: undefined, assignee: 'Anyone', active: true, createdBy: 'sam', repeatable: false, icon: '♻️', room: 'Back Porch', due: 'Pickup tomorrow', category: 'supplies', completed: false },
+  { id: 'pantry', title: 'Restock oat milk & coffee beans', points: 25, recurrence: 'once', assignedTo: undefined, assignee: 'Anyone', active: true, createdBy: 'leo', repeatable: false, icon: '☕', room: 'Pantry', due: 'Low stock alert', category: 'supplies', completed: false },
+  { id: 'dog', title: 'Morning dog walk & feed Mochi', points: 40, recurrence: 'daily', assignedTo: 'Leo', assignee: 'Leo', active: true, createdBy: 'leo', repeatable: true, icon: '🐾', room: 'Front Door', due: 'Before 8:30 AM', category: 'pets', completed: true, completedBy: 'Leo', completionCount: 1 },
 ]
 
 export const initialAvatar: AvatarConfig = {

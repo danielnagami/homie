@@ -4,9 +4,10 @@ import { TaskCard } from './TaskCard'
 interface TaskListProps {
   tasks: MockTask[]
   onToggle: (id: string) => void
+  completionCounts?: Record<string, number>
 }
 
-export function TaskList({ tasks, onToggle }: TaskListProps) {
+export function TaskList({ tasks, onToggle, completionCounts }: TaskListProps) {
   if (tasks.length === 0) {
     return (
       <section className="rounded-4xl bg-white p-6 text-center shadow-card">
@@ -20,7 +21,12 @@ export function TaskList({ tasks, onToggle }: TaskListProps) {
   return (
     <section className="space-y-2.5">
       {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} onComplete={() => onToggle(task.id)} />
+        <TaskCard
+          key={task.id}
+          task={task}
+          completionCount={completionCounts?.[task.id] ?? task.completionCount ?? 0}
+          onComplete={() => onToggle(task.id)}
+        />
       ))}
     </section>
   )

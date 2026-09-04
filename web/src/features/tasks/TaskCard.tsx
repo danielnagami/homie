@@ -4,6 +4,7 @@ import type { MockTask } from '../../app/mockState'
 interface TaskCardProps {
   task: MockTask
   onComplete: () => void
+  completionCount?: number
   actions?: ReactNode
 }
 
@@ -15,10 +16,13 @@ const stripeClass: Record<MockTask['category'], string> = {
   laundry: 'bg-sky-300',
 }
 
-export function TaskCard({ task, onComplete, actions }: TaskCardProps) {
+export function TaskCard({ task, onComplete, completionCount = 0, actions }: TaskCardProps) {
+  const isRepeatable = task.repeatable
+  const isDone = isRepeatable ? completionCount > 0 : task.completed
+
   return (
     <article
-      className={`relative overflow-hidden rounded-3xl p-3.5 shadow-card transition-all ${task.completed ? 'bg-mint-100/70' : 'bg-white'}`}
+      className={`relative overflow-hidden rounded-3xl p-3.5 shadow-card transition-all ${isDone ? 'bg-mint-100/70' : 'bg-white'}`}
     >
       <span className={`absolute bottom-3 left-0 top-3 w-1.5 rounded-r-full ${stripeClass[task.category]}`} />
       <div className="flex items-center justify-between gap-3 pl-2">
@@ -34,12 +38,21 @@ export function TaskCard({ task, onComplete, actions }: TaskCardProps) {
               <span className="rounded-full bg-lavender-100 px-2 py-0.5 font-display text-[10px] font-extrabold text-pebble">
                 {task.assignee === 'Maya' ? 'Assigned to You' : task.assignee}
               </span>
+              {isRepeatable && (
+                <span className="rounded-full bg-mint-100 px-2 py-0.5 font-display text-[10px] font-extrabold text-mint-700">
+                  {completionCount}× {task.recurrence === 'weekly' ? 'this week' : 'today'}
+                </span>
+              )}
             </span>
-            <span className={`block truncate font-display text-[15px] font-extrabold ${task.completed ? 'text-pebble line-through' : 'text-ink'}`}>
+            <span className={`block truncate font-display text-[15px] font-extrabold ${isDone && !isRepeatable ? 'text-pebble line-through' : 'text-ink'}`}>
               {task.title}
             </span>
-            <span className={`block text-xs font-bold ${task.completed ? 'text-mint-600' : 'text-pebble'}`}>
-              {task.completed ? `Done by ${task.completedBy}` : `${task.room} · ${task.due}`}
+            <span className={`block text-xs font-bold ${isDone ? 'text-mint-600' : 'text-pebble'}`}>
+              {isRepeatable
+                ? `${task.room} · Tap to log another`
+                : task.completed
+                  ? `Done by ${task.completedBy}`
+                  : `${task.room} · ${task.due}`}
             </span>
           </span>
         </button>
@@ -48,14 +61,14 @@ export function TaskCard({ task, onComplete, actions }: TaskCardProps) {
           <button
             type="button"
             onClick={onComplete}
-            aria-label={task.completed ? 'Mark incomplete' : 'Complete task'}
+            aria-label={isRepeatable ? 'Log another completion' : task.completed ? 'Mark incomplete' : 'Complete task'}
             className={`grid h-8 w-8 place-items-center rounded-full font-display font-extrabold transition-all active:translate-y-0.5 ${
-              task.completed
+              isDone
                 ? 'bg-mint-600 text-white shadow-[0_2px_0_#005230]'
                 : 'bg-lavender-100 text-transparent shadow-[0_3px_0_#dec0ba]'
             }`}
           >
-            ✓
+            {isRepeatable ? '+' : '✓'}
           </button>
         </div>
       </div>

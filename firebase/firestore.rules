@@ -70,7 +70,7 @@ service cloud.firestore {
           && (request.resource.data.recurrence in ['daily', 'weekly', 'once']);
         allow update: if isMemberOf(householdId)
           && request.resource.data.diff(resource.data).affectedKeys()
-             .hasOnly(['title', 'points', 'recurrence', 'assignedTo', 'icon', 'room', 'active']);
+             .hasOnly(['title', 'points', 'recurrence', 'assignedTo', 'icon', 'room', 'active', 'repeatable']);
         allow delete: if isMemberOf(householdId);
       }
 

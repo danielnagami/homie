@@ -64,6 +64,7 @@ export interface HouseholdTask {
   assignedTo?: string
   active: boolean
   createdBy: string
+  repeatable: boolean
 }
 
 export interface TaskCompletion {

@@ -20,7 +20,13 @@ export function CreateTaskForm({ initialTask, members, onSave, onCancel }: Creat
   const [assignedTo, setAssignedTo] = useState(initialTask?.assignee ?? 'Anyone')
   const [icon, setIcon] = useState(initialTask?.icon ?? '🍽️')
   const [room, setRoom] = useState(initialTask?.room ?? 'Kitchen')
+  const [repeatable, setRepeatable] = useState(initialTask?.repeatable ?? false)
   const assignees = ['Anyone', ...members.map((member) => member.name)]
+
+  function handleRecurrenceChange(value: TaskRecurrence) {
+    setRecurrence(value)
+    if (value === 'once') setRepeatable(false)
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -31,6 +37,7 @@ export function CreateTaskForm({ initialTask, members, onSave, onCancel }: Creat
       assignedTo: assignedTo === 'Anyone' ? undefined : assignedTo,
       icon,
       room: room.trim() || 'Household',
+      repeatable,
     })
   }
 
@@ -69,7 +76,7 @@ export function CreateTaskForm({ initialTask, members, onSave, onCancel }: Creat
             <button
               key={value}
               type="button"
-              onClick={() => setRecurrence(value)}
+              onClick={() => handleRecurrenceChange(value)}
               className={`rounded-xl py-2.5 font-display text-xs font-extrabold capitalize transition-all active:scale-95 ${
                 recurrence === value ? 'bg-coral-400 text-white shadow-[0_3px_0_#e2634d]' : 'text-pebble'
               }`}
@@ -78,6 +85,31 @@ export function CreateTaskForm({ initialTask, members, onSave, onCancel }: Creat
             </button>
           ))}
         </div>
+      </section>
+
+      <section className={`flex items-center justify-between rounded-2xl p-3 ${recurrence === 'once' ? 'bg-lavender-100/50 opacity-50' : 'bg-lavender-100'}`}>
+        <div>
+          <span className="font-display text-sm font-extrabold text-ink">Repeatable</span>
+          <p className="text-xs font-semibold text-pebble">
+            {recurrence === 'once' ? 'Not available for one-off quests' : `Allow completing more than once per ${recurrence === 'weekly' ? 'week' : 'day'}`}
+          </p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={repeatable}
+          disabled={recurrence === 'once'}
+          onClick={() => setRepeatable((value) => !value)}
+          className={`h-7 w-12 shrink-0 rounded-full p-1 transition-colors disabled:cursor-not-allowed ${
+            repeatable ? 'bg-mint-600' : 'bg-white shadow-inner'
+          }`}
+        >
+          <span
+            className={`block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
+              repeatable ? 'translate-x-5 bg-white' : 'translate-x-0 bg-pebble/40'
+            }`}
+          />
+        </button>
       </section>
 
       <section>

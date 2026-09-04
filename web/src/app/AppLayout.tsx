@@ -91,11 +91,13 @@ export function AppLayout() {
       tasks,
       toggleTask: (id) => {
         setTasks((current) =>
-          current.map((task) =>
-            task.id === id
-              ? { ...task, completed: !task.completed, completedBy: task.completed ? undefined : 'Maya' }
-              : task,
-          ),
+          current.map((task) => {
+            if (task.id !== id) return task
+            if (task.repeatable) {
+              return { ...task, completed: true, completedBy: 'Maya', completionCount: (task.completionCount ?? 0) + 1 }
+            }
+            return { ...task, completed: !task.completed, completedBy: task.completed ? undefined : 'Maya' }
+          }),
         )
       },
       addTask: (draft) => {
@@ -109,6 +111,7 @@ export function AppLayout() {
             assignee: draft.assignedTo || 'Anyone',
             active: true,
             createdBy: 'maya',
+            repeatable: draft.repeatable,
             icon: draft.icon,
             room: draft.room,
             due: 'Freshly posted',
@@ -129,6 +132,7 @@ export function AppLayout() {
                   recurrence: draft.recurrence,
                   assignedTo: draft.assignedTo,
                   assignee: draft.assignedTo || 'Anyone',
+                  repeatable: draft.repeatable,
                   icon: draft.icon,
                   room: draft.room,
                 }
