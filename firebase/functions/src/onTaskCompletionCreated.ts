@@ -1,4 +1,5 @@
 import { onDocumentCreated, onDocumentDeleted } from 'firebase-functions/v2/firestore'
+import { logger } from 'firebase-functions'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import type { DocumentData, DocumentReference, Timestamp } from 'firebase-admin/firestore'
 import { levelForXp } from './leveling.js'
@@ -57,16 +58,21 @@ export const onTaskCompletionCreated = onDocumentCreated(
 
     await db.runTransaction(async (transaction) => {
       const processedDoc = await transaction.get(completionRef)
-      if (processedDoc.exists && processedDoc.data()?.processed === true) return
+      if (processedDoc.exists && processedDoc.data()?.processed === true) {
+        logger.info('onTaskCompletionCreated: skip already-processed', { householdId, completionId, taskId, userId })
+        return
+      }
 
       const taskSnapshot = await transaction.get(taskRef)
       if (!taskSnapshot.exists) {
+        logger.warn('onTaskCompletionCreated: skip task-missing', { householdId, completionId, taskId, userId })
         await transaction.update(completionRef, { [processedKey]: true, processedReason: 'task-missing' })
         return
       }
 
       const task = taskSnapshot.data() as TaskData
       if (task.active === false) {
+        logger.warn('onTaskCompletionCreated: skip task-inactive', { householdId, completionId, taskId, userId })
         await transaction.update(completionRef, { [processedKey]: true, processedReason: 'task-inactive' })
         return
       }
@@ -78,6 +84,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
           .limit(2)
           .get()
         if (duplicates.size > 1) {
+          logger.warn('onTaskCompletionCreated: skip once-duplicate', { householdId, completionId, taskId, userId })
           await transaction.update(completionRef, { [processedKey]: true, processedReason: 'once-duplicate' })
           return
         }
@@ -142,6 +149,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
       }
 
       await transaction.update(completionRef, { [processedKey]: true })
+      logger.info('onTaskCompletionCreated: awarded points', { householdId, completionId, taskId, userId, points })
     })
 
     void checkAchievements(db, householdId, userId, memberRef)
