@@ -42,6 +42,7 @@ export interface MemberStreak {
 export interface MemberLevel {
   level: number
   xp: number
+  xpIntoLevel?: number
   xpToNextLevel: number
 }
 

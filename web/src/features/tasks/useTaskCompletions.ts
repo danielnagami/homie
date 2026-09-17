@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react'
-import { addDoc, collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, runTransaction } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
 import type { TaskCompletion, TaskRecurrence } from '../../types/models'
 
 function toDateKey(date: Date): string {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
+  const year = date.getUTCFullYear()
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(date.getUTCDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
 
 function toWeekKey(date: Date): string {
   const start = new Date(date)
-  const day = start.getDay()
-  start.setDate(start.getDate() - day)
+  const day = start.getUTCDay()
+  start.setUTCDate(start.getUTCDate() - day)
   return toDateKey(start)
 }
 
 function toMonthKey(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
+}
+
+function completionId(taskId: string, userId: string, recurrence: TaskRecurrence, now: Date): string {
+  const periodKey = recurrence === 'weekly' ? toWeekKey(now) : recurrence === 'once' ? 'once' : toDateKey(now)
+  return `${encodeURIComponent(taskId).replaceAll('/', '%2F')}_${userId}_${periodKey}`
 }
 
 function toCompletion(id: string, data: Record<string, unknown>): TaskCompletion {
@@ -40,7 +45,7 @@ export interface TaskCompletionsState {
   error: string | null
   isCompletedByMe: (taskId: string, dateKey?: string) => boolean
   completionCountForPeriod: (taskId: string, recurrence: TaskRecurrence) => number
-  completeTask: (taskId: string, points: number) => Promise<void>
+  completeTask: (taskId: string, points: number, recurrence: TaskRecurrence, repeatable: boolean) => Promise<void>
   unCompleteTask: (taskId: string) => Promise<void>
   undoLastCompletion: (taskId: string, recurrence: TaskRecurrence) => Promise<void>
 }
@@ -90,7 +95,7 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     return myCompletionsInPeriod(taskId, recurrence).length
   }
 
-  async function completeTask(taskId: string, points: number): Promise<void> {
+  async function completeTask(taskId: string, points: number, recurrence: TaskRecurrence, repeatable: boolean): Promise<void> {
     if (!firestore || !activeHouseholdId || !auth?.currentUser) {
       setError('You must sign in and join a household.')
       return
@@ -100,7 +105,7 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     const now = new Date()
     setError(null)
     try {
-      await addDoc(collection(firestore, 'households', activeHouseholdId, 'taskCompletions'), {
+      const completion = {
         taskId,
         userId: user.uid,
         completedAt: now.toISOString(),
@@ -108,6 +113,25 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
         pointsAwarded: points,
         weekKey: toWeekKey(now),
         monthKey: toMonthKey(now),
+      }
+
+      if (repeatable) {
+        await addDoc(collection(firestore, 'households', activeHouseholdId, 'taskCompletions'), completion)
+        return
+      }
+
+      // A normal task can only be completed once in its recurrence period. A stable
+      // id and transaction make a second tap a no-op instead of a second XP award.
+      const completionRef = doc(
+        firestore,
+        'households',
+        activeHouseholdId,
+        'taskCompletions',
+        completionId(taskId, user.uid, recurrence, now),
+      )
+      await runTransaction(firestore, async (transaction) => {
+        if ((await transaction.get(completionRef)).exists()) return
+        transaction.set(completionRef, completion)
       })
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Failed to complete task.')

@@ -16,6 +16,20 @@ interface CompletionData {
   processed?: boolean
 }
 
+function toDateKey(date: Date): string {
+  return date.toISOString().slice(0, 10)
+}
+
+function toWeekKey(date: Date): string {
+  const start = new Date(date)
+  start.setUTCDate(start.getUTCDate() - start.getUTCDay())
+  return toDateKey(start)
+}
+
+function toMonthKey(date: Date): string {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
+}
+
 interface TaskData {
   title?: string
   points?: number
@@ -118,7 +132,12 @@ export const onTaskCompletionCreated = onDocumentCreated(
               monthlyPoints: points,
             },
             streak: { current: 1, longest: 1, lastCompletedDate: dateKey },
-            level: { level: initialLevel.level, xp: points, xpToNextLevel: initialLevel.xpToNextLevel },
+            level: {
+              level: initialLevel.level,
+              xp: points,
+              xpIntoLevel: initialLevel.xpIntoLevel,
+              xpToNextLevel: initialLevel.xpToNextLevel,
+            },
           },
           { merge: true },
         )
@@ -144,7 +163,12 @@ export const onTaskCompletionCreated = onDocumentCreated(
         transaction.update(memberRef, {
           totals: newTotals,
           streak: { current: currentStreak, longest: longestStreak, lastCompletedDate: dateKey },
-          level: { level: levelState.level, xp: lifetimeAfter, xpToNextLevel: levelState.xpToNextLevel },
+          level: {
+            level: levelState.level,
+            xp: lifetimeAfter,
+            xpIntoLevel: levelState.xpIntoLevel,
+            xpToNextLevel: levelState.xpToNextLevel,
+          },
         })
       }
 
@@ -192,9 +216,8 @@ async function checkAchievements(
   )
 }
 
-// Un-completing a task deletes its completion doc; reverse the points/level that
-// onTaskCompletionCreated awarded so totals stay accurate. Streak is left as-is since
-// recomputing it from history would require re-scanning all completions.
+// Lifetime XP is earned history, so un-completing a task never removes it or lowers a
+// level. Only the currently applicable leaderboard period is reversed.
 export const onTaskCompletionDeleted = onDocumentDeleted(
   'households/{householdId}/taskCompletions/{completionId}',
   async (event) => {
@@ -218,18 +241,20 @@ export const onTaskCompletionDeleted = onDocumentDeleted(
 
       const memberNow = memberSnapshot.data()
       const totals = (memberNow?.totals ?? {}) as Record<string, number>
-      const lifetimeAfter = Math.max(0, Number(totals.lifetimePoints ?? 0) - points)
-      const levelState = levelForXp(lifetimeAfter)
+      const now = new Date()
+      const updates: Record<string, number> = {}
 
-      transaction.update(memberRef, {
-        totals: {
-          lifetimePoints: FieldValue.increment(-points),
-          dailyPoints: FieldValue.increment(-points),
-          weeklyPoints: FieldValue.increment(-points),
-          monthlyPoints: FieldValue.increment(-points),
-        },
-        level: { level: levelState.level, xp: lifetimeAfter, xpToNextLevel: levelState.xpToNextLevel },
-      })
+      if (data.dateKey === toDateKey(now)) {
+        updates['totals.dailyPoints'] = Math.max(0, Number(totals.dailyPoints ?? 0) - points)
+      }
+      if (data.weekKey === toWeekKey(now)) {
+        updates['totals.weeklyPoints'] = Math.max(0, Number(totals.weeklyPoints ?? 0) - points)
+      }
+      if (data.monthKey === toMonthKey(now)) {
+        updates['totals.monthlyPoints'] = Math.max(0, Number(totals.monthlyPoints ?? 0) - points)
+      }
+
+      if (Object.keys(updates).length > 0) transaction.update(memberRef, updates)
     })
   },
 )

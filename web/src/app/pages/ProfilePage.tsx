@@ -25,6 +25,7 @@ export function ProfilePage() {
   const streakLongest = currentMember?.streak?.longest ?? 12
   const level = currentMember?.level?.level ?? maya.level
   const xp = currentMember?.level?.xp ?? lifetimePoints
+  const xpIntoLevel = currentMember?.level?.xpIntoLevel
   const xpToNextLevel = currentMember?.level?.xpToNextLevel ?? 1000
 
   return (
@@ -54,7 +55,7 @@ export function ProfilePage() {
         </section>
       </div>
 
-      <LevelBadge level={level} xp={xp} xpToNextLevel={xpToNextLevel} />
+      <LevelBadge level={level} xp={xp} xpIntoLevel={xpIntoLevel} xpToNextLevel={xpToNextLevel} />
 
       <section>
         <div className="mb-3 flex items-center justify-between px-1">

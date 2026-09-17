@@ -22,15 +22,28 @@ export interface LeaderboardState {
   setPeriod: (period: LeaderboardPeriod) => void
 }
 
-function toEntry(uid: string, data: DocumentData, period: LeaderboardPeriod): LeaderboardEntry {
-  const totals = (data.totals ?? {}) as Partial<HouseholdMember['totals']>
+function toDateKey(date: Date): string {
+  return date.toISOString().slice(0, 10)
+}
+
+function toWeekKey(date: Date): string {
+  const start = new Date(date)
+  start.setUTCDate(start.getUTCDate() - start.getUTCDay())
+  return toDateKey(start)
+}
+
+function toMonthKey(date: Date): string {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
+}
+
+function isInCurrentPeriod(completion: DocumentData, period: LeaderboardPeriod, now: Date): boolean {
+  if (period === 'day') return completion.dateKey === toDateKey(now)
+  if (period === 'week') return completion.weekKey === toWeekKey(now)
+  return completion.monthKey === toMonthKey(now)
+}
+
+function toEntry(uid: string, data: DocumentData, points: number): LeaderboardEntry {
   const streak = (data.streak ?? {}) as Partial<HouseholdMember['streak']>
-  const points =
-    period === 'day'
-      ? totals.dailyPoints ?? 0
-      : period === 'week'
-        ? totals.weeklyPoints ?? 0
-        : totals.monthlyPoints ?? 0
 
   return {
     uid,
@@ -45,6 +58,7 @@ function toEntry(uid: string, data: DocumentData, period: LeaderboardPeriod): Le
 export function useLeaderboard(householdId?: string | null): LeaderboardState {
   const [period, setPeriod] = useState<LeaderboardPeriod>('week')
   const [members, setMembers] = useState<Array<{ uid: string; data: DocumentData }>>([])
+  const [completions, setCompletions] = useState<DocumentData[]>([])
   const [isLoading, setIsLoading] = useState(() => !householdId)
   const [error, setError] = useState<string | null>(null)
 
@@ -52,20 +66,47 @@ export function useLeaderboard(householdId?: string | null): LeaderboardState {
     if (!firestore || !householdId) return
     const db = firestore
 
-    const unsubscribe = onSnapshot(
+    let membersLoaded = false
+    let completionsLoaded = false
+    const updateLoadingState = () => setIsLoading(!membersLoaded || !completionsLoaded)
+
+    const unsubscribeMembers = onSnapshot(
       collection(db, 'households', householdId, 'members'),
       (snapshot) => {
         setMembers(snapshot.docs.map((memberDoc) => ({ uid: memberDoc.id, data: memberDoc.data() })))
-        setIsLoading(false)
+        membersLoaded = true
+        updateLoadingState()
       },
       (cause) => setError(cause instanceof Error ? cause.message : 'Failed to load leaderboard.'),
     )
 
-    return unsubscribe
+    const unsubscribeCompletions = onSnapshot(
+      collection(db, 'households', householdId, 'taskCompletions'),
+      (snapshot) => {
+        setCompletions(snapshot.docs.map((completionDoc) => completionDoc.data()))
+        completionsLoaded = true
+        updateLoadingState()
+      },
+      (cause) => setError(cause instanceof Error ? cause.message : 'Failed to load completion history.'),
+    )
+
+    return () => {
+      unsubscribeMembers()
+      unsubscribeCompletions()
+    }
   }, [householdId])
 
+  const now = new Date()
+  const pointsByUser = completions.reduce<Record<string, number>>((totals, completion) => {
+    if (!isInCurrentPeriod(completion, period, now)) return totals
+    const userId = String(completion.userId ?? '')
+    if (!userId) return totals
+    totals[userId] = (totals[userId] ?? 0) + Number(completion.pointsAwarded ?? 0)
+    return totals
+  }, {})
+
   const entries = members
-    .map((member) => toEntry(member.uid, member.data, period))
+    .map((member) => toEntry(member.uid, member.data, pointsByUser[member.uid] ?? 0))
     .sort((a, b) => b.points - a.points)
 
   return { entries, isLoading, error, period, setPeriod }

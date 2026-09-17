@@ -1,11 +1,18 @@
 interface LevelBadgeProps {
   level: number
   xp?: number
+  xpIntoLevel?: number
   xpToNextLevel?: number
 }
 
-export function LevelBadge({ level, xp = 780, xpToNextLevel = 1000 }: LevelBadgeProps) {
-  const progress = Math.min(100, Math.round((xp / xpToNextLevel) * 100))
+function xpThresholdForLevel(level: number): number {
+  const safeLevel = Math.max(1, Math.floor(level))
+  return (100 * safeLevel * (safeLevel - 1)) / 2
+}
+
+export function LevelBadge({ level, xp = 780, xpIntoLevel, xpToNextLevel = 1000 }: LevelBadgeProps) {
+  const earnedInLevel = xpIntoLevel ?? Math.max(0, xp - xpThresholdForLevel(level))
+  const progress = Math.min(100, Math.round((earnedInLevel / xpToNextLevel) * 100))
   const circumference = 427.26
   const dashOffset = circumference - (circumference * progress) / 100
 
@@ -42,10 +49,10 @@ export function LevelBadge({ level, xp = 780, xpToNextLevel = 1000 }: LevelBadge
         </div>
         <h2 className="font-display text-2xl font-extrabold text-ink">Nest Builder II</h2>
         <span className="mt-2 inline-flex rounded-full bg-lavender-100 px-3 py-1 font-display text-xs font-extrabold text-pebble">
-          {xp} / {xpToNextLevel} XP ({progress}%)
+          {earnedInLevel} / {xpToNextLevel} XP ({progress}%)
         </span>
         <p className="mx-auto mt-3 max-w-xs text-sm font-semibold text-pebble">
-          Only {Math.max(0, xpToNextLevel - xp)} XP until Level {level + 1}.
+          Only {Math.max(0, xpToNextLevel - earnedInLevel)} XP until Level {level + 1}.
         </p>
       </div>
     </section>

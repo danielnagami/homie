@@ -80,7 +80,9 @@ service cloud.firestore {
         allow read: if isMemberOf(householdId);
         allow create: if isMemberOf(householdId)
           && request.resource.data.userId == request.auth.uid
-          && request.resource.data.keys().hasAll(['taskId', 'userId', 'completedAt', 'dateKey'])
+          && request.resource.data.keys().hasAll(['taskId', 'userId', 'completedAt', 'dateKey', 'pointsAwarded', 'weekKey', 'monthKey'])
+          && request.resource.data.pointsAwarded is number
+          && request.resource.data.pointsAwarded == get(/databases/$(database)/documents/households/$(householdId)/tasks/$(request.resource.data.taskId)).data.points
           && !('processed' in request.resource.data);
         allow update: if isServerWritable();
         // Members can un-complete their own task by deleting their own completion record.

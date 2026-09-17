@@ -68,11 +68,11 @@ export function TodayPage() {
     if (!activeTask) return
     if (householdId) {
       if (activeTask.repeatable) {
-        void completionsApi.completeTask(activeTask.id, activeTask.points)
-      } else if (completionsApi.isCompletedByMe(activeTask.id)) {
-        void completionsApi.unCompleteTask(activeTask.id)
+        void completionsApi.completeTask(activeTask.id, activeTask.points, activeTask.recurrence, true)
+      } else if (completionsApi.completionCountForPeriod(activeTask.id, activeTask.recurrence) > 0) {
+        void completionsApi.undoLastCompletion(activeTask.id, activeTask.recurrence)
       } else {
-        void completionsApi.completeTask(activeTask.id, activeTask.points)
+        void completionsApi.completeTask(activeTask.id, activeTask.points, activeTask.recurrence, false)
       }
     } else {
       toggleTask(taskId)
