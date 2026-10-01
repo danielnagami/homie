@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "firebase:deploy": "firebase deploy --only firestore,functions",
+    "firebase:deploy": "firebase deploy --only hosting,firestore,functions",
     "firebase:emulators": "firebase emulators:start",
     "firebase:version": "firebase --version"
   },
