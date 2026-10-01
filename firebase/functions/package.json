@@ -11,7 +11,8 @@
     "build": "tsc",
     "deploy": "npm run build && firebase deploy --only functions",
     "serve": "npm run build && firebase emulators:start --only functions",
-    "backfill:join-codes": "npm run build && node lib/backfillJoinCodes.js"
+    "backfill:join-codes": "npm run build && node lib/backfillJoinCodes.js",
+    "reset:earned-progress": "npm run build && node lib/resetEarnedProgress.js"
   },
   "dependencies": {
     "firebase-admin": "^14.3.0",

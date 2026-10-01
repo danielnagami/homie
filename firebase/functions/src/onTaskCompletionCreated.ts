@@ -148,7 +148,7 @@ export const onTaskCompletionCreated = onDocumentCreated(
 
         if (lastCompletedDate === dateKey) {
           // Same day, keep current streak.
-        } else if (lastCompletedDate && previousDateKey(lastCompletedDate) === dateKey) {
+        } else if (lastCompletedDate && previousDateKey(dateKey) === lastCompletedDate) {
           currentStreak += 1
         } else {
           currentStreak = 1

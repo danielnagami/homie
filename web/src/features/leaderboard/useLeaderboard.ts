@@ -20,6 +20,10 @@ export interface LeaderboardState {
   error: string | null
   period: LeaderboardPeriod
   setPeriod: (period: LeaderboardPeriod) => void
+  selectedDateKey: string
+  setSelectedDateKey: (dateKey: string) => void
+  todayDateKey: string
+  hasActivity: boolean
 }
 
 function toDateKey(date: Date): string {
@@ -36,8 +40,13 @@ function toMonthKey(date: Date): string {
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
 }
 
-function isInCurrentPeriod(completion: DocumentData, period: LeaderboardPeriod, now: Date): boolean {
-  if (period === 'day') return completion.dateKey === toDateKey(now)
+function isInSelectedPeriod(
+  completion: DocumentData,
+  period: LeaderboardPeriod,
+  now: Date,
+  selectedDateKey: string,
+): boolean {
+  if (period === 'day') return completion.dateKey === selectedDateKey
   if (period === 'week') return completion.weekKey === toWeekKey(now)
   return completion.monthKey === toMonthKey(now)
 }
@@ -56,7 +65,8 @@ function toEntry(uid: string, data: DocumentData, points: number): LeaderboardEn
 }
 
 export function useLeaderboard(householdId?: string | null): LeaderboardState {
-  const [period, setPeriod] = useState<LeaderboardPeriod>('week')
+  const [period, setPeriod] = useState<LeaderboardPeriod>('day')
+  const [selectedDateKey, setSelectedDateKey] = useState(() => toDateKey(new Date()))
   const [members, setMembers] = useState<Array<{ uid: string; data: DocumentData }>>([])
   const [completions, setCompletions] = useState<DocumentData[]>([])
   const [isLoading, setIsLoading] = useState(() => !householdId)
@@ -97,17 +107,34 @@ export function useLeaderboard(householdId?: string | null): LeaderboardState {
   }, [householdId])
 
   const now = new Date()
+  const todayDateKey = toDateKey(now)
+  const setPastOrTodayDateKey = (dateKey: string) => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateKey) && dateKey <= todayDateKey) {
+      setSelectedDateKey(dateKey)
+    }
+  }
   const pointsByUser = completions.reduce<Record<string, number>>((totals, completion) => {
-    if (!isInCurrentPeriod(completion, period, now)) return totals
+    if (!isInSelectedPeriod(completion, period, now, selectedDateKey)) return totals
     const userId = String(completion.userId ?? '')
     if (!userId) return totals
     totals[userId] = (totals[userId] ?? 0) + Number(completion.pointsAwarded ?? 0)
     return totals
   }, {})
+  const hasActivity = Object.keys(pointsByUser).length > 0
 
   const entries = members
     .map((member) => toEntry(member.uid, member.data, pointsByUser[member.uid] ?? 0))
     .sort((a, b) => b.points - a.points)
 
-  return { entries, isLoading, error, period, setPeriod }
+  return {
+    entries,
+    isLoading,
+    error,
+    period,
+    setPeriod,
+    selectedDateKey,
+    setSelectedDateKey: setPastOrTodayDateKey,
+    todayDateKey,
+    hasActivity,
+  }
 }

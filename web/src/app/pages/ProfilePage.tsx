@@ -20,10 +20,10 @@ export function ProfilePage() {
   const isLive = Boolean(user && currentMember)
   const avatar = currentMember?.avatarConfig ?? avatarConfig
   const displayName = currentMember?.displayName || user?.displayName || maya.name
-  const lifetimePoints = currentMember?.totals?.lifetimePoints ?? maya.points
-  const streakCurrent = currentMember?.streak?.current ?? maya.streak
-  const streakLongest = currentMember?.streak?.longest ?? 12
-  const level = currentMember?.level?.level ?? maya.level
+  const lifetimePoints = isLive ? (currentMember?.totals?.lifetimePoints ?? 0) : maya.points
+  const streakCurrent = isLive ? (currentMember?.streak?.current ?? 0) : maya.streak
+  const streakLongest = isLive ? (currentMember?.streak?.longest ?? 0) : 12
+  const level = isLive ? (currentMember?.level?.level ?? 1) : maya.level
   const xp = currentMember?.level?.xp ?? lifetimePoints
   const xpIntoLevel = currentMember?.level?.xpIntoLevel
   const xpToNextLevel = currentMember?.level?.xpToNextLevel ?? 1000
