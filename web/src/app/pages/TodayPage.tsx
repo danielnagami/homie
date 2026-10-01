@@ -11,7 +11,7 @@ import { useHousehold } from '../../features/household/useHousehold'
 import { useAppMock, type MockTask } from '../mockState'
 
 export function TodayPage() {
-  const { avatarConfig, householdName, tasks: mockTasks, toggleTask, addTask, members } = useAppMock()
+  const { avatarConfig, householdName, tasks: mockTasks, toggleTask, undoTaskCompletion, addTask, members } = useAppMock()
   const { user } = useAuth()
   const { activeHousehold, currentMember, isLoading: householdLoading } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
@@ -79,6 +79,16 @@ export function TodayPage() {
     }
   }
 
+  function handleUndoCompletion(taskId: string) {
+    const activeTask = tasks.find((item) => item.id === taskId)
+    if (!activeTask?.repeatable) return
+    if (householdId) {
+      void completionsApi.undoLastCompletion(activeTask.id, activeTask.recurrence)
+    } else {
+      undoTaskCompletion(taskId)
+    }
+  }
+
   return (
     <div className="space-y-5">
       <section className="flex items-center justify-between pt-1">
@@ -129,7 +139,12 @@ export function TodayPage() {
         </Link>
       </section>
 
-      <TaskList tasks={waitingForHousehold ? [] : todaysTasks} onToggle={handleToggle} completionCounts={completionCounts} />
+      <TaskList
+        tasks={waitingForHousehold ? [] : todaysTasks}
+        onToggle={handleToggle}
+        onUndoCompletion={handleUndoCompletion}
+        completionCounts={completionCounts}
+      />
       {waitingForHousehold && (
         <p className="text-center text-sm font-bold text-pebble">Loading your household's chores...</p>
       )}

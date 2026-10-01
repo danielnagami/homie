@@ -4,6 +4,7 @@ import type { MockTask } from '../../app/mockState'
 interface TaskCardProps {
   task: MockTask
   onComplete: () => void
+  onUndoCompletion?: () => void
   completionCount?: number
   actions?: ReactNode
 }
@@ -16,7 +17,7 @@ const stripeClass: Record<MockTask['category'], string> = {
   laundry: 'bg-sky-300',
 }
 
-export function TaskCard({ task, onComplete, completionCount = 0, actions }: TaskCardProps) {
+export function TaskCard({ task, onComplete, onUndoCompletion, completionCount = 0, actions }: TaskCardProps) {
   const isRepeatable = task.repeatable
   const isDone = isRepeatable ? completionCount > 0 : task.completed
 
@@ -58,6 +59,17 @@ export function TaskCard({ task, onComplete, completionCount = 0, actions }: Tas
         </button>
         <div className="flex flex-shrink-0 items-center gap-2">
           {actions}
+          {isRepeatable && completionCount > 0 && onUndoCompletion && (
+            <button
+              type="button"
+              onClick={onUndoCompletion}
+              aria-label="Remove most recent completion"
+              title="Undo last completion"
+              className="grid h-8 w-8 place-items-center rounded-full bg-lavender-100 font-display text-sm font-extrabold text-pebble shadow-sm transition-all active:translate-y-0.5"
+            >
+              ↶
+            </button>
+          )}
           <button
             type="button"
             onClick={onComplete}

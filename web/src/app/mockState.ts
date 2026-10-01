@@ -44,6 +44,7 @@ export interface AppMockContext {
   members: MockMember[]
   tasks: MockTask[]
   toggleTask: (id: string) => void
+  undoTaskCompletion: (id: string) => void
   addTask: (draft: TaskDraft) => void
   updateTask: (id: string, draft: TaskDraft) => void
   deleteTask: (id: string) => void

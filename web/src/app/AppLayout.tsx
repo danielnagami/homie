@@ -100,6 +100,20 @@ export function AppLayout() {
           }),
         )
       },
+      undoTaskCompletion: (id) => {
+        setTasks((current) =>
+          current.map((task) => {
+            if (task.id !== id || !task.repeatable) return task
+            const completionCount = Math.max(0, (task.completionCount ?? 0) - 1)
+            return {
+              ...task,
+              completionCount,
+              completed: completionCount > 0,
+              completedBy: completionCount > 0 ? task.completedBy ?? 'Maya' : undefined,
+            }
+          }),
+        )
+      },
       addTask: (draft) => {
         setTasks((current) => [
           {

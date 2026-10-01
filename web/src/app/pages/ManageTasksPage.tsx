@@ -3,6 +3,7 @@ import { Button } from '../../components/Button'
 import { Modal } from '../../components/Modal'
 import { CreateTaskForm } from '../../features/tasks/CreateTaskForm'
 import { TaskCard } from '../../features/tasks/TaskCard'
+import { useTaskCompletions } from '../../features/tasks/useTaskCompletions'
 import { useTasks } from '../../features/tasks/useTasks'
 import { useAuth } from '../../features/auth/useAuth'
 import { useHousehold } from '../../features/household/useHousehold'
@@ -12,13 +13,14 @@ import { useAppMock } from '../mockState'
 type Filter = 'all' | 'daily' | 'weekly' | 'once'
 
 export function ManageTasksPage() {
-  const { householdName, tasks: mockTasks, toggleTask, addTask, updateTask, deleteTask, members } = useAppMock()
+  const { householdName, tasks: mockTasks, toggleTask, undoTaskCompletion, addTask, updateTask, deleteTask, members } = useAppMock()
   const { user } = useAuth()
   const { activeHousehold, isLoading: householdLoading } = useHousehold()
   const householdId = user ? activeHousehold?.id ?? null : null
   // While a signed-in user's household is still loading, don't fall back to mock tasks.
   const waitingForHousehold = Boolean(user) && householdLoading && !householdId
   const tasksApi = useTasks(householdId)
+  const completionsApi = useTaskCompletions(householdId)
 
   const tasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
   const isLoading = householdId ? tasksApi.isLoading : waitingForHousehold
@@ -33,6 +35,30 @@ export function ManageTasksPage() {
   )
 
   const filters: Filter[] = ['all', 'daily', 'weekly', 'once']
+
+  function completionCount(task: MockTask): number {
+    if (householdId) return completionsApi.completionCountForPeriod(task.id, task.recurrence)
+    return task.repeatable ? task.completionCount ?? 0 : Number(task.completed)
+  }
+
+  function completeTask(task: MockTask) {
+    if (!householdId) {
+      toggleTask(task.id)
+      return
+    }
+    const count = completionsApi.completionCountForPeriod(task.id, task.recurrence)
+    if (task.repeatable || count === 0) {
+      void completionsApi.completeTask(task.id, task.points, task.recurrence, task.repeatable)
+    } else {
+      void completionsApi.undoLastCompletion(task.id, task.recurrence)
+    }
+  }
+
+  function undoCompletion(task: MockTask) {
+    if (!task.repeatable) return
+    if (householdId) void completionsApi.undoLastCompletion(task.id, task.recurrence)
+    else undoTaskCompletion(task.id)
+  }
 
   return (
     <div className="space-y-5">
@@ -97,7 +123,9 @@ export function ManageTasksPage() {
                   <TaskCard
                     key={task.id}
                     task={task}
-                    onComplete={() => toggleTask(task.id)}
+                    completionCount={completionCount(task)}
+                    onComplete={() => completeTask(task)}
+                    onUndoCompletion={() => undoCompletion(task)}
                     actions={
                       <div className="flex gap-1">
                         <button
