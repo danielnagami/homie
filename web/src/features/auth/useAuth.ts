@@ -5,7 +5,6 @@ import {
   getRedirectResult,
   onAuthStateChanged,
   signInWithPopup,
-  signInWithRedirect,
   signOut as firebaseSignOut,
   type User,
 } from 'firebase/auth'
@@ -29,18 +28,16 @@ export interface AuthState {
   signOut: () => Promise<void>
 }
 
-// Installed/standalone PWAs often can't reliably use popup sign-in, so drive
-// an explicit redirect flow there instead of relying on the SDK's fallback.
-function isStandalonePwa(): boolean {
-  if (typeof window === 'undefined') return false
-  const nav = window.navigator as Navigator & { standalone?: boolean }
-  return window.matchMedia?.('(display-mode: standalone)').matches === true || nav.standalone === true
-}
-
 function toFriendlyAuthError(cause: unknown): string {
   const code = (cause as { code?: string } | null)?.code
   if (code === 'auth/missing-initial-state' || code === 'auth/web-storage-unsupported') {
-    return 'Your browser blocked the sign-in session. Try again in your device\'s default browser with cookies enabled, or turn off private/incognito mode.'
+    return 'We could not restore a previous sign-in. Please try again.'
+  }
+  if (code === 'auth/popup-blocked') {
+    return 'Your device blocked the sign-in window. Allow pop-ups for Homie, then try again.'
+  }
+  if (code === 'auth/popup-closed-by-user') {
+    return 'The sign-in window was closed before sign-in finished. Please try again.'
   }
   return cause instanceof Error ? cause.message : 'Sign-in failed. Please try again.'
 }
@@ -130,16 +127,10 @@ export function useAuth(): AuthState {
     const credential =
       provider === 'google' ? new GoogleAuthProvider() : new OAuthProvider('microsoft.com')
 
-    if (isStandalonePwa()) {
-      try {
-        await signInWithRedirect(auth, credential)
-      } catch (cause) {
-        setError(toFriendlyAuthError(cause))
-      }
-      return
-    }
-
     try {
+      // Redirects leave an iOS home-screen PWA and return in Safari's separate
+      // storage context. A popup keeps the authentication response attached to
+      // the installed app, provided the Firebase auth helper shares this origin.
       const result = await signInWithPopup(auth, credential)
       const nextUser = toAuthUser(result.user)
       await ensureUserProfile(nextUser)

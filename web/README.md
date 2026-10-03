@@ -28,6 +28,10 @@ Firebase is wired up in task 2 of `../PLAN.md`. The client SDK is initialized in
 
 1. Copy `web/.env.example` to `web/.env.local` and fill in your Firebase web-app
    config. Never commit `.env.local` (git-ignored via `.env.*`).
+   For the production PWA hosted at `https://homie-ca99a.web.app`, set
+   `VITE_FIREBASE_AUTH_DOMAIN=homie-ca99a.web.app`, rather than the default
+   `homie-ca99a.firebaseapp.com`. Firebase Auth's redirect/popup helper must
+   share the app's origin for Safari and installed iOS PWAs.
 2. Run `npm run dev`. Until the env vars are set, `isFirebaseConfigured` is `false`
    and `auth`/`db` are `null`, so screens that call `requireFirebaseConfig()` fail
    fast with a clear message instead of crashing.
@@ -41,6 +45,18 @@ Firebase is wired up in task 2 of `../PLAN.md`. The client SDK is initialized in
 5. Enable **Authentication** providers. Per the plan the app is **SSO-only**
    (Google + Microsoft, no email/password); the Google provider is zero-config,
    the Microsoft provider needs an Azure AD app registration (see task 4).
+6. In **Authentication → Settings → Authorized domains**, authorize
+   `homie-ca99a.web.app`. In the Microsoft app registration, add
+   `https://homie-ca99a.web.app/__/auth/handler` as a redirect URI. Ensure the
+   production build is compiled with the matching `VITE_FIREBASE_AUTH_DOMAIN`.
+
+### iOS installed-app sign-in
+
+The app always uses Firebase's popup flow for Google and Microsoft sign-in.
+Do not switch installed iOS PWAs to `signInWithRedirect`: iOS returns that flow
+in Safari instead of the home-screen app, which loses the PWA's sign-in state.
+If iOS blocks the sign-in window, the app tells the user to allow pop-ups and
+retry instead of falling back to redirect.
 
 Deploy Firestore rules/indexes and functions with the Firebase CLI from the repo
 root: `firebase deploy --only firestore,functions` (config lives in `firebase.json`
