@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
 import type { Household, HouseholdMember } from '../../types/models'
+import type { HomeLocation } from './homeLocations'
 
 function generateJoinCode(): string {
   const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -29,7 +30,7 @@ export interface HouseholdState {
   currentMember: HouseholdMember | null
   isLoading: boolean
   error: string | null
-  createHousehold: (name: string) => Promise<Household | null>
+  createHousehold: (name: string, location: HomeLocation) => Promise<Household | null>
   joinHousehold: (code: string) => Promise<Household | null>
 }
 
@@ -41,6 +42,8 @@ function toHousehold(id: string, data: Record<string, unknown>): Household {
     createdBy: String(data.createdBy ?? ''),
     createdAt: String(data.createdAt ?? ''),
     defaultPointsPerTask: Number(data.defaultPointsPerTask ?? 10),
+    location: String(data.location ?? 'Home location'),
+    timeZone: String(data.timeZone ?? 'UTC'),
   }
 }
 
@@ -65,18 +68,18 @@ export function useHousehold(): HouseholdState {
         const ids: string[] = (data?.householdIds as string[]) ?? []
         const activeId = data?.activeHouseholdId as string | undefined
 
-        void Promise.all(
-          ids.map((householdId) => getDoc(doc(fs, 'households', householdId))),
-        ).then((docs) => {
-          const loaded = docs
-            .filter((householdDoc) => householdDoc.exists())
-            .map((householdDoc) => toHousehold(householdDoc.id, householdDoc.data()))
+        void Promise.all(ids.map((householdId) => getDoc(doc(fs, 'households', householdId)))).then(
+          (docs) => {
+            const loaded = docs
+              .filter((householdDoc) => householdDoc.exists())
+              .map((householdDoc) => toHousehold(householdDoc.id, householdDoc.data()))
 
-          setHouseholds(loaded)
-          const active = loaded.find((item) => item.id === activeId) ?? loaded[0] ?? null
-          setActiveHousehold(active)
-          setIsLoading(false)
-        })
+            setHouseholds(loaded)
+            const active = loaded.find((item) => item.id === activeId) ?? loaded[0] ?? null
+            setActiveHousehold(active)
+            setIsLoading(false)
+          },
+        )
       },
       (cause) => setError(cause instanceof Error ? cause.message : 'Failed to load household.'),
     )
@@ -113,7 +116,7 @@ export function useHousehold(): HouseholdState {
   }, [activeHousehold, uid])
 
   const createHousehold = useCallback(
-    async (name: string): Promise<Household | null> => {
+    async (name: string, location: HomeLocation): Promise<Household | null> => {
       if (!firestore || !auth?.currentUser) {
         setError('You must sign in to create a household.')
         return null
@@ -142,6 +145,8 @@ export function useHousehold(): HouseholdState {
           createdBy: user.uid,
           createdAt: now,
           defaultPointsPerTask: 10,
+          location: location.label,
+          timeZone: location.timeZone,
         })
         batch.set(doc(fs, 'joinCodes', joinCode), { householdId: householdRef.id })
         batch.set(doc(householdsCollection, householdRef.id, 'members', user.uid), {
@@ -158,6 +163,8 @@ export function useHousehold(): HouseholdState {
           createdBy: user.uid,
           createdAt: now,
           defaultPointsPerTask: 10,
+          location: location.label,
+          timeZone: location.timeZone,
         }
 
         setActiveHousehold(household)
@@ -182,55 +189,54 @@ export function useHousehold(): HouseholdState {
     [],
   )
 
-  const joinHousehold = useCallback(
-    async (code: string): Promise<Household | null> => {
-      if (!firestore || !auth?.currentUser) {
-        setError('You must sign in to join a household.')
+  const joinHousehold = useCallback(async (code: string): Promise<Household | null> => {
+    if (!firestore || !auth?.currentUser) {
+      setError('You must sign in to join a household.')
+      return null
+    }
+
+    const fs = firestore
+    const user = auth.currentUser
+    setError(null)
+    try {
+      const joinCodeSnapshot = await getDoc(doc(fs, 'joinCodes', code.trim().toUpperCase()))
+      if (!joinCodeSnapshot.exists()) {
+        setError('No household found with that code.')
         return null
       }
 
-      const fs = firestore
-      const user = auth.currentUser
-      setError(null)
-      try {
-        const joinCodeSnapshot = await getDoc(doc(fs, 'joinCodes', code.trim().toUpperCase()))
-        if (!joinCodeSnapshot.exists()) {
-          setError('No household found with that code.')
-          return null
-        }
-
-        const householdId = String(joinCodeSnapshot.data().householdId ?? '')
-        const householdSnapshot = await getDoc(doc(fs, 'households', householdId))
-        if (!householdSnapshot.exists()) {
-          setError('No household found with that code.')
-          return null
-        }
-
-        const household = toHousehold(householdSnapshot.id, householdSnapshot.data())
-        const now = new Date().toISOString()
-
-        await setDoc(doc(collection(fs, 'households', household.id, 'members'), user.uid), {
-          displayName: user.displayName ?? 'Homie friend',
-          avatarConfig: null,
-          joinedAt: now,
-        })
-
-        await setDoc(
-          doc(fs, 'users', user.uid),
-          { householdIds: arrayUnion(household.id), activeHouseholdId: household.id },
-          { merge: true },
-        )
-
-        setActiveHousehold(household)
-        setHouseholds((current) => (current.some((item) => item.id === household.id) ? current : [...current, household]))
-        return household
-      } catch (cause) {
-        setError(cause instanceof Error ? cause.message : 'Failed to join household.')
+      const householdId = String(joinCodeSnapshot.data().householdId ?? '')
+      const householdSnapshot = await getDoc(doc(fs, 'households', householdId))
+      if (!householdSnapshot.exists()) {
+        setError('No household found with that code.')
         return null
       }
-    },
-    [],
-  )
+
+      const household = toHousehold(householdSnapshot.id, householdSnapshot.data())
+      const now = new Date().toISOString()
+
+      await setDoc(doc(collection(fs, 'households', household.id, 'members'), user.uid), {
+        displayName: user.displayName ?? 'Homie friend',
+        avatarConfig: null,
+        joinedAt: now,
+      })
+
+      await setDoc(
+        doc(fs, 'users', user.uid),
+        { householdIds: arrayUnion(household.id), activeHouseholdId: household.id },
+        { merge: true },
+      )
+
+      setActiveHousehold(household)
+      setHouseholds((current) =>
+        current.some((item) => item.id === household.id) ? current : [...current, household],
+      )
+      return household
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Failed to join household.')
+      return null
+    }
+  }, [])
 
   return {
     households,

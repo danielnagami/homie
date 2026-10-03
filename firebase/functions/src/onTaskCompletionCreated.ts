@@ -16,18 +16,40 @@ interface CompletionData {
   processed?: boolean
 }
 
-function toDateKey(date: Date): string {
-  return date.toISOString().slice(0, 10)
+function validTimeZone(timeZone?: string): string {
+  if (!timeZone) return 'UTC'
+  try {
+    new Intl.DateTimeFormat(undefined, { timeZone })
+    return timeZone
+  } catch {
+    return 'UTC'
+  }
 }
 
-function toWeekKey(date: Date): string {
-  const start = new Date(date)
+function toDateKey(date: Date, timeZone = 'UTC'): string {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: validTimeZone(timeZone),
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+      .formatToParts(date)
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, part.value]),
+  )
+  return `${parts.year}-${parts.month}-${parts.day}`
+}
+
+function toWeekKey(date: Date, timeZone = 'UTC'): string {
+  const dateKey = toDateKey(date, timeZone)
+  const start = new Date(`${dateKey}T00:00:00.000Z`)
   start.setUTCDate(start.getUTCDate() - start.getUTCDay())
-  return toDateKey(start)
+  return start.toISOString().slice(0, 10)
 }
 
-function toMonthKey(date: Date): string {
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
+function toMonthKey(date: Date, timeZone = 'UTC'): string {
+  return toDateKey(date, timeZone).slice(0, 7)
 }
 
 interface TaskData {
@@ -60,11 +82,11 @@ export const onTaskCompletionCreated = onDocumentCreated(
     const taskId = data.taskId
     const userId = data.userId
     const points = Number(data.pointsAwarded ?? 0)
-    const dateKey = data.dateKey ?? new Date().toISOString().slice(0, 10)
     const processedKey = 'processed'
 
     const db = getFirestore()
     const completionRef = db.doc(`households/${householdId}/taskCompletions/${completionId}`)
+    const householdRef = db.doc(`households/${householdId}`)
     const taskRef = db.doc(`households/${householdId}/tasks/${taskId}`)
     const memberRef = db.doc(`households/${householdId}/members/${userId}`)
 
@@ -78,6 +100,9 @@ export const onTaskCompletionCreated = onDocumentCreated(
       }
 
       const taskSnapshot = await transaction.get(taskRef)
+      const householdSnapshot = await transaction.get(householdRef)
+      const timeZone = validTimeZone(String(householdSnapshot.data()?.timeZone ?? 'UTC'))
+      const dateKey = data.dateKey ?? toDateKey(new Date(), timeZone)
       if (!taskSnapshot.exists) {
         logger.warn('onTaskCompletionCreated: skip task-missing', { householdId, completionId, taskId, userId })
         await transaction.update(completionRef, { [processedKey]: true, processedReason: 'task-missing' })
@@ -234,23 +259,25 @@ export const onTaskCompletionDeleted = onDocumentDeleted(
 
     const db = getFirestore()
     const memberRef = db.doc(`households/${householdId}/members/${userId}`)
+    const householdRef = db.doc(`households/${householdId}`)
 
     await db.runTransaction(async (transaction) => {
-      const memberSnapshot = await transaction.get(memberRef)
+      const [memberSnapshot, householdSnapshot] = await Promise.all([transaction.get(memberRef), transaction.get(householdRef)])
       if (!memberSnapshot.exists) return
 
       const memberNow = memberSnapshot.data()
       const totals = (memberNow?.totals ?? {}) as Record<string, number>
       const now = new Date()
+      const timeZone = validTimeZone(String(householdSnapshot.data()?.timeZone ?? 'UTC'))
       const updates: Record<string, number> = {}
 
-      if (data.dateKey === toDateKey(now)) {
+      if (data.dateKey === toDateKey(now, timeZone)) {
         updates['totals.dailyPoints'] = Math.max(0, Number(totals.dailyPoints ?? 0) - points)
       }
-      if (data.weekKey === toWeekKey(now)) {
+      if (data.weekKey === toWeekKey(now, timeZone)) {
         updates['totals.weeklyPoints'] = Math.max(0, Number(totals.weeklyPoints ?? 0) - points)
       }
-      if (data.monthKey === toMonthKey(now)) {
+      if (data.monthKey === toMonthKey(now, timeZone)) {
         updates['totals.monthlyPoints'] = Math.max(0, Number(totals.monthlyPoints ?? 0) - points)
       }
 

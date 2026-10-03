@@ -13,14 +13,23 @@ import { useAppMock } from '../mockState'
 type Filter = 'all' | 'daily' | 'weekly' | 'once'
 
 export function ManageTasksPage() {
-  const { householdName, tasks: mockTasks, toggleTask, undoTaskCompletion, addTask, updateTask, deleteTask, members } = useAppMock()
+  const {
+    householdName,
+    tasks: mockTasks,
+    toggleTask,
+    undoTaskCompletion,
+    addTask,
+    updateTask,
+    deleteTask,
+    members,
+  } = useAppMock()
   const { user } = useAuth()
   const { activeHousehold, isLoading: householdLoading } = useHousehold()
-  const householdId = user ? activeHousehold?.id ?? null : null
+  const householdId = user ? (activeHousehold?.id ?? null) : null
   // While a signed-in user's household is still loading, don't fall back to mock tasks.
   const waitingForHousehold = Boolean(user) && householdLoading && !householdId
   const tasksApi = useTasks(householdId)
-  const completionsApi = useTaskCompletions(householdId)
+  const completionsApi = useTaskCompletions(householdId, activeHousehold?.timeZone)
 
   const tasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
   const isLoading = householdId ? tasksApi.isLoading : waitingForHousehold
@@ -38,7 +47,7 @@ export function ManageTasksPage() {
 
   function completionCount(task: MockTask): number {
     if (householdId) return completionsApi.completionCountForPeriod(task.id, task.recurrence)
-    return task.repeatable ? task.completionCount ?? 0 : Number(task.completed)
+    return task.repeatable ? (task.completionCount ?? 0) : Number(task.completed)
   }
 
   function completeTask(task: MockTask) {
@@ -65,26 +74,32 @@ export function ManageTasksPage() {
       <header>
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="font-display text-3xl font-extrabold text-ink">Manage Tasks</h1>
-            <p className="mt-1 text-sm font-bold text-pebble">
+            <h1 className="font-display text-ink text-3xl font-extrabold">Manage Tasks</h1>
+            <p className="text-pebble mt-1 text-sm font-bold">
               {householdName} · {householdId ? 'synced to Firestore' : 'local mock state'}
             </p>
           </div>
-          <Button onClick={() => setCreating(true)} className="min-h-11 px-4">Add</Button>
+          <Button onClick={() => setCreating(true)} className="min-h-11 px-4">
+            Add
+          </Button>
         </div>
       </header>
 
-      <section className="rounded-3xl bg-lavender-100 p-3 shadow-card">
+      <section className="bg-lavender-100 shadow-card rounded-3xl p-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-mint-600" />
-          <p className="text-sm font-bold text-pebble">
-            {householdId ? 'Changes update instantly for all roommates.' : 'Sign in and join a household to sync tasks.'}
+          <span className="bg-mint-600 h-2.5 w-2.5 animate-pulse rounded-full" />
+          <p className="text-pebble text-sm font-bold">
+            {householdId
+              ? 'Changes update instantly for all roommates.'
+              : 'Sign in and join a household to sync tasks.'}
           </p>
         </div>
       </section>
 
       {error && (
-        <p className="rounded-2xl bg-red-100 px-4 py-3 text-center text-xs font-bold text-red-700">{error}</p>
+        <p className="rounded-2xl bg-red-100 px-4 py-3 text-center text-xs font-bold text-red-700">
+          {error}
+        </p>
       )}
 
       <section className="flex gap-2 overflow-x-auto pb-1">
@@ -93,17 +108,22 @@ export function ManageTasksPage() {
             key={value}
             type="button"
             onClick={() => setFilter(value)}
-            className={`rounded-full px-4 py-2 font-display text-xs font-extrabold capitalize shadow-card transition-all active:scale-95 ${
-              filter === value ? 'bg-coral-400 text-white' : 'bg-white text-pebble'
+            className={`font-display shadow-card rounded-full px-4 py-2 text-xs font-extrabold capitalize transition-all active:scale-95 ${
+              filter === value ? 'bg-coral-400 text-white' : 'text-pebble bg-white'
             }`}
           >
-            {value} <span className="opacity-75">{value === 'all' ? tasks.length : tasks.filter((task) => task.recurrence === value).length}</span>
+            {value}{' '}
+            <span className="opacity-75">
+              {value === 'all'
+                ? tasks.length
+                : tasks.filter((task) => task.recurrence === value).length}
+            </span>
           </button>
         ))}
       </section>
 
       {isLoading ? (
-        <p className="text-center text-sm font-bold text-pebble">Loading tasks...</p>
+        <p className="text-pebble text-center text-sm font-bold">Loading tasks...</p>
       ) : (
         <section className="space-y-4">
           {(['daily', 'weekly', 'once'] as const).map((recurrence) => {
@@ -112,10 +132,14 @@ export function ManageTasksPage() {
             return (
               <div key={recurrence} className="space-y-2.5">
                 <div className="flex items-center justify-between px-1">
-                  <h2 className="font-display text-lg font-extrabold capitalize text-ink">
-                    {recurrence === 'daily' ? '☀️ Daily Chores' : recurrence === 'weekly' ? '📅 Weekly Chores' : '✨ One-Off Quests'}
+                  <h2 className="font-display text-ink text-lg font-extrabold capitalize">
+                    {recurrence === 'daily'
+                      ? '☀️ Daily Chores'
+                      : recurrence === 'weekly'
+                        ? '📅 Weekly Chores'
+                        : '✨ One-Off Quests'}
                   </h2>
-                  <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-[10px] font-extrabold text-honey-700">
+                  <span className="bg-honey-100 font-display text-honey-700 rounded-full px-3 py-1 text-[10px] font-extrabold">
                     {group.length} active
                   </span>
                 </div>
@@ -131,13 +155,15 @@ export function ManageTasksPage() {
                         <button
                           type="button"
                           onClick={() => setEditing(task)}
-                          className="grid h-8 w-8 place-items-center rounded-full bg-lavender-100 text-sm text-pebble shadow-sm transition-transform active:scale-90"
+                          className="bg-lavender-100 text-pebble grid h-8 w-8 place-items-center rounded-full text-sm shadow-sm transition-transform active:scale-90"
                         >
                           ✎
                         </button>
                         <button
                           type="button"
-                          onClick={() => (householdId ? void tasksApi.deleteTask(task.id) : deleteTask(task.id))}
+                          onClick={() =>
+                            householdId ? void tasksApi.deleteTask(task.id) : deleteTask(task.id)
+                          }
                           className="grid h-8 w-8 place-items-center rounded-full bg-red-100 text-sm text-red-700 shadow-sm transition-transform active:scale-90"
                         >
                           ×
@@ -152,7 +178,12 @@ export function ManageTasksPage() {
         </section>
       )}
 
-      <Modal open={creating} title="Create Task" subtitle={householdId ? 'Saved to Firestore' : 'Local prototype dialog'} onClose={() => setCreating(false)}>
+      <Modal
+        open={creating}
+        title="Create Task"
+        subtitle={householdId ? 'Saved to Firestore' : 'Local prototype dialog'}
+        onClose={() => setCreating(false)}
+      >
         <CreateTaskForm
           members={members}
           onCancel={() => setCreating(false)}
@@ -164,7 +195,12 @@ export function ManageTasksPage() {
         />
       </Modal>
 
-      <Modal open={Boolean(editing)} title="Edit Task" subtitle={editing ? `Editing: ${editing.title}` : undefined} onClose={() => setEditing(null)}>
+      <Modal
+        open={Boolean(editing)}
+        title="Edit Task"
+        subtitle={editing ? `Editing: ${editing.title}` : undefined}
+        onClose={() => setEditing(null)}
+      >
         {editing && (
           <CreateTaskForm
             initialTask={editing}

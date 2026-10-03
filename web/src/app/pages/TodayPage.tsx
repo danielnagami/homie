@@ -11,15 +11,23 @@ import { useHousehold } from '../../features/household/useHousehold'
 import { useAppMock, type MockTask } from '../mockState'
 
 export function TodayPage() {
-  const { avatarConfig, householdName, tasks: mockTasks, toggleTask, undoTaskCompletion, addTask, members } = useAppMock()
+  const {
+    avatarConfig,
+    householdName,
+    tasks: mockTasks,
+    toggleTask,
+    undoTaskCompletion,
+    addTask,
+    members,
+  } = useAppMock()
   const { user } = useAuth()
   const { activeHousehold, currentMember, isLoading: householdLoading } = useHousehold()
-  const householdId = user ? activeHousehold?.id ?? null : null
+  const householdId = user ? (activeHousehold?.id ?? null) : null
   // While a signed-in user's household is still loading, don't fall back to mock tasks.
   const waitingForHousehold = Boolean(user) && householdLoading && !householdId
 
   const tasksApi = useTasks(householdId)
-  const completionsApi = useTaskCompletions(householdId)
+  const completionsApi = useTaskCompletions(householdId, activeHousehold?.timeZone)
   const [quickAddOpen, setQuickAddOpen] = useState(false)
 
   const allTasks = householdId ? tasksApi.tasks : waitingForHousehold ? [] : mockTasks
@@ -68,11 +76,23 @@ export function TodayPage() {
     if (!activeTask) return
     if (householdId) {
       if (activeTask.repeatable) {
-        void completionsApi.completeTask(activeTask.id, activeTask.points, activeTask.recurrence, true)
-      } else if (completionsApi.completionCountForPeriod(activeTask.id, activeTask.recurrence) > 0) {
+        void completionsApi.completeTask(
+          activeTask.id,
+          activeTask.points,
+          activeTask.recurrence,
+          true,
+        )
+      } else if (
+        completionsApi.completionCountForPeriod(activeTask.id, activeTask.recurrence) > 0
+      ) {
         void completionsApi.undoLastCompletion(activeTask.id, activeTask.recurrence)
       } else {
-        void completionsApi.completeTask(activeTask.id, activeTask.points, activeTask.recurrence, false)
+        void completionsApi.completeTask(
+          activeTask.id,
+          activeTask.points,
+          activeTask.recurrence,
+          false,
+        )
       }
     } else {
       toggleTask(taskId)
@@ -93,48 +113,57 @@ export function TodayPage() {
     <div className="space-y-5">
       <section className="flex items-center justify-between pt-1">
         <div className="flex items-center gap-3">
-          <div className="rounded-full bg-mint-200 p-1 shadow-card">
+          <div className="bg-mint-200 shadow-card rounded-full p-1">
             <AvatarPreview config={avatarConfig} size={48} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display text-xl font-extrabold text-ink">{user?.displayName ?? 'Maya'}</h1>
-              <span className="rounded-full bg-mint-200/70 px-2 py-0.5 font-display text-[10px] font-extrabold text-mint-700">Lvl {level}</span>
+              <h1 className="font-display text-ink text-xl font-extrabold">
+                {user?.displayName ?? 'Maya'}
+              </h1>
+              <span className="bg-mint-200/70 font-display text-mint-700 rounded-full px-2 py-0.5 text-[10px] font-extrabold">
+                Lvl {level}
+              </span>
             </div>
-            <Link to="/household" className="text-xs font-bold text-pebble">
+            <Link to="/household" className="text-pebble text-xs font-bold">
               {householdName}
             </Link>
           </div>
         </div>
-        <span className="rounded-full bg-coral-100 px-3 py-1.5 font-display text-xs font-extrabold text-coral-700 shadow-[0_3px_0_rgba(132,36,21,0.15)]">
+        <span className="bg-coral-100 font-display text-coral-700 rounded-full px-3 py-1.5 text-xs font-extrabold shadow-[0_3px_0_rgba(132,36,21,0.15)]">
           🔥 {streakCurrent} Days
         </span>
       </section>
 
-      <section className="rounded-4xl bg-white p-4 shadow-card">
+      <section className="shadow-card rounded-4xl bg-white p-4">
         <div className="mb-3 flex items-start justify-between gap-3">
           <div>
-            <h2 className="font-display text-xl font-extrabold text-ink">Today's Chore Quest</h2>
-            <p className="mt-0.5 text-xs font-bold text-pebble">
+            <h2 className="font-display text-ink text-xl font-extrabold">Today's Chore Quest</h2>
+            <p className="text-pebble mt-0.5 text-xs font-bold">
               {completed} of {total} done · Keep blooming
             </p>
           </div>
-          <span className="rounded-full bg-honey-100 px-3 py-1 font-display text-xs font-extrabold text-honey-700">
+          <span className="bg-honey-100 font-display text-honey-700 rounded-full px-3 py-1 text-xs font-extrabold">
             +{earnedXp} XP
           </span>
         </div>
-        <div className="mb-1 flex justify-between text-[10px] font-extrabold uppercase tracking-wider text-pebble">
+        <div className="text-pebble mb-1 flex justify-between text-[10px] font-extrabold tracking-wider uppercase">
           <span>Daily Goal</span>
           <span className="text-mint-600">{percent}% Complete</span>
         </div>
-        <div className="h-3.5 rounded-full bg-lavender-100 p-0.5 shadow-inner">
-          <div className="h-full rounded-full bg-mint-300 transition-all" style={{ width: `${percent}%` }} />
+        <div className="bg-lavender-100 h-3.5 rounded-full p-0.5 shadow-inner">
+          <div
+            className="bg-mint-300 h-full rounded-full transition-all"
+            style={{ width: `${percent}%` }}
+          />
         </div>
       </section>
 
       <section className="flex items-center justify-between px-1">
-        <h2 className="font-display text-lg font-extrabold text-ink">Quest Log ({todaysTasks.length})</h2>
-        <Link to="/tasks" className="font-display text-xs font-extrabold text-coral-400">
+        <h2 className="font-display text-ink text-lg font-extrabold">
+          Quest Log ({todaysTasks.length})
+        </h2>
+        <Link to="/tasks" className="font-display text-coral-400 text-xs font-extrabold">
           Manage Tasks
         </Link>
       </section>
@@ -146,19 +175,26 @@ export function TodayPage() {
         completionCounts={completionCounts}
       />
       {waitingForHousehold && (
-        <p className="text-center text-sm font-bold text-pebble">Loading your household's chores...</p>
+        <p className="text-pebble text-center text-sm font-bold">
+          Loading your household's chores...
+        </p>
       )}
 
       <button
         type="button"
         aria-label="Add task"
         onClick={() => setQuickAddOpen(true)}
-        className="fixed bottom-24 right-[max(1.25rem,calc((100vw-28rem)/2+1.25rem))] z-30 grid h-14 w-14 place-items-center rounded-full bg-coral-400 text-3xl text-white shadow-button transition-all active:translate-y-1"
+        className="bg-coral-400 shadow-button fixed right-[max(1.25rem,calc((100vw-28rem)/2+1.25rem))] bottom-24 z-30 grid h-14 w-14 place-items-center rounded-full text-3xl text-white transition-all active:translate-y-1"
       >
         +
       </button>
 
-      <Modal open={quickAddOpen} title="Quick Chore" subtitle="Post a chore quest" onClose={() => setQuickAddOpen(false)}>
+      <Modal
+        open={quickAddOpen}
+        title="Quick Chore"
+        subtitle="Post a chore quest"
+        onClose={() => setQuickAddOpen(false)}
+      >
         <CreateTaskForm
           members={members}
           onCancel={() => setQuickAddOpen(false)}

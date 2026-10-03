@@ -24,6 +24,8 @@ export interface Household {
   createdBy: string
   createdAt: string
   defaultPointsPerTask: number
+  location: string
+  timeZone: string
 }
 
 export interface MemberTotals {

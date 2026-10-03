@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { collection, onSnapshot, type DocumentData } from 'firebase/firestore'
 import { db as firestore } from '../../firebase/firebaseClient'
+import { toDateKey, toMonthKey, toWeekKey } from '../../lib/householdTime'
 import type { HouseholdMember } from '../../types/models'
 
 export type LeaderboardPeriod = 'day' | 'week' | 'month'
@@ -26,29 +27,16 @@ export interface LeaderboardState {
   hasActivity: boolean
 }
 
-function toDateKey(date: Date): string {
-  return date.toISOString().slice(0, 10)
-}
-
-function toWeekKey(date: Date): string {
-  const start = new Date(date)
-  start.setUTCDate(start.getUTCDate() - start.getUTCDay())
-  return toDateKey(start)
-}
-
-function toMonthKey(date: Date): string {
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
-}
-
 function isInSelectedPeriod(
   completion: DocumentData,
   period: LeaderboardPeriod,
   now: Date,
   selectedDateKey: string,
+  timeZone: string,
 ): boolean {
   if (period === 'day') return completion.dateKey === selectedDateKey
-  if (period === 'week') return completion.weekKey === toWeekKey(now)
-  return completion.monthKey === toMonthKey(now)
+  if (period === 'week') return completion.weekKey === toWeekKey(now, timeZone)
+  return completion.monthKey === toMonthKey(now, timeZone)
 }
 
 function toEntry(uid: string, data: DocumentData, points: number): LeaderboardEntry {
@@ -64,9 +52,12 @@ function toEntry(uid: string, data: DocumentData, points: number): LeaderboardEn
   }
 }
 
-export function useLeaderboard(householdId?: string | null): LeaderboardState {
+export function useLeaderboard(householdId?: string | null, timeZone = 'UTC'): LeaderboardState {
   const [period, setPeriod] = useState<LeaderboardPeriod>('day')
-  const [selectedDateKey, setSelectedDateKey] = useState(() => toDateKey(new Date()))
+  const [selectedDate, setSelectedDate] = useState(() => ({
+    timeZone,
+    dateKey: toDateKey(new Date(), timeZone),
+  }))
   const [members, setMembers] = useState<Array<{ uid: string; data: DocumentData }>>([])
   const [completions, setCompletions] = useState<DocumentData[]>([])
   const [isLoading, setIsLoading] = useState(() => !householdId)
@@ -83,7 +74,9 @@ export function useLeaderboard(householdId?: string | null): LeaderboardState {
     const unsubscribeMembers = onSnapshot(
       collection(db, 'households', householdId, 'members'),
       (snapshot) => {
-        setMembers(snapshot.docs.map((memberDoc) => ({ uid: memberDoc.id, data: memberDoc.data() })))
+        setMembers(
+          snapshot.docs.map((memberDoc) => ({ uid: memberDoc.id, data: memberDoc.data() })),
+        )
         membersLoaded = true
         updateLoadingState()
       },
@@ -97,7 +90,8 @@ export function useLeaderboard(householdId?: string | null): LeaderboardState {
         completionsLoaded = true
         updateLoadingState()
       },
-      (cause) => setError(cause instanceof Error ? cause.message : 'Failed to load completion history.'),
+      (cause) =>
+        setError(cause instanceof Error ? cause.message : 'Failed to load completion history.'),
     )
 
     return () => {
@@ -107,14 +101,17 @@ export function useLeaderboard(householdId?: string | null): LeaderboardState {
   }, [householdId])
 
   const now = new Date()
-  const todayDateKey = toDateKey(now)
+  const todayDateKey = toDateKey(now, timeZone)
+  // A household loads asynchronously. Until then, discard the initial UTC key
+  // instead of momentarily showing a date from a different home time zone.
+  const selectedDateKey = selectedDate.timeZone === timeZone ? selectedDate.dateKey : todayDateKey
   const setPastOrTodayDateKey = (dateKey: string) => {
     if (/^\d{4}-\d{2}-\d{2}$/.test(dateKey) && dateKey <= todayDateKey) {
-      setSelectedDateKey(dateKey)
+      setSelectedDate({ timeZone, dateKey })
     }
   }
   const pointsByUser = completions.reduce<Record<string, number>>((totals, completion) => {
-    if (!isInSelectedPeriod(completion, period, now, selectedDateKey)) return totals
+    if (!isInSelectedPeriod(completion, period, now, selectedDateKey, timeZone)) return totals
     const userId = String(completion.userId ?? '')
     if (!userId) return totals
     totals[userId] = (totals[userId] ?? 0) + Number(completion.pointsAwarded ?? 0)

@@ -2,27 +2,21 @@ import { useEffect, useState } from 'react'
 import { addDoc, collection, deleteDoc, doc, onSnapshot, runTransaction } from 'firebase/firestore'
 import { auth, db as firestore } from '../../firebase/firebaseClient'
 import type { TaskCompletion, TaskRecurrence } from '../../types/models'
+import { toDateKey, toMonthKey, toWeekKey } from '../../lib/householdTime'
 
-function toDateKey(date: Date): string {
-  const year = date.getUTCFullYear()
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0')
-  const day = String(date.getUTCDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-}
-
-function toWeekKey(date: Date): string {
-  const start = new Date(date)
-  const day = start.getUTCDay()
-  start.setUTCDate(start.getUTCDate() - day)
-  return toDateKey(start)
-}
-
-function toMonthKey(date: Date): string {
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
-}
-
-function completionId(taskId: string, userId: string, recurrence: TaskRecurrence, now: Date): string {
-  const periodKey = recurrence === 'weekly' ? toWeekKey(now) : recurrence === 'once' ? 'once' : toDateKey(now)
+function completionId(
+  taskId: string,
+  userId: string,
+  recurrence: TaskRecurrence,
+  now: Date,
+  timeZone: string,
+): string {
+  const periodKey =
+    recurrence === 'weekly'
+      ? toWeekKey(now, timeZone)
+      : recurrence === 'once'
+        ? 'once'
+        : toDateKey(now, timeZone)
   return `${encodeURIComponent(taskId).replaceAll('/', '%2F')}_${userId}_${periodKey}`
 }
 
@@ -45,12 +39,20 @@ export interface TaskCompletionsState {
   error: string | null
   isCompletedByMe: (taskId: string, dateKey?: string) => boolean
   completionCountForPeriod: (taskId: string, recurrence: TaskRecurrence) => number
-  completeTask: (taskId: string, points: number, recurrence: TaskRecurrence, repeatable: boolean) => Promise<void>
+  completeTask: (
+    taskId: string,
+    points: number,
+    recurrence: TaskRecurrence,
+    repeatable: boolean,
+  ) => Promise<void>
   unCompleteTask: (taskId: string) => Promise<void>
   undoLastCompletion: (taskId: string, recurrence: TaskRecurrence) => Promise<void>
 }
 
-export function useTaskCompletions(householdId?: string | null): TaskCompletionsState {
+export function useTaskCompletions(
+  householdId?: string | null,
+  timeZone = 'UTC',
+): TaskCompletionsState {
   const [completions, setCompletions] = useState<TaskCompletion[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -63,7 +65,11 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     const unsubscribe = onSnapshot(
       collection(firestore, 'households', activeHouseholdId, 'taskCompletions'),
       (snapshot) => {
-        setCompletions(snapshot.docs.map((completionDoc) => toCompletion(completionDoc.id, completionDoc.data())))
+        setCompletions(
+          snapshot.docs.map((completionDoc) =>
+            toCompletion(completionDoc.id, completionDoc.data()),
+          ),
+        )
         setIsLoading(false)
       },
       (cause) => setError(cause instanceof Error ? cause.message : 'Failed to load completions.'),
@@ -75,9 +81,10 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
   const myUid = auth?.currentUser?.uid
 
   function isCompletedByMe(taskId: string, dateKey?: string): boolean {
-    const key = dateKey ?? toDateKey(new Date())
+    const key = dateKey ?? toDateKey(new Date(), timeZone)
     return completions.some(
-      (completion) => completion.taskId === taskId && completion.userId === myUid && completion.dateKey === key,
+      (completion) =>
+        completion.taskId === taskId && completion.userId === myUid && completion.dateKey === key,
     )
   }
 
@@ -85,9 +92,9 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     const now = new Date()
     return completions.filter((completion) => {
       if (completion.taskId !== taskId || completion.userId !== myUid) return false
-      if (recurrence === 'weekly') return completion.weekKey === toWeekKey(now)
+      if (recurrence === 'weekly') return completion.weekKey === toWeekKey(now, timeZone)
       if (recurrence === 'once') return true
-      return completion.dateKey === toDateKey(now)
+      return completion.dateKey === toDateKey(now, timeZone)
     })
   }
 
@@ -95,7 +102,12 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
     return myCompletionsInPeriod(taskId, recurrence).length
   }
 
-  async function completeTask(taskId: string, points: number, recurrence: TaskRecurrence, repeatable: boolean): Promise<void> {
+  async function completeTask(
+    taskId: string,
+    points: number,
+    recurrence: TaskRecurrence,
+    repeatable: boolean,
+  ): Promise<void> {
     if (!firestore || !activeHouseholdId || !auth?.currentUser) {
       setError('You must sign in and join a household.')
       return
@@ -109,14 +121,17 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
         taskId,
         userId: user.uid,
         completedAt: now.toISOString(),
-        dateKey: toDateKey(now),
+        dateKey: toDateKey(now, timeZone),
         pointsAwarded: points,
-        weekKey: toWeekKey(now),
-        monthKey: toMonthKey(now),
+        weekKey: toWeekKey(now, timeZone),
+        monthKey: toMonthKey(now, timeZone),
       }
 
       if (repeatable) {
-        await addDoc(collection(firestore, 'households', activeHouseholdId, 'taskCompletions'), completion)
+        await addDoc(
+          collection(firestore, 'households', activeHouseholdId, 'taskCompletions'),
+          completion,
+        )
         return
       }
 
@@ -127,7 +142,7 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
         'households',
         activeHouseholdId,
         'taskCompletions',
-        completionId(taskId, user.uid, recurrence, now),
+        completionId(taskId, user.uid, recurrence, now, timeZone),
       )
       await runTransaction(firestore, async (transaction) => {
         if ((await transaction.get(completionRef)).exists()) return
@@ -140,9 +155,10 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
 
   async function unCompleteTask(taskId: string): Promise<void> {
     if (!firestore || !activeHouseholdId || !myUid) return
-    const key = toDateKey(new Date())
+    const key = toDateKey(new Date(), timeZone)
     const mine = completions.find(
-      (completion) => completion.taskId === taskId && completion.userId === myUid && completion.dateKey === key,
+      (completion) =>
+        completion.taskId === taskId && completion.userId === myUid && completion.dateKey === key,
     )
     if (!mine) return
     setError(null)
@@ -155,7 +171,9 @@ export function useTaskCompletions(householdId?: string | null): TaskCompletions
 
   async function undoLastCompletion(taskId: string, recurrence: TaskRecurrence): Promise<void> {
     if (!firestore || !activeHouseholdId || !myUid) return
-    const mine = myCompletionsInPeriod(taskId, recurrence).sort((a, b) => b.completedAt.localeCompare(a.completedAt))[0]
+    const mine = myCompletionsInPeriod(taskId, recurrence).sort((a, b) =>
+      b.completedAt.localeCompare(a.completedAt),
+    )[0]
     if (!mine) return
     setError(null)
     try {

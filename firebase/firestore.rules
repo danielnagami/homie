@@ -43,8 +43,8 @@ service cloud.firestore {
       allow list: if isMemberOf(householdId);
       allow create: if isSignedIn()
         && request.resource.data.createdBy == request.auth.uid
-        && request.resource.data.keys().hasAll(['name', 'joinCode', 'createdBy', 'createdAt', 'defaultPointsPerTask'])
-        && request.resource.data.size() == 5;
+        && request.resource.data.keys().hasAll(['name', 'joinCode', 'createdBy', 'createdAt', 'defaultPointsPerTask', 'location', 'timeZone'])
+        && request.resource.data.size() == 7;
       allow update, delete: if false;
 
       // members/{uid} — member reads only their own record; only the Cloud
