@@ -44,3 +44,10 @@ export function toWeekKey(date: Date, timeZone: string): string {
 export function toMonthKey(date: Date, timeZone: string): string {
   return toDateKey(date, timeZone).slice(0, 7)
 }
+
+export function isActiveStreak(lastCompletedDate: string | undefined, now: Date, timeZone: string): boolean {
+  if (!lastCompletedDate) return false
+
+  const today = toDateKey(now, timeZone)
+  return lastCompletedDate === today || lastCompletedDate === shiftDateKey(today, -1)
+}

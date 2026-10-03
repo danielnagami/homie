@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { AvatarPreview } from '../../features/avatar/AvatarPreview'
@@ -7,6 +8,7 @@ import { StreakBadge } from '../../features/gamification/StreakBadge'
 import { useAchievements } from '../../features/gamification/useAchievements'
 import { useAuth } from '../../features/auth/useAuth'
 import { useHousehold } from '../../features/household/useHousehold'
+import { isActiveStreak } from '../../lib/householdTime'
 import { useAppMock } from '../mockState'
 
 export function ProfilePage() {
@@ -16,12 +18,22 @@ export function ProfilePage() {
   const householdId = user ? activeHousehold?.id ?? null : null
   const { achievements, unlockedIds } = useAchievements(householdId, user?.uid ?? null)
   const maya = members[0]
+  const [now, setNow] = useState(() => new Date())
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(new Date()), 60_000)
+    return () => window.clearInterval(interval)
+  }, [])
 
   const isLive = Boolean(user && currentMember)
   const avatar = currentMember?.avatarConfig ?? avatarConfig
   const displayName = currentMember?.displayName || user?.displayName || maya.name
   const lifetimePoints = isLive ? (currentMember?.totals?.lifetimePoints ?? 0) : maya.points
-  const streakCurrent = isLive ? (currentMember?.streak?.current ?? 0) : maya.streak
+  const streakCurrent = isLive
+    ? isActiveStreak(currentMember?.streak?.lastCompletedDate, now, activeHousehold?.timeZone ?? 'UTC')
+      ? (currentMember?.streak?.current ?? 0)
+      : 0
+    : maya.streak
   const streakLongest = isLive ? (currentMember?.streak?.longest ?? 0) : 12
   const level = isLive ? (currentMember?.level?.level ?? 1) : maya.level
   const xp = currentMember?.level?.xp ?? lifetimePoints
